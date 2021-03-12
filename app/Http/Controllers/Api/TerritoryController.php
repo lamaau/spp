@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Client\RequestException;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Http;
 
@@ -20,8 +19,9 @@ class TerritoryController extends Controller
     }
 
     /**
-     * Get the cities
+     * Get all of cities where province
      *
+     * @param string $id province id
      * @return Response
      */
     public function cities(string $id)
@@ -30,8 +30,9 @@ class TerritoryController extends Controller
     }
 
     /**
-     * Get the districts
+     * Get all of districts where city
      *
+     * @param string $id city id
      * @return Response
      */
     public function districts(string $id)
@@ -40,8 +41,9 @@ class TerritoryController extends Controller
     }
 
     /**
-     * Get the sub districts
+     * Get all of sub districts where district
      *
+     * @param string $id district id
      * @return Response
      */
     public function sub_districts(string $id)
@@ -68,7 +70,6 @@ class TerritoryController extends Controller
             }
 
             return $response->json();
-
         } catch (RequestException $e) {
             return response()->json([
                 'success' => false,

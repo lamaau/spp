@@ -36,6 +36,6 @@ class Login extends Component
 
     public function render()
     {
-        return view('livewire.auth.login')->extends('layouts.auth');
+        return view('livewire.auth.login')->extends('layouts.auth', ['title' => 'Halaman Login']);
     }
 }

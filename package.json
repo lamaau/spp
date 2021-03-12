@@ -20,5 +20,8 @@
         "sass": "^1.32",
         "sass-loader": "^8.0",
         "tailwindcss": "^2.0"
+    },
+    "dependencies": {
+        "axios": "^0.21.1"
     }
 }

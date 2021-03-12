@@ -1,42 +1,55 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        @if ($title)
-            <title>{{ config('app.name') }} - {{ $title }}</title>
-        @else
-            <title>{{ config('app.name') }}</title>
-        @endif
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <!-- Favicon -->
-		<link rel="shortcut icon" href="{{ url(asset('favicon.ico')) }}">
+    @if ($title ?? false)
+        <title>{{ config('app.name') }} - {{ $title }}</title>
+    @else
+        <title>{{ config('app.name') }}</title>
+    @endif
 
-        <!-- Fonts -->
-        <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ url(asset('favicon.ico')) }}">
 
-        <!-- Styles -->
-        <link rel="stylesheet" href="{{ url(mix('css/app.css')) }}">
-        @livewireStyles
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
 
-        <!-- Scripts -->
-        <script src="{{ url(mix('js/app.js')) }}" defer></script>
+    <!-- Styles -->
+    <link rel="stylesheet" href="{{ url(mix('css/app.css')) }}">
+    @livewireStyles
 
-        <!-- CSRF Token -->
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-        @if ($css ?? false)
-            {{ $css }}
-        @endif
-    </head>
+    <!-- Scripts -->
+    <script src="{{ url(mix('js/app.js')) }}" defer></script>
 
-    <body>
-        {{ $slot }}
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    @if ($css ?? false)
+        {{ $css }}
+    @endif
+</head>
 
-        @livewireScripts
+<body>
 
-        @if ($javascript ?? false)
-            {{ $javascript }}
-        @endif
-    </body>
+    <div class="flex h-screen bg-gray-200 font-roboto">
+        <livewire:layouts.sidebar />
+        <div class="flex flex-col flex-1 overflow-hidden">
+            <livewire:layouts.header />
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
+                <div class="px-6 py-8 mx-auto">
+                    {{ $slot }}
+                </div>
+            </main>
+        </div>
+    </div>
+
+    @livewireScripts
+
+    @if ($javascript ?? false)
+        {{ $javascript }}
+    @endif
+</body>
+
 </html>
