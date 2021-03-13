@@ -1,18 +1,18 @@
 <div>
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
         <a href="{{ route('home') }}">
-            <x-icons.logo class="w-auto h-16 mx-auto text-indigo-600" />
+            <x-icons.logo class="w-24 mx-auto" fill="#2d3748" />
         </a>
 
         <h2 class="mt-6 text-3xl font-extrabold leading-9 text-center text-gray-900">
-            Create a new account
+            Buat akun baru
         </h2>
 
         <p class="mt-2 text-sm leading-5 text-center text-gray-600 max-w">
-            Or
+            Atau
             <a href="{{ route('login') }}"
                 class="font-medium text-indigo-600 transition duration-150 ease-in-out hover:text-indigo-500 focus:outline-none focus:underline">
-                sign in to your account
+                masuk ke akun anda
             </a>
         </p>
     </div>
@@ -22,7 +22,7 @@
             <form wire:submit.prevent="register">
                 <div>
                     <label for="name" class="block text-sm font-medium leading-5 text-gray-700">
-                        Name
+                        Nama
                     </label>
 
                     <div class="mt-1 rounded-md shadow-sm">
@@ -37,7 +37,7 @@
 
                 <div class="mt-6">
                     <label for="email" class="block text-sm font-medium leading-5 text-gray-700">
-                        Email address
+                        Alamat email
                     </label>
 
                     <div class="mt-1 rounded-md shadow-sm">
@@ -52,7 +52,7 @@
 
                 <div class="mt-6">
                     <label for="password" class="block text-sm font-medium leading-5 text-gray-700">
-                        Password
+                        Kata Sandi
                     </label>
 
                     <div class="mt-1 rounded-md shadow-sm">
@@ -67,7 +67,7 @@
 
                 <div class="mt-6">
                     <label for="password_confirmation" class="block text-sm font-medium leading-5 text-gray-700">
-                        Confirm Password
+                        Konfirmasi kata sandi
                     </label>
 
                     <div class="mt-1 rounded-md shadow-sm">
@@ -81,7 +81,7 @@
                     <span class="block w-full rounded-md shadow-sm">
                         <button type="submit"
                             class="flex justify-center w-full px-4 py-2 text-sm font-medium text-white transition duration-150 ease-in-out bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:ring-indigo active:bg-indigo-700">
-                            Register
+                            Daftar
                         </button>
                     </span>
                 </div>

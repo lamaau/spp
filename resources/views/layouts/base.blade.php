@@ -50,6 +50,26 @@
     @if ($javascript ?? false)
         {{ $javascript }}
     @endif
+
+    @if (session()->has('notify'))
+        @php
+            $values = session()->get('notify');
+        @endphp
+        @if (is_array($values))
+            @foreach ($values as $value)
+                <x-layouts.notify x-data="{ open: true }" x-init="
+                interval = setInterval(function() {
+                    if (open) {
+                        open = false;
+                    }
+                }, 5000);
+            " :type="$value['type']" :title="$value['title']" :description="$value['description']" />
+            @endforeach
+        @endif
+        @php
+            session()->forget('notify');
+        @endphp
+    @endif
 </body>
 
 </html>

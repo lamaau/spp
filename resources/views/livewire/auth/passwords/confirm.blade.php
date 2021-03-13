@@ -1,15 +1,13 @@
-@section('title', 'Confirm your password')
-
 <div>
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
         <a href="{{ route('home') }}">
-            <x-logo class="w-auto h-16 mx-auto text-indigo-600" />
+            <x-icons.logo class="w-24 mx-auto" fill="#2d3748" />
         </a>
 
-        <h2 class="mt-6 text-3xl font-extrabold text-center text-gray-900 leading-9">
+        <h2 class="mt-6 text-3xl font-extrabold leading-9 text-center text-gray-900">
             Confirm your password
         </h2>
-        <p class="mt-2 text-sm text-center text-gray-600 leading-5 max-w">
+        <p class="mt-2 text-sm leading-5 text-center text-gray-600 max-w">
             Please confirm your password before continuing
         </p>
     </div>
@@ -18,7 +16,7 @@
         <div class="px-4 py-8 bg-white shadow sm:rounded-lg sm:px-10">
             <form wire:submit.prevent="confirm">
                 <div>
-                    <label for="password" class="block text-sm font-medium text-gray-700 leading-5">
+                    <label for="password" class="block text-sm font-medium leading-5 text-gray-700">
                         Password
                     </label>
 
@@ -33,7 +31,7 @@
 
                 <div class="flex items-center justify-end mt-6">
                     <div class="text-sm leading-5">
-                        <a href="{{ route('password.request') }}" class="font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:underline transition ease-in-out duration-150">
+                        <a href="{{ route('password.request') }}" class="font-medium text-indigo-600 transition duration-150 ease-in-out hover:text-indigo-500 focus:outline-none focus:underline">
                             Forgot your password?
                         </a>
                     </div>
@@ -41,7 +39,7 @@
 
                 <div class="mt-6">
                     <span class="block w-full rounded-md shadow-sm">
-                        <button type="submit" class="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:ring-indigo active:bg-indigo-700 transition duration-150 ease-in-out">
+                        <button type="submit" class="flex justify-center w-full px-4 py-2 text-sm font-medium text-white transition duration-150 ease-in-out bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:ring-indigo active:bg-indigo-700">
                             Confirm password
                         </button>
                     </span>

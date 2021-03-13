@@ -15,7 +15,9 @@
  * See: https://github.com/laravel-frontend-presets/tall/issues/7
  */
 
-input:invalid, textarea:invalid, select:invalid {
+input:invalid,
+textarea:invalid,
+select:invalid {
     box-shadow: none;
 }
 /**
@@ -57,18 +59,25 @@ input:invalid, textarea:invalid, select:invalid {
 /**
  * My custom styling
  */
-.my-select::-webkit-scrollbar {
-  width: 7px;
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none; /* get rid of default appearance for IE8, 9 and 10*/
 }
 
-.my-select::-webkit-scrollbar-track{
-  background: #2D3748;
+.select-container::-webkit-scrollbar {
+    width: 7px;
 }
 
-.my-select::-webkit-scrollbar-thumb{
-  background: #CBD5E0;
+.select-container::-webkit-scrollbar-track {
+    background: #2d3748;
 }
 
-.my-select::-webkit-scrollbar-thumb:hover{
-  background: #718096;
+.select-container::-webkit-scrollbar-thumb {
+    background: #cbd5e0;
+}
+
+.select-container::-webkit-scrollbar-thumb:hover {
+    background: #718096;
 }

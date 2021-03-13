@@ -27,7 +27,7 @@ class CreateSettingsTable extends Migration
             $table->bigInteger('city');
             $table->bigInteger('district');
             $table->bigInteger('sub_district');
-            $table->bigInteger('detail_address');
+            $table->longText('detail_address');
             $table->uuid('created_by')->nullable();
             $table->uuid('updated_by')->nullable();
             $table->uuid('deleted_by')->nullable();

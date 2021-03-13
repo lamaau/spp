@@ -99,7 +99,7 @@
 
                     form.append('file', this.files);
 
-                    axios.post("/students/import", form, config)
+                    axios.post("/import/students", form, config)
                         .then((response) => {
                             console.log(response);
                         }).catch((error) => {

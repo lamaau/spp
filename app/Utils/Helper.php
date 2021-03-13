@@ -22,3 +22,29 @@ if (!function_exists('is_active')) {
         return call_user_func_array('Request::is', (array) $url) ? $active : $in_active;
     }
 }
+
+if (!function_exists('notify')) {
+    /**
+     * Notification
+     *
+     * @param  string $type
+     * @param  string $title
+     * @param  string $description
+     * @return void
+     */
+    function notify(string $type, string $title, string $description): void
+    {
+        $notices = session()->get('notify');
+        if (!is_array($notices)) {
+            $notices = [];
+        }
+
+        array_push($notices, [
+            'type' => $type,
+            'title' => $title,
+            'description' => $description,
+        ]);
+
+        session()->put('notify', $notices);
+    }
+}

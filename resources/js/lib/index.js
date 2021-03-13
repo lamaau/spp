@@ -1,8 +1,18 @@
-/** Axios instance with default x-csrf-token */
-require("./http");
-
-/** My custom helper for global usage */
+/**
+ * Helper
+ */
 require("./helper");
 
-/** My custom datatable */
+/**
+ * Datatable
+ * 
+ * Server side datatable
+ */
 require("./datatable");
+
+/**
+ * Location
+ * 
+ * Select chained for location
+ */
+require("./location");
