@@ -15,6 +15,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->register(BladeServiceProvider::class);
         $this->app->register(RepositoryServiceProvider::class);
+        $this->app->register(MacroServiceProvider::class);
     }
 
     /**

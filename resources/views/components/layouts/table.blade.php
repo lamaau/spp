@@ -1,17 +1,17 @@
 <div {{ $attributes }}>
-    <h2 class="text-xl font-semibold leading-tight text-gray-700">
-        <span x-text="heading"></span>
-    </h2>
-    <div class="flex flex-col justify-between mt-3 sm:flex-row">
-        <div class="flex">
+    <div class="flex flex-col items-center justify-between mt-3 sm:flex-row">
+        <div class="flex items-center justify-start">
             <div class="relative">
                 <select x-model="perPage"
-                    class="block w-full h-full px-4 py-2 pr-8 leading-tight text-gray-700 bg-white border-t border-b border-r border-gray-400 rounded appearance-none focus:border-l focus:outline-none focus:bg-white focus:border-gray-500">
+                    class="block px-4 py-2 pr-8 leading-tight text-gray-700 bg-white border-t border-b border-r border-gray-400 rounded appearance-none focus:border-l focus:outline-none focus:bg-white focus:border-gray-500">
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
                 </select>
             </div>
+            @if ($actions ?? false)
+                {{ $actions }}
+            @endif
         </div>
         <div class="relative block mt-2 sm:mt-0">
             <span class="absolute inset-y-0 left-0 flex items-center pl-2">
@@ -33,27 +33,29 @@
                         <template x-for="(column, index) in columns" x-key="index">
                             <th
                                 class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-                                <div class="flex flex-wrap justify-left">
-                                    <span x-text="column.text"></span>
-                                    <template x-if="column.sortable || column.sortable === true">
-                                        <div class="ml-2 -mt-1">
-                                            <svg x-on:click="sort(column.key, 'asc')" fill="none" fill="none"
-                                                stroke-linecap="round" stroke-linejoin="round" stroke-width="4"
-                                                viewBox="0 0 24 24" stroke="currentColor"
-                                                class="w-3 h-3 text-gray-500 cursor-pointer fill-current"
-                                                x-bind:class="{'text-blue-500': sorted.key === column.key && sorted.rule === 'asc'}">
-                                                <path d="M5 15l7-7 7 7"></path>
-                                            </svg>
-                                            <svg x-on:click="sort(column.key, 'desc')" fill="none"
-                                                stroke-linecap="round" stroke-linejoin="round" stroke-width="4"
-                                                viewBox="0 0 24 24" stroke="currentColor"
-                                                class="w-3 h-3 text-gray-500 cursor-pointer fill-current"
-                                                x-bind:class="{'text-blue-500': sorted.key === column.key && sorted.rule === 'desc'}">
-                                                <path d="M19 9l-7 7-7-7"></path>
-                                            </svg>
-                                        </div>
-                                    </template>
-                                </div>
+                                <template x-if="!column.visibility || column.visibility === 'visible'">
+                                    <div class="flex flex-wrap justify-left">
+                                        <span x-text="column.text"></span>
+                                        <template x-if="column.sortable || column.sortable === true">
+                                            <div class="ml-2 -mt-1">
+                                                <svg x-on:click="sort(column.key, 'asc')" fill="none" fill="none"
+                                                    stroke-linecap="round" stroke-linejoin="round" stroke-width="4"
+                                                    viewBox="0 0 24 24" stroke="currentColor"
+                                                    class="w-3 h-3 text-gray-500 cursor-pointer fill-current"
+                                                    x-bind:class="{'text-gray-900': sorted.key === column.key && sorted.rule === 'asc'}">
+                                                    <path d="M5 15l7-7 7 7"></path>
+                                                </svg>
+                                                <svg x-on:click="sort(column.key, 'desc')" fill="none"
+                                                    stroke-linecap="round" stroke-linejoin="round" stroke-width="4"
+                                                    viewBox="0 0 24 24" stroke="currentColor"
+                                                    class="w-3 h-3 text-gray-500 cursor-pointer fill-current"
+                                                    x-bind:class="{'text-gray-900': sorted.key === column.key && sorted.rule === 'desc'}">
+                                                    <path d="M19 9l-7 7-7-7"></path>
+                                                </svg>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </template>
                             </th>
                         </template>
                     </tr>
@@ -66,7 +68,8 @@
                         <tr>
                             <template x-for="(column, i) in columns" x-key="i">
                                 <td class="px-5 py-5 text-sm border-b border-gray-300">
-                                    <template x-if="column.key !== 'action'">
+                                    <template
+                                        x-if="column.key !== 'action' && !column.visibility || column.visibility !== 'hidden'">
                                         <span x-text="item[column.key]"></span>
                                     </template>
                                     <template x-if="column.key && column.key === 'action'">

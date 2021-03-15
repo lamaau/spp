@@ -17,5 +17,15 @@ class RepositoryServiceProvider extends ServiceProvider
             \App\Repository\StudentRepository::class,
             \App\Repository\Eloquent\StudentEloquent::class
         );
+
+        $this->app->bind(
+            \App\Repository\RoomRepository::class,
+            \App\Repository\Eloquent\RoomEloquent::class
+        );
+
+        $this->app->bind(
+            \App\Repository\LevelRepository::class,
+            \App\Repository\Eloquent\LevelEloquent::class
+        );
     }
 }

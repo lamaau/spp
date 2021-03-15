@@ -14,24 +14,65 @@
             </div>
         </div>
         <div>
-            <nav class="mt-5">
-                <a href="{{ route('home') }}" class="{{ is_active('home*')['class'] }}">
-                    <x-icons.dashboard class="w-5" />
-                    <span class="mx-4">Dashboard</span>
-                </a>
-                <a href="{{ route('student.index') }}" class="{{ is_active('students*')['class'] }}">
-                    <x-icons.users class="w-5" />
-                    <span class="mx-4">Siswa</span>
-                </a>
-                <a href="{{ route('question.index') }}" class="{{ is_active('questions*')['class'] }}">
-                    <x-icons.book class="w-5" />
-                    <span class="mx-4">Bank Soal</span>
-                </a>
-                <a href="{{ route('setting.index') }}" class="{{ is_active('settings*')['class'] }}">
-                    <x-icons.cog class="w-5" />
-                    <span class="mx-4">Pengaturan</span>
-                </a>
-            </nav>
+            <ul class="mt-5">
+                <li>
+                    <a href="{{ route('home') }}" class="{{ $this->is_active('home*')['class'] }}">
+                        <x-icons.dashboard class="w-5" />
+                        <span class="mx-4">Dashboard</span>
+                    </a>
+                </li>
+                <li x-data="{ open: false }">
+                    <div class="relative">
+                        <a href="#" x-on:click="open = !open" class="{{ $this->is_active(['rooms', 'levels'])['class'] }}">
+                            <x-icons.folder class="w-5" />
+                            <span class="mx-4">Data Master</span>
+                        </a>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            x-bind:class="{'text-white' : open, 'text-gray-500' : !(open)}"
+                            x-bind:style="open ? 'transform: rotate(-90deg)' : ''"
+                            class="absolute w-4 h-4 inset-y-3 right-4 feather feather-chevron-left">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </div>
+                    <ul class="ml-16 overflow-hidden font-normal">
+                        <li>
+                            <a href="{{ route('level.index') }}"
+                                class="{{ $this->is_active('levels')['state'] ? 'text-gray-100' : 'text-gray-500' }} flex items-center py-2 mt-1 border-gray-900 hover:text-gray-100">
+                                Level
+                            </a>
+                            <a href="{{ route('room.index') }}"
+                                class="{{ $this->is_active('rooms')['state'] ? 'text-gray-100' : 'text-gray-500' }} flex items-center py-2 mt-1 border-gray-900 hover:text-gray-100">
+                                Kelas
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="{{ route('student.index') }}" class="{{ $this->is_active('students*')['class'] }}">
+                        <x-icons.users class="w-5" />
+                        <span class="mx-4">Siswa</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('question.index') }}" class="{{ $this->is_active('questions*')['class'] }}">
+                        <x-icons.book class="w-5" />
+                        <span class="mx-4">Bank Soal</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('schedule.index') }}" class="{{ $this->is_active('schedules*')['class'] }}">
+                        <x-icons.clock class="w-5" />
+                        <span class="mx-4">Jadwal</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('setting.index') }}" class="{{ $this->is_active('settings*')['class'] }}">
+                        <x-icons.cog class="w-5" />
+                        <span class="mx-4">Pengaturan</span>
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
 </div>

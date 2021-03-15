@@ -34,42 +34,26 @@
 <body>
 
     <div class="flex h-screen bg-gray-200 font-roboto">
+        {{-- sidebar --}}
         <livewire:layouts.sidebar />
         <div class="flex flex-col flex-1 overflow-hidden">
+            {{-- header --}}
             <livewire:layouts.header />
             <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
+                {{-- page heading --}}
+                {{-- <div class="mx-auto">
+                    <x-layouts.page-heading />
+                </div> --}}
                 <div class="px-6 py-8 mx-auto">
                     {{ $slot }}
                 </div>
             </main>
         </div>
     </div>
-
+    
+    <x-layouts.notify />
+    
     @livewireScripts
-
-    @if ($javascript ?? false)
-        {{ $javascript }}
-    @endif
-
-    @if (session()->has('notify'))
-        @php
-            $values = session()->get('notify');
-        @endphp
-        @if (is_array($values))
-            @foreach ($values as $value)
-                <x-layouts.notify x-data="{ open: true }" x-init="
-                interval = setInterval(function() {
-                    if (open) {
-                        open = false;
-                    }
-                }, 5000);
-            " :type="$value['type']" :title="$value['title']" :description="$value['description']" />
-            @endforeach
-        @endif
-        @php
-            session()->forget('notify');
-        @endphp
-    @endif
 </body>
 
 </html>

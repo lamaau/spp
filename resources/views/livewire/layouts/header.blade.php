@@ -21,7 +21,7 @@
                 <button class="flex mx-3 focus:outline-none" x-on:click="open = !open">
                     <img src="{{ asset('img/default-profile.png') }}" alt="Foto profil" class="w-6">
                 </button>
-                <div x-show="open" class="absolute right-0 w-36 inset-y-11" style="display: none;"
+                <div x-show="open" class="absolute right-0 z-50 w-36 inset-y-11" style="display: none;"
                     x-transition:enter="transition ease-out origin-top-right duration-200"
                     x-transition:enter-start="opacity-0 transform scale-90"
                     x-transition:enter-end="opacity-100 transform scale-100"

@@ -30,7 +30,7 @@ window.DataTable = {
                 this.loading = true;
 
                 const response = await axios.get(
-                    `${this.endpoint}?per_page=${this.perPage}&page=${this.page}&sortby=${key}&sortbykey=${rule}&search=${this.search}`
+                    `${this.endpoint}?per_page=${this.perPage}&page=${this.page}&sortby=${key}&sortbykey=${rule}&keyword=${this.search}`
                 );
 
                 const {

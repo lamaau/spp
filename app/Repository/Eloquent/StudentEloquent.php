@@ -23,8 +23,8 @@ class StudentEloquent implements StudentRepository
      */
     public function all(object $request): LengthAwarePaginator
     {
-        return $this->student->orderBy($request->sortby, $request->sortbykey)->when($request->search, function ($query) use ($request) {
-            $query->where('name', 'like', '%' . $request->search . '%');
+        return $this->student->orderBy($request->sortby, $request->sortbykey)->when($request->keyword, function ($query) use ($request) {
+            $query->whereLike(['name'], $request->keyword);
         })->paginate($request->query('per_page') ?? 10);
     }
 }
