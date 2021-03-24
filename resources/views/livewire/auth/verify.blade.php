@@ -36,7 +36,7 @@
                 <p>Sebelum melanjutkan, harap periksa kotak masuk dan spam alamat email anda.</p>
 
                 <p class="mt-3">
-                    Jika anda tidak menerima email, <a wire:click="resend" class="text-indigo-700 transition duration-150 ease-in-out cursor-pointer hover:text-indigo-600 focus:outline-none focus:underline">klik disini untuk mendapatkan email baru</a>.
+                    Jika anda tidak menerima email, <a wire:click.prevent="resend" class="text-indigo-700 transition duration-150 ease-in-out cursor-pointer hover:text-indigo-600 focus:outline-none focus:underline">klik disini untuk mendapatkan email baru</a>.
                 </p>
             </div>
         </div>

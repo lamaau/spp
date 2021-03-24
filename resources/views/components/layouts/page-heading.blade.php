@@ -1,7 +1,7 @@
 <div class="flex items-center justify-between px-6 pt-3">
     <div class="">
         <h2 class="text-xl font-semibold leading-tight text-gray-700">
-            GOEN - CBT
+            {{-- {{$setting->name}} --}}
         </h2>
     </div>
     <div>

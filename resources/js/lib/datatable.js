@@ -7,10 +7,11 @@ window.DataTable = {
             search: "",
             offset: 5,
             perPage: 10,
-            loading: false,
+            defaultTableComponent: true,
+            tableLoading: false,
             sorted: {
-                key: "name",
-                rule: "asc",
+                key: "id",
+                rule: "desc",
             },
             active: 1,
             pagination: {
@@ -25,12 +26,15 @@ window.DataTable = {
                 this.sorted = { key, rule };
                 this.get();
             },
+            reloadTable: async function () {
+                await this.get();
+            },
             get: async function () {
                 const { key, rule } = this.sorted;
-                this.loading = true;
+                this.tableLoading = true;
 
                 const response = await axios.get(
-                    `${this.endpoint}?per_page=${this.perPage}&page=${this.page}&sortby=${key}&sortbykey=${rule}&keyword=${this.search}`
+                    `${this.url}?per_page=${this.perPage}&page=${this.page}&sortby=${key}&sortbykey=${rule}&keyword=${this.search}`
                 );
 
                 const {
@@ -51,7 +55,7 @@ window.DataTable = {
                 this.pagination.current_page = current_page;
 
                 this.items = data;
-                this.loading = false;
+                this.tableLoading = false;
                 this.showPages();
             },
             init: async function () {
@@ -59,12 +63,14 @@ window.DataTable = {
 
                 this.$watch("perPage", (value) => {
                     this.perPage = value;
+                    this.page = 1;
                     this.active = 1;
                     this.get();
                 });
 
                 this.$watch("search", (value) => {
                     this.search = value;
+                    this.page = 1;
                     this.active = 1;
                     this.get();
                 });
@@ -75,6 +81,10 @@ window.DataTable = {
                 });
             },
             changePage: function (page) {
+                if (this.page === page) {
+                    return;
+                }
+
                 if (page >= 1 && page <= this.pagination.last_page) {
                     this.pagination.current_page = page;
 

@@ -2,12 +2,13 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Setting;
 use Closure;
 use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
+use Modules\GoenDataMaster\Entities\Setting;
 
 class Installed
 {
@@ -27,7 +28,7 @@ class Installed
             ? abort(403, 'Your email address is not verified.')
             : Redirect::guest(URL::route($redirectToRoute ?: 'verification.notice'));
         } else {
-            if (!Setting::count()) {
+            if (!Setting::whereCreatedBy(Auth::id())->count()) {
                 return $request->expectsJson()
                 ? abort(403, 'You have to setup this app first.')
                 : Redirect::guest(URL::route($redirectToRoute ?: 'install'));

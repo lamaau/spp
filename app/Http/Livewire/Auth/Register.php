@@ -2,11 +2,11 @@
 
 namespace App\Http\Livewire\Auth;
 
-use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
+use Modules\GoenDataMaster\Entities\User;
 
 class Register extends Component
 {
@@ -15,6 +15,9 @@ class Register extends Component
 
     /** @var string */
     public $email = '';
+
+    /** @var string */
+    public $domain = '';
 
     /** @var string */
     public $password = '';
@@ -26,6 +29,7 @@ class Register extends Component
     {
         $this->validate([
             'name'     => ['required'],
+            'domain'   => ['required', 'string'],
             'email'    => ['required', 'email', 'unique:users'],
             'password' => ['required', 'min:6', 'same:passwordConfirmation'],
         ]);

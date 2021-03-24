@@ -2,11 +2,11 @@
 
 namespace Tests\Feature\Auth;
 
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Livewire;
+use Modules\GoenDataMaster\Entities\User;
 use Tests\TestCase;
 
 class LoginTest extends TestCase
@@ -54,7 +54,7 @@ class LoginTest extends TestCase
             ->set('email', $user->email)
             ->set('password', 'password')
             ->call('authenticate')
-            ->assertRedirect(route('home'));
+            ->assertRedirect(route('install'));
     }
 
     /** @test */

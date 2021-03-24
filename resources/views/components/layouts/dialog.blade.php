@@ -1,23 +1,23 @@
-<div {{ $attributes }} style="display: none;">
-    <div class="absolute top-0 left-0 z-50 flex items-center justify-center w-full h-full p-10">
-        <div class="absolute w-full h-full bg-gray-900 opacity-50 modal-overlay" x-transition:enter="transition"
-            x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-50" x-transition:leave="transition"
-            x-transition:leave-start="opacity-50" x-transition:leave-end="opacity-0"></div>
-        <div class="z-50 mx-auto overflow-y-auto bg-white rounded shadow-lg modal-container">
-            <div
-                x-on:click="open = false"
-                class="absolute top-0 right-0 z-50 flex flex-col items-center mt-4 mr-4 text-sm text-white cursor-pointer modal-close">
-                <svg class="text-white fill-current" xmlns="http://www.w3.org/2000/svg" width="26" height="26"
-                    viewBox="0 0 18 18">
-                    <path
-                        d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z" />
-                </svg>
-                <span class="text-2xl">(Esc)</span>
-            </div>
-            <!-- Add margin if you want to see some of the overlay behind the modal-->
-            <div class="p-5 modal-content">
-                {{ $slot }}
-            </div>
+@props(['x-action-text', 'x-close-text', 'x-close', 'x-show', 'x-title', 'x-description', 'x-loading', 'x-action'])
+
+<x-layouts.modal x-close="{{ $xClose }}" x-show="{{ $xShow }}">
+    <div class="items-center md:flex">
+        <div
+            class="flex items-center justify-center flex-shrink-0 w-16 h-16 mx-auto border border-gray-300 rounded-full">
+            <x-icons.danger class="w-8 text-red-500" />
+        </div>
+        <div class="mt-4 text-center md:mt-0 md:ml-6 md:text-left">
+            <p class="font-bold">{{ $xTitle }}</p>
+            <p class="mt-1 text-sm text-gray-700">{{ $xDescription }}</p>
         </div>
     </div>
-</div>
+    <div class="mt-4 text-center md:text-right md:flex md:justify-end">
+        <button x-on:click="{{ $xAction }}"
+            class="flex items-center justify-center w-full px-4 py-3 text-sm font-semibold text-red-700 bg-red-200 rounded-lg focus:outline-none focus:ring-2 md:inline-block md:w-auto md:py-2 md:ml-2 md:order-2">
+            <span x-show="!{{ $xLoading }}">{{ $xActionText ?? 'Hapus' }}</span>
+            <x-icons.loading class="w-5" stroke="white" x-show="{{ $xLoading }}" />
+        </button>
+        <button x-on:click="{{ $xClose }}"
+            class="block w-full px-4 py-3 mt-4 text-sm font-semibold bg-gray-200 rounded-lg md:inline-block md:w-auto focus:outline-none focus:ring-2 md:py-2 md:mt-0 md:order-1">{{ $xCloseText ?? 'Batal' }}</button>
+    </div>
+</x-layouts.modal>

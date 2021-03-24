@@ -1,0 +1,13 @@
+{
+    "name": "GoenExam",
+    "alias": "goenexam",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\GoenExam\\Providers\\GoenExamServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

@@ -2,8 +2,8 @@
 
 namespace App\Http\Livewire\Auth;
 
-use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 
 class Login extends Component
 {
@@ -18,7 +18,7 @@ class Login extends Component
 
     protected $rules = [
         'email'    => ['required', 'email'],
-        'password' => ['required'],
+        'password' => ['required', 'string'],
     ];
 
     public function authenticate()
@@ -27,11 +27,10 @@ class Login extends Component
 
         if (!Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
             $this->addError('email', trans('auth.failed'));
-
             return;
         }
 
-        return redirect()->intended(route('home'));
+        return redirect()->intended(route('install'));
     }
 
     public function render()

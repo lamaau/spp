@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,8 +14,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->register(BladeServiceProvider::class);
-        $this->app->register(RepositoryServiceProvider::class);
         $this->app->register(MacroServiceProvider::class);
     }
 
@@ -25,6 +24,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Blade::component('layouts.home', 'home-layout');
+        Blade::component('layouts.base', 'base-layout');
+        Blade::component('layouts.app', 'app-layout');
+        Blade::component('layouts.auth', 'auth-layout');
     }
 }

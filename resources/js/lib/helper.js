@@ -19,7 +19,22 @@ const setNull = (obj) => {
     setAll(obj, null);
 };
 
+const persist = async (key, url) => {
+	let result = JSON.parse(window.localStorage.getItem(key));
+
+    if (!result) {
+        const response = await axios.get(`/api/v1/${url}`);
+        const { data } = await response;
+
+        window.localStorage.setItem(key, JSON.stringify(data));
+        return data;
+    }
+
+    return result;
+};
+
 window.Helper = {
     setAll,
     setNull,
+    persist
 };

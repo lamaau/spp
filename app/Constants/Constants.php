@@ -19,6 +19,6 @@ abstract class Constants
 	 */
 	public static function label(int $index): string
 	{
-        return (string)static::labels()[$int];
+        return (string)static::labels()[$index];
 	}
 }

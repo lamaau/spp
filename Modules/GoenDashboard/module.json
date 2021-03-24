@@ -1,0 +1,13 @@
+{
+    "name": "GoenDashboard",
+    "alias": "goendashboard",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\GoenDashboard\\Providers\\GoenDashboardServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

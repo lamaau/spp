@@ -32,27 +32,27 @@
 </head>
 
 <body>
+    <x-layouts.notify />
 
     <div class="flex h-screen bg-gray-200 font-roboto">
-        {{-- sidebar --}}
-        <livewire:layouts.sidebar />
+        <x-layouts.sidebar />
         <div class="flex flex-col flex-1 overflow-hidden">
-            {{-- header --}}
-            <livewire:layouts.header />
+            <x-layouts.header />
             <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
-                {{-- page heading --}}
-                {{-- <div class="mx-auto">
-                    <x-layouts.page-heading />
-                </div> --}}
                 <div class="px-6 py-8 mx-auto">
+
+                    @if ($unpaid && request()->path() !== 'invoice')
+                        <x-layouts.alert type="info">
+                            Klik <a href="{{ route('invoice.index') }}" class="border-b-2 border-blue-300">disini</a> untuk lihat tagihan anda, segera selesaikan pembayaran sebelum hari {{ \Carbon\Carbon::now()->addDays()->isoFormat('dddd, D MMMM Y') }}
+                        </x-layouts.alert>
+                    @endif
+                    
                     {{ $slot }}
                 </div>
             </main>
         </div>
     </div>
-    
-    <x-layouts.notify />
-    
+
     @livewireScripts
 </body>
 

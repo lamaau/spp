@@ -3,17 +3,18 @@
  *
  * @param {String} type notification type
  */
-const notif = (data) => {
-    let eventName = "notif";
+const notice = (data) => {
     var cancelAble = "";
+    let eventName = "notice";
+    let timeNow = Date.now();
 
     const event = document.createEvent("Events");
     event.initEvent(eventName, true, cancelAble == true);
-    event.data = data || {};
+    event.data = { id: timeNow, ...data } || { id: timeNow };
 
     window.dispatchEvent(event);
 };
 
 window.Notify = {
-    notif,
+    notice,
 };

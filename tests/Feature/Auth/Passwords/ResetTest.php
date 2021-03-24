@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Auth\Passwords;
 
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -10,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Livewire\Livewire;
+use Modules\GoenDataMaster\Entities\User;
 use Tests\TestCase;
 
 class ResetTest extends TestCase

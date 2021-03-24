@@ -27,6 +27,7 @@
         @yield('content')
     </div>
     @livewireScripts
+    {{ $javascript ?? '' }}
 </body>
 
 </html>

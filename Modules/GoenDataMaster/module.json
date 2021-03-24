@@ -1,0 +1,13 @@
+{
+    "name": "GoenDataMaster",
+    "alias": "goendatamaster",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\GoenDataMaster\\Providers\\GoenDataMasterServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

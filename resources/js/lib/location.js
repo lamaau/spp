@@ -1,17 +1,3 @@
-const persist = async (key, url) => {
-    let location = JSON.parse(window.localStorage.getItem(key));
-
-    if (!location) {
-        const response = await axios.get(`/api/v1/${url}`);
-        const { data } = await response;
-
-        window.localStorage.setItem(key, JSON.stringify(data));
-        return data;
-    }
-
-    return location;
-};
-
 window.Location = {
     territory(options) {
         return {
@@ -41,19 +27,19 @@ window.Location = {
             subDistricts: [],
             init: async function () {
                 this.loading.province = true;
-                this.provinces = await persist("provinces", "provinces");
+                this.provinces = await Helper.persist("provinces", "provinces");
                 this.loading.province = false;
 
                 this.$watch("selected.province", async ({ id, name }) => {
                     this.loading.city = true;
-                    this.cities = await persist(`cities-${id}`, `cities/${id}`);
+                    this.cities = await Helper.persist(`cities-${id}`, `cities/${id}`);
                     this.loading.city = false;
                 });
 
                 this.$watch("selected.city", async (value) => {
                     this.loading.district = true;
                     if (value) {
-                        this.districts = await persist(
+                        this.districts = await Helper.persist(
                             `district-${value.id}`,
                             `districts/${value.id}`
                         );
@@ -64,7 +50,7 @@ window.Location = {
                 this.$watch("selected.district", async (value) => {
                     this.loading.sub_district = true;
                     if (value) {
-                        this.subDistricts = await persist(
+                        this.subDistricts = await Helper.persist(
                             `sub-districts-${value.id}`,
                             `sub-districts/${value.id}`
                         );

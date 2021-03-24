@@ -1,0 +1,13 @@
+{
+    "name": "GoenCommittee",
+    "alias": "goencommittee",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\GoenCommittee\\Providers\\GoenCommitteeServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

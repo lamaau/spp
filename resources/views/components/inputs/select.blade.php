@@ -8,7 +8,7 @@
     </div>
     <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
         @if ($selectLoadingState = $attributes['select-loading-state'])
-            <x-icons.loading x-show="{{ $selectLoadingState }}" style="display:none;" />
+            <x-icons.loading class="absolute w-6 h-6 cursor-pointer inset-y-3 right-1.5" stroke="#0a0a0a" x-show="{{ $selectLoadingState }}" style="display:none;" />
             <x-icons.select x-show="!{{ $selectLoadingState }}" style="display:none;" />
         @endif
     </span>
