@@ -50,7 +50,7 @@
                     @enderror
                 </div>
 
-                <div class="mt-6">
+                {{-- <div class="mt-6">
                     <label for="name" class="block text-sm font-medium leading-5 text-gray-700">
                         Domain
                     </label>
@@ -60,7 +60,7 @@
                             class="flex items-center justify-center px-3 py-2 border-t border-b border-r border-gray-300 rounded-r">
                             {{ \App\Utils\Host::domain() }}</div>
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="mt-6">
                     <label for="password" class="block text-sm font-medium leading-5 text-gray-700">

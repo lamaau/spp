@@ -16,6 +16,9 @@
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
         </button>
+        <a href="{{ route('product.index') }}" class="flex mx-3 text-gray-600 focus:outline-none">
+            <x-icons.shopping-bag class="w-5 h-5" />
+        </a>
         <div class="relative" x-data="{open: false}">
             <button class="flex mx-3 focus:outline-none" x-on:click="open = !open">
                 <img src="{{ asset('img/default-profile.png') }}" alt="Foto profil" class="w-6">

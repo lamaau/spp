@@ -1,28 +1,27 @@
 <?php
 
+use App\Http\Middleware\NotInstalled;
 use Illuminate\Support\Facades\Route;
-use Modules\GoenDataMaster\Http\Controllers\Api\InvoiceJsonController;
-use Modules\GoenDataMaster\Http\Controllers\Api\LevelJsonController;
-use Modules\GoenDataMaster\Http\Controllers\Api\RoomJsonController;
 use Modules\GoenDataMaster\Http\Controllers\ImportController;
-use Modules\GoenDataMaster\Http\Controllers\QuestionController;
-use Modules\GoenDataMaster\Http\Controllers\ScheduleController;
+use Modules\GoenDataMaster\Http\Controllers\ProductController;
 use Modules\GoenDataMaster\Http\Controllers\SettingController;
 use Modules\GoenDataMaster\Http\Controllers\StudentController;
-use Stancl\Tenancy\Middleware\InitializeTenancyBySubdomain;
-use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
+use Modules\GoenDataMaster\Http\Controllers\QuestionController;
+use Modules\GoenDataMaster\Http\Controllers\ScheduleController;
+use Modules\GoenDataMaster\Http\Controllers\Api\RoomJsonController;
+use Modules\GoenDataMaster\Http\Controllers\Api\LevelJsonController;
+use Modules\GoenDataMaster\Http\Controllers\Api\InvoiceJsonController;
 
-Route::middleware([
-    'auth',
-    'verified',
-    InitializeTenancyBySubdomain::class,
-    PreventAccessFromCentralDomains::class
-])->group(function () {
+Route::middleware(['auth', 'verified', NotInstalled::class])->group(function () {
     Route::get('/install', [SettingController::class, 'install'])->name('install');
     Route::post('/install', [SettingController::class, 'store'])->name('store.install');
 });
 
-Route::middleware(['installed'])->group(function () {
+Route::middleware(['auth', 'installed'])->group(function () {
+    Route::prefix('products')->as('product.')->group(function () {
+        Route::get('/', [ProductController::class, 'index'])->name('index');
+    });
+
     Route::prefix('invoice')->as('invoice.')->group(function () {
         Route::get('/', InvoiceController::class)->name('index');
         // -----------------------------------------------------
@@ -34,6 +33,7 @@ Route::middleware(['installed'])->group(function () {
         Route::get('/', [SettingController::class, 'setting'])->name('index');
     });
 
+    /** Level */
     Route::prefix('levels')->as('level.')->group(function () {
         Route::get('/', LevelController::class)->name('index');
         // -----------------------------------------------------
@@ -44,6 +44,7 @@ Route::middleware(['installed'])->group(function () {
         Route::post('/delete', [LevelJsonController::class, 'destroy']);
     });
 
+    /** Room */
     Route::prefix('rooms')->as('room.')->group(function () {
         Route::get('/', RoomController::class)->name('index');
         // -----------------------------------------------------
@@ -58,7 +59,6 @@ Route::middleware(['installed'])->group(function () {
     Route::prefix('students')->as('student.')->group(function () {
         /** Api for table student */
         Route::get('/list', [StudentController::class, 'students']);
-
         Route::get('/', [StudentController::class, 'index'])->name('index');
         Route::get('/create', [StudentController::class, 'create'])->name('create');
     });

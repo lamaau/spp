@@ -26,6 +26,7 @@ class RoomRequest extends FormRequest
         return [
             'code' => ['required', 'string', 'min:2'],
             'name' => ['required', 'string', 'min:2'],
+            'level_id' => ['required', 'string'],
             'description' => ['required', 'string', 'min:5'],
         ];
     }
@@ -40,6 +41,7 @@ class RoomRequest extends FormRequest
         return [
             'code' => $this->code,
             'name' => $this->name,
+            'level_id' => $this->level_id,
             'description' => $this->description,
         ];
     }

@@ -18,7 +18,7 @@
 <div class="relative z-50">
     <div x-show="{{ $attributes['select-container-state'] }}"
         x-on:click.away="{{ $attributes['select-container-click-away'] }}"
-        class="absolute w-full mt-1 overflow-auto rounded shadow select-container max-h-56" style="display: none;"
+        class="absolute w-full mt-1 overflow-auto rounded shadow scroll-component max-h-56" style="display: none;"
         x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100"
         x-transition:leave-end="opacity-0">
         <ul class="bg-gray-100 rounded">

@@ -15,6 +15,11 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->register(MacroServiceProvider::class);
+
+        $this->app->resolving(ResolvesTenants::class, function (ResolvesTenants $resolver){
+            $resolver->addModel(Customer::class);
+            return $resolver;
+        });
     }
 
     /**

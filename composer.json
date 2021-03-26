@@ -18,7 +18,8 @@
         "livewire/livewire": "^2.4",
         "maatwebsite/excel": "^3.1",
         "nwidart/laravel-modules": "^8.2",
-        "spatie/laravel-fractal": "^5.8"
+        "spatie/laravel-fractal": "^5.8",
+        "spatie/laravel-permission": "^4.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.5",

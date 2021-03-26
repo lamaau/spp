@@ -1,5 +1,8 @@
 <x-app-layout :title="$title">
-    <x-layouts.table x-data="DataTable.table({...LevelDataTable, ...CrudOperation})" x-init="init()">
+    <x-layouts.table x-data="DataTable.table({...LevelDataTable, ...CrudOperation})" x-init="
+        init()
+        selectInit()
+    ">
         <x-slot name="actions">
             <div class="ml-2">
                 <button type="button" x-on:click="create"
@@ -8,17 +11,17 @@
                 </button>
                 <x-layouts.modal x-show="state.isModal" x-close="state.isModal = false">
                     <form class="px-3">
-                        <x-inputs.input label="kode level" error="errors.code" x-model="model.code" />
-                        <x-inputs.input label="nama level" error="errors.name" x-model="model.name" />
+                        <x-inputs.select2 x-ref="level" label="level kelas" x-options="options" x-state="isOpen"
+                            error="errors.level_id" x-model="model.level_id" />
+                        <x-inputs.input label="kode kelas" error="errors.code" x-model="model.code" />
+                        <x-inputs.input label="nama kelas" error="errors.name" x-model="model.name" />
                         <x-inputs.textarea label="keterangan" error="errors.description" x-model="model.description" />
-
                         <x-buttons.submit x-show="state.isCreate" x-action="store" x-text="Simpan"
                             x-loading="actionLoading" />
                         <x-buttons.submit x-show="!state.isCreate" x-action="update" x-text="Ubah"
                             x-loading="actionLoading" />
                     </form>
                 </x-layouts.modal>
-
                 <x-layouts.dialog x-show="state.isDialog" x-close="state.isDialog = false"
                     x-title="Yakin ingin menghapus level?" x-action="remove" x-loading="actionLoading"
                     x-description="Level yang telah dihapus tidak dapat dikembalikan" />
@@ -39,7 +42,7 @@
     <x-slot name="javascript">
         <script type="text/javascript">
             const LevelDataTable = {
-                url: "/levels/list",
+                url: "/rooms/list",
                 sorted: {
                     key: "code",
                     rule: "asc",
@@ -78,6 +81,7 @@
                 model: {
                     code: null,
                     name: null,
+                    level_id: null,
                     description: null,
                 },
                 state: {
@@ -86,8 +90,34 @@
                     isDialog: false,
                     isLoading: [],
                 },
+                options: [],
                 errors: [],
+                isOpen: false,
+                loading: false,
+                placeholder: 'Pilih',
                 actionLoading: false,
+                selected: {
+                    id: null,
+                    name: null,
+                },
+                getLevel: async function(keyword = '') {
+                    const response = await axios.get(
+                        `levels/list?per_page=10&page=1&sortby=name&sortbykey=asc&keyword=${keyword}`
+                    );
+                    return response.data.data;
+                },
+                selectInit: async function() {
+                    this.options = await this.getLevel();
+
+                    this.$watch('model.level_id', async (value) => {
+                        this.options = await this.getLevel(value);
+                    });
+                },
+                choose: function(item) {
+                    const element = this.$refs.level;
+                    element.setAttribute('value', item.id)
+                    this.isOpen = false;
+                },
                 create: function() {
                     this.errors = [];
                     Helper.setNull(this.model);
@@ -97,7 +127,7 @@
                 store: async function() {
                     try {
                         this.actionLoading = true;
-                        const response = await axios.post("/levels/store", this.model);
+                        const response = await axios.post("/rooms/store", this.model);
 
                         if (response.status === 200) {
 
@@ -124,100 +154,6 @@
                         this.errors = errors;
                     } finally {
                         this.actionLoading = false;
-                    }
-                },
-                edit: async function(id) {
-                    this.id = id;
-                    this.errors = [];
-                    this.state.isCreate = false;
-
-                    try {
-                        this.state.isLoading[id] = true;
-                        const response = await axios.get(`/levels/edit/${this.id}`);
-
-                        if (response.status === 200) {
-                            const {
-                                code,
-                                name,
-                                description
-                            } = response.data.data;
-
-                            this.model = {
-                                code: code,
-                                name: name,
-                                description: description
-                            };
-
-                            this.state.isModal = true;
-                        }
-                    } catch (e) {
-                        console.error(e);
-                    } finally {
-                        this.state.isLoading[id] = false;
-                    }
-                },
-                update: async function() {
-                    try {
-                        this.actionLoading = true;
-
-                        const response = await axios.post(`/levels/update/${this.id}`, this.model);
-
-                        if (response.status === 200) {
-                            const {
-                                message
-                            } = response.data;
-
-                            Notify.notice({
-                                type: "success",
-                                title: "Berhasil",
-                                message: message
-                            });
-
-                            this.errors = [];
-                            this.reloadTable();
-                            Helper.setNull(this.model);
-                            this.state.isModal = false;
-                        }
-
-                    } catch (e) {
-                        const {
-                            errors
-                        } = e.response.data;
-
-                        this.errors = errors;
-                    } finally {
-                        this.actionLoading = false;
-                    }
-                },
-                dialog: function(id) {
-                    this.id = id;
-                    this.state.isDialog = true;
-                },
-                remove: async function() {
-                    try {
-                        this.actionLoading = true;
-
-                        const response = await axios.post("/levels/delete", {
-                            id: this.id
-                        });
-
-                        const {
-                            message
-                        } = response.data;
-
-                        Notify.notice({
-                            type: "success",
-                            title: "Berhasil",
-                            message: message
-                        });
-
-                        this.reloadTable();
-
-                    } catch (e) {
-                        console.error(e);
-                    } finally {
-                        this.actionLoading = false;
-                        this.state.isDialog = false;
                     }
                 },
             };

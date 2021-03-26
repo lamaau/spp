@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository\Eloquent;
+namespace Modules\GoenDataMaster\Repository\Eloquent;
 
 use Illuminate\Pagination\LengthAwarePaginator;
 use Modules\GoenDataMaster\Entities\Room;

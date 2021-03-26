@@ -23,10 +23,12 @@
 </head>
 
 <body>
-    <div class="flex flex-col justify-center min-h-screen py-12 bg-gray-200 sm:px-6 lg:px-8">
+    <div class="relative flex flex-col justify-center min-h-screen bg-white">
         @yield('content')
     </div>
+
     @livewireScripts
+
     {{ $javascript ?? '' }}
 </body>
 

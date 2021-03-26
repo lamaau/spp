@@ -33143,19 +33143,19 @@ select {
   -ms-appearance: none; /* get rid of default appearance for IE8, 9 and 10*/
 }
 
-.select-container::-webkit-scrollbar {
+.scroll-component::-webkit-scrollbar {
   width: 7px;
 }
 
-.select-container::-webkit-scrollbar-track {
+.scroll-component::-webkit-scrollbar-track {
   background: #2d3748;
 }
 
-.select-container::-webkit-scrollbar-thumb {
+.scroll-component::-webkit-scrollbar-thumb {
   background: #cbd5e0;
 }
 
-.select-container::-webkit-scrollbar-thumb:hover {
+.scroll-component::-webkit-scrollbar-thumb:hover {
   background: #718096;
 }
 

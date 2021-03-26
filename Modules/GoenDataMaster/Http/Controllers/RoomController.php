@@ -8,6 +8,6 @@ class RoomController extends Controller
 {
     public function __invoke()
     {
-        return view('room.index', ['title' => 'Kelola Kelas']);
+        return view('goendatamaster::room.index', ['title' => 'Kelola Kelas']);
     }
 }
