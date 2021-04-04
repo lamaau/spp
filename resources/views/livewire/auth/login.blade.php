@@ -72,7 +72,7 @@
             </form>
         </div>
         <!--Right Col-->
-        <div class="w-full py-6 text-center md:w-3/5">
+        <div class="w-full py-6 text-center sm:hidden md:block lg:block md:w-3/5">
             <img src="{{ asset('img/login.jpg') }}" alt="" class="z-50 w-full ml-6">
         </div>
     </div>

@@ -23,7 +23,7 @@
                     </a>
                 </li>
                 <li
-                    x-data="{isOpen: false, isActive: '{{ is_active(['rooms*', 'levels*', 'students*'])['status'] }}'}">
+                    x-data="{isOpen: '{{ is_active(['rooms*', 'levels*', 'students*'])['status'] }}'}">
                     <div class="relative">
                         <a href="#" x-on:click="isOpen = !isOpen"
                             class="{{ is_active(['rooms*', 'levels*', 'students*'])['class'] }}">
@@ -32,13 +32,13 @@
                         </a>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            x-bind:style="isOpen || isActive ? 'transform: rotate(-90deg)' : ''"
+                            x-bind:style="isOpen ? 'transform: rotate(-90deg)' : ''"
                             class="absolute w-4 h-4 text-gray-500 inset-y-3 right-4 feather feather-chevron-left">
                             <polyline points="15 18 9 12 15 6"></polyline>
                         </svg>
                     </div>
                     <ul class="ml-16 overflow-hidden font-normal"
-                        x-bind:style="isOpen || isActive ? 'height: 8.3rem' : 'height: 0'">
+                        x-bind:style="isOpen ? 'height: 8.3rem' : 'height: 0'">
                         <li>
                             <a href="{{ route('level.index') }}"
                                 class="{{ is_active('levels*')['status'] ? 'text-gray-100' : 'text-gray-500' }} flex items-center py-2 mt-1 border-gray-900 hover:text-gray-100">
@@ -55,7 +55,7 @@
                         </li>
                     </ul>
                 </li>
-                <li x-data="{isOpen: false, isActive: '{{ is_active(['schedules*', 'questions*'])['status'] }}'}">
+                <li x-data="{isOpen: '{{ is_active(['schedules*', 'questions*'])['status'] }}'}">
                     <div class="relative">
                         <a href="#" x-on:click="isOpen = !isOpen"
                             class="{{ is_active(['schedules*', 'questions*'])['class'] }}">
@@ -64,13 +64,13 @@
                         </a>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            x-bind:style="isOpen || isActive ? 'transform: rotate(-90deg)' : ''"
+                            x-bind:style="isOpen ? 'transform: rotate(-90deg)' : ''"
                             class="absolute w-4 h-4 text-gray-500 inset-y-3 right-4 feather feather-chevron-left">
                             <polyline points="15 18 9 12 15 6"></polyline>
                         </svg>
                     </div>
                     <ul class="ml-16 overflow-hidden font-normal"
-                        x-bind:style="isOpen || isActive ? 'height: 5.6rem' : 'height: 0'">
+                        x-bind:style="isOpen ? 'height: 5.6rem' : 'height: 0'">
                         <li>
                             <a href="{{ route('question.index') }}"
                                 class="{{ is_active('questions*')['status'] ? 'text-gray-100' : 'text-gray-500' }} flex items-center py-2 mt-1 border-gray-900 hover:text-gray-100">
@@ -79,62 +79,6 @@
                             <a href="{{ route('schedule.index') }}"
                                 class="{{ is_active('schedules*')['status'] ? 'text-gray-100' : 'text-gray-500' }} flex items-center py-2 mt-1 border-gray-900 hover:text-gray-100">
                                 Jadwal
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li x-data="{isOpen: false, isActive: '{{ is_active(['schedules*', 'questions*'])['status'] }}'}">
-                    <div class="relative">
-                        <a href="#" x-on:click="isOpen = !isOpen"
-                            class="{{ is_active(['schedules*', 'questions*'])['class'] }}">
-                            <x-icons.folder class="w-5" />
-                            <span class="mx-4">PPDB</span>
-                        </a>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            x-bind:style="isOpen || isActive ? 'transform: rotate(-90deg)' : ''"
-                            class="absolute w-4 h-4 text-gray-500 inset-y-3 right-4 feather feather-chevron-left">
-                            <polyline points="15 18 9 12 15 6"></polyline>
-                        </svg>
-                    </div>
-                    <ul class="ml-16 overflow-hidden font-normal"
-                        x-bind:style="isOpen || isActive ? 'height: 5.6rem' : 'height: 0'">
-                        <li>
-                            <a href="{{ route('question.index') }}"
-                                class="{{ is_active('questions*')['status'] ? 'text-gray-100' : 'text-gray-500' }} flex items-center py-2 mt-1 border-gray-900 hover:text-gray-100">
-                                Laporan
-                            </a>
-                            <a href="{{ route('schedule.index') }}"
-                                class="{{ is_active('schedules*')['status'] ? 'text-gray-100' : 'text-gray-500' }} flex items-center py-2 mt-1 border-gray-900 hover:text-gray-100">
-                                Pengaturan
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li x-data="{isOpen: false, isActive: '{{ is_active(['schedules*', 'questions*'])['status'] }}'}">
-                    <div class="relative">
-                        <a href="#" x-on:click="isOpen = !isOpen"
-                            class="{{ is_active(['schedules*', 'questions*'])['class'] }}">
-                            <x-icons.folder class="w-5" />
-                            <span class="mx-4">Komite</span>
-                        </a>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            x-bind:style="isOpen || isActive ? 'transform: rotate(-90deg)' : ''"
-                            class="absolute w-4 h-4 text-gray-500 inset-y-3 right-4 feather feather-chevron-left">
-                            <polyline points="15 18 9 12 15 6"></polyline>
-                        </svg>
-                    </div>
-                    <ul class="ml-16 overflow-hidden font-normal"
-                        x-bind:style="isOpen || isActive ? 'height: 5.6rem' : 'height: 0'">
-                        <li>
-                            <a href="{{ route('question.index') }}"
-                                class="{{ is_active('questions*')['status'] ? 'text-gray-100' : 'text-gray-500' }} flex items-center py-2 mt-1 border-gray-900 hover:text-gray-100">
-                                Pembayaran
-                            </a>
-                            <a href="{{ route('schedule.index') }}"
-                                class="{{ is_active('schedules*')['status'] ? 'text-gray-100' : 'text-gray-500' }} flex items-center py-2 mt-1 border-gray-900 hover:text-gray-100">
-                                Laporan
                             </a>
                         </li>
                     </ul>

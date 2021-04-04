@@ -1,8 +1,5 @@
 <x-app-layout :title="$title">
-    <x-layouts.table x-data="DataTable.table({...LevelDataTable, ...CrudOperation})" x-init="
-        init()
-        selectInit()
-    ">
+    <x-layouts.table x-data="DataTable.table({...LevelDataTable, ...CrudOperation})" x-init="init()">
         <x-slot name="actions">
             <div class="ml-2">
                 <button type="button" x-on:click="create"
@@ -11,8 +8,7 @@
                 </button>
                 <x-layouts.modal x-show="state.isModal" x-close="state.isModal = false">
                     <form class="px-3">
-                        <x-inputs.select2 x-ref="level" label="level kelas" x-options="options" x-state="isOpen"
-                            error="errors.level_id" x-model="model.level_id" />
+                        <x-inputs.select2 label="level" />
                         <x-inputs.input label="kode kelas" error="errors.code" x-model="model.code" />
                         <x-inputs.input label="nama kelas" error="errors.name" x-model="model.name" />
                         <x-inputs.textarea label="keterangan" error="errors.description" x-model="model.description" />
@@ -39,6 +35,7 @@
             </button>
         </x-slot>
     </x-layouts.table>
+
     <x-slot name="javascript">
         <script type="text/javascript">
             const LevelDataTable = {
@@ -85,38 +82,10 @@
                     description: null,
                 },
                 state: {
-                    isModal: false,
+                    isModal: true,
                     isCreate: false,
                     isDialog: false,
                     isLoading: [],
-                },
-                options: [],
-                errors: [],
-                isOpen: false,
-                loading: false,
-                placeholder: 'Pilih',
-                actionLoading: false,
-                selected: {
-                    id: null,
-                    name: null,
-                },
-                getLevel: async function(keyword = '') {
-                    const response = await axios.get(
-                        `levels/list?per_page=10&page=1&sortby=name&sortbykey=asc&keyword=${keyword}`
-                    );
-                    return response.data.data;
-                },
-                selectInit: async function() {
-                    this.options = await this.getLevel();
-
-                    this.$watch('model.level_id', async (value) => {
-                        this.options = await this.getLevel(value);
-                    });
-                },
-                choose: function(item) {
-                    const element = this.$refs.level;
-                    element.setAttribute('value', item.id)
-                    this.isOpen = false;
                 },
                 create: function() {
                     this.errors = [];

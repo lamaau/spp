@@ -21,3 +21,8 @@ require("./datatable");
  * Select chained for location
  */
 require("./location");
+
+/**
+ * Select2
+ */
+require("./select2");
