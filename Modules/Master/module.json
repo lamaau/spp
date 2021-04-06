@@ -1,0 +1,13 @@
+{
+    "name": "Master",
+    "alias": "master",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Master\\Providers\\MasterServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

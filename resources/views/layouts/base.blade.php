@@ -5,14 +5,20 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    @if ($title ?? false)
-        <title>{{ config('app.name') }} - {{ $title }}</title>
+    @if ($setting ?? false)
+        @if ($title ?? false)
+            <title>{{ $setting->name }} - {{ $title }}</title>
+        @endif
     @else
         <title>{{ config('app.name') }}</title>
     @endif
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{{ url(asset('favicon.ico')) }}">
+    @if ($setting ?? false)
+        <link rel="shortcut icon" href="{{$setting->logo}}">
+    @else
+        <link rel="shortcut icon" href="{{ url(asset('favicon.ico')) }}">
+    @endif
 
     <!-- Fonts -->
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
@@ -40,13 +46,6 @@
             <x-layouts.header />
             <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
                 <div class="px-6 py-8 mx-auto">
-
-                    @if ($unpaid && request()->path() !== 'invoice')
-                        <x-layouts.alert type="info">
-                            Klik <a href="{{ route('invoice.index') }}" class="border-b-2 border-blue-300">disini</a> untuk lihat tagihan anda, segera selesaikan pembayaran sebelum hari {{ \Carbon\Carbon::now()->addDays()->isoFormat('dddd, D MMMM Y') }}
-                        </x-layouts.alert>
-                    @endif
-                    
                     {{ $slot }}
                 </div>
             </main>

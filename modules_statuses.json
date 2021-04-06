@@ -1,7 +1,4 @@
 {
-    "GoenApp": true,
-    "GoenDashboard": true,
-    "GoenDataMaster": true,
-    "GoenCommittee": true,
-    "GoenExam": true
+    "Dashboard": true,
+    "Master": true
 }

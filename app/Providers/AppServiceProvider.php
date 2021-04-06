@@ -15,11 +15,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->register(MacroServiceProvider::class);
-
-        $this->app->resolving(ResolvesTenants::class, function (ResolvesTenants $resolver){
-            $resolver->addModel(Customer::class);
-            return $resolver;
-        });
+        $this->app->register(LivewireServiceProvider::class);
     }
 
     /**
@@ -31,7 +27,8 @@ class AppServiceProvider extends ServiceProvider
     {
         Blade::component('layouts.home', 'home-layout');
         Blade::component('layouts.base', 'base-layout');
-        Blade::component('layouts.app', 'app-layout');
+        Blade::component('layouts.app',  'app-layout');
         Blade::component('layouts.auth', 'auth-layout');
+        $this->loadViewsFrom(resource_path('views/datatables'), 'datatable');
     }
 }

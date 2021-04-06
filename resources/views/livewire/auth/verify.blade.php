@@ -1,8 +1,8 @@
 <div>
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
-        <a href="{{ route('home') }}">
+        {{-- <a href="{{ route('home') }}">
             <x-icons.logo class="w-24 mx-auto" fill="#2d3748" />
-        </a>
+        </a> --}}
 
         <h2 class="mt-6 text-3xl font-extrabold leading-9 text-center text-gray-900">
             Verifikasi alamat email

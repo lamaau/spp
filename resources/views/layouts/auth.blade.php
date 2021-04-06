@@ -23,7 +23,7 @@
 </head>
 
 <body>
-    <div class="relative flex flex-col justify-center min-h-screen bg-white">
+    <div class="relative flex flex-col justify-center min-h-screen bg-gray-200">
         @yield('content')
     </div>
 

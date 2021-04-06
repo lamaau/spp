@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
-use Modules\GoenDataMaster\Entities\Setting;
+use Modules\Master\Entities\Setting;
 
 class Installed
 {
@@ -21,17 +21,19 @@ class Installed
      */
     public function handle($request, Closure $next, $redirectToRoute = null)
     {
-        if (!$request->user() ||
+        if (
+            !$request->user() ||
             ($request->user() instanceof MustVerifyEmail &&
-                !$request->user()->hasVerifiedEmail())) {
+                !$request->user()->hasVerifiedEmail())
+        ) {
             return $request->expectsJson()
-            ? abort(403, 'Your email address is not verified.')
-            : Redirect::guest(URL::route($redirectToRoute ?: 'verification.notice'));
+                ? abort(403, 'Your email address is not verified.')
+                : Redirect::guest(URL::route($redirectToRoute ?: 'verification.notice'));
         } else {
-            if (!Setting::whereCreatedBy(Auth::id())->count()) {
+            if (!Setting::whereCreatedBy(Auth::id())->count() && Auth::check()) {
                 return $request->expectsJson()
-                ? abort(403, 'You have to setup this app first.')
-                : Redirect::guest(URL::route($redirectToRoute ?: 'install'));
+                    ? abort(403, 'You have to setup this app first.')
+                    : Redirect::guest(URL::route($redirectToRoute ?: 'install'));
             }
         }
 

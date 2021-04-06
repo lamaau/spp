@@ -68,7 +68,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => Modules\GoenDataMaster\Entities\User::class,
+            'model' => Modules\Master\Entities\User::class,
         ],
 
         // 'users' => [

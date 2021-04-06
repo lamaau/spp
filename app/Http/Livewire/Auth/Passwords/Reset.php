@@ -60,7 +60,7 @@ class Reset extends Component
         if ($response == Password::PASSWORD_RESET) {
             session()->flash(trans($response));
 
-            return redirect(route('home'));
+            return redirect(route('dashboard'));
         }
 
         $this->addError('email', trans($response));
