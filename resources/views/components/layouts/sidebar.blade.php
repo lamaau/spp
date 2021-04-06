@@ -10,7 +10,7 @@
         class="fixed inset-y-0 left-0 z-30 w-64 overflow-y-auto transition duration-300 transform -translate-x-full bg-gray-900 scroll-component lg:translate-x-0 lg:static lg:inset-0">
         <div class="flex items-center justify-center mt-8">
             <div class="flex flex-col items-center">
-                <img src="{{ $setting->logo }}" alt="Logo Sekolah" class="w-16 rounded-full">
+                <img src="{{ $setting->logo }}" alt="Logo Sekolah" class="w-24 rounded-full">
                 <span class="px-8 mt-6 text-2xl font-semibold text-center text-white">{{ $setting->name }}</span>
             </div>
         </div>
@@ -95,11 +95,13 @@
                 </li>
             </ul>
         </div>
-        <div class="absolute flex items-center max-w-sm p-3 mx-auto space-x-4 bg-gray-800 shadow-md bottom-6 inset-x-2 rounded-xl">
+        <div
+            class="absolute flex items-center max-w-sm p-3 mx-auto space-x-4 bg-gray-800 shadow-md bottom-6 inset-x-2 rounded-xl">
             <div class="relative flex-shrink-0">
                 <img src="https://tailwindcss.com/img/erin-lindford.jpg" alt="Profile Picture"
                     class="block h-12 mx-auto rounded-full sm:mx-0 sm:flex-shrink-0">
-                <span class="absolute right-0 flex items-center w-3 h-3 bg-green-500 border-2 border-white rounded-full bottom-1"></span>
+                <span
+                    class="absolute right-0 flex items-center w-3 h-3 bg-green-500 border-2 border-white rounded-full bottom-1"></span>
             </div>
             <div>
                 <div class="font-medium text-gray-200 text-md">Ursula</div>

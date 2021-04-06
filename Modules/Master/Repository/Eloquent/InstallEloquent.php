@@ -26,7 +26,7 @@ class InstallEloquent implements InstallRepository
      */
     public function first(): ?object
     {
-        return $this->setting->where('tenant_id', session()->get('tenant'))->first();
+        return $this->setting->first();
     }
 
     /**

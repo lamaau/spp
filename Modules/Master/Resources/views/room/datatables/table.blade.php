@@ -1,7 +1,7 @@
 <div>
     <h2 class="mb-4 text-xl font-semibold leading-tight text-gray-700">Daftar Kelas</h2>
     <div class="flex flex-col items-center sm:flex-row sm:justify-between">
-        <div class="flex flex-col items-center mb-4 sm:flex-row md:mb-0">
+        <div class="flex flex-col items-center mb-4 space-x-2 sm:flex-row md:mb-0">
             <div>
                 <select
                     class="block w-full h-full px-4 py-2 pr-8 leading-tight text-gray-700 bg-white border border-gray-400 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500">
@@ -10,8 +10,8 @@
                     <option>20</option>
                 </select>
             </div>
-            <div class="relative block mt-2 ml-1 sm:mt-0"><span
-                    class="absolute inset-y-0 left-0 flex items-center pl-2"><svg viewBox="0 0 24 24"
+            <div class="relative block mt-2 sm:mt-0">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-2"><svg viewBox="0 0 24 24"
                         class="w-4 h-4 text-gray-500 fill-current">
                         <path
                             d="M10 4a6 6 0 100 12 6 6 0 000-12zm-8 6a8 8 0 1114.32 4.906l5.387 5.387a1 1 0 01-1.414 1.414l-5.387-5.387A8 8 0 012 10z">
@@ -48,23 +48,53 @@
     <div class="px-4 py-4 -mx-4 overflow-x-auto sm:-mx-8 sm:px-8">
         <div class="inline-block min-w-full overflow-hidden rounded-lg shadow">
             <table class="min-w-full leading-normal">
-                @include('datatable::_table-heading')
+                <thead>
+                    <tr>
+                        @if ($checkbox)
+                            <th
+                                class="w-4 p-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
+                                <input type="checkbox" wire:model="checkbox_all"
+                                    class="border border-gray-300 rounded" />
+                            </th>
+                        @endif
+
+                        @foreach ($columns as $column)
+                            <th
+                                class="px-5 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200 {{ $column->attribute }}">
+                                @if ($column->sortable)
+                                    <span style="cursor: pointer;" wire:click="sort('{{ $column->attribute }}')">
+                                        {{ $column->heading }}
+                                        @if ($sorting['attribute'] == $column->attribute)
+                                            <i
+                                                class="fa fa-sort-amount-{{ $sorting['direction'] == 'asc' ? 'up-alt' : 'down' }}"></i>
+                                        @else
+                                            <i class="fa fa-sort-amount-up-alt" style="opacity: .35;"></i>
+                                        @endif
+                                    </span>
+                                @else
+                                    {{ $column->heading }}
+                                @endif
+                            </th>
+                        @endforeach
+                    </tr>
+                </thead>
+
                 <tbody>
                     @foreach ($models as $model)
                         <tr>
                             <td
                                 class="w-4 p-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200">
-                                <input type="checkbox" name="checkbox_row" class="border border-gray-300 rounded"
-                                    wire:model="checkbox_row" />
+                                <input type="checkbox" class="border border-gray-300 rounded"
+                                    wire:model="checkbox_values" value="{{ $model->{$checkbox_attribute} }}" />
                             </td>
                             <td class="px-4 py-4 text-sm bg-white border-b border-gray-200">
                                 <p class="text-gray-900 whitespace-nowrap">{{ $model->name }}</p>
                             </td>
                             <td class="px-4 py-4 text-sm bg-white border-b border-gray-200">
-                                <p class="text-gray-900 whitespace-nowrap">{{$model->code}}</p>
+                                <p class="text-gray-900 whitespace-nowrap">{{ $model->code }}</p>
                             </td>
                             <td class="px-4 py-4 text-sm bg-white border-b border-gray-200">
-                                <p class="text-gray-900 whitespace-nowrap">{{$model->description ?? '-'}}</p>
+                                <p class="text-gray-900 whitespace-nowrap">{{ $model->description ?? '-' }}</p>
                             </td>
                             <td class="px-4 py-4 text-sm bg-white border-b border-gray-200">
                                 <button type="button"
@@ -99,13 +129,8 @@
                     @endforeach
                 </tbody>
             </table>
-            <div class="flex flex-col items-center px-5 py-5 bg-white border-t xs:flex-row xs:justify-between">
-                <span class="text-xs text-gray-900 xs:text-sm">Showing 1 to 4 of 50 Entries</span>
-                <div class="inline-flex mt-2 xs:mt-0"><button
-                        class="px-4 py-2 text-sm font-semibold text-gray-800 bg-gray-300 rounded-l hover:bg-gray-400">
-                        Prev </button><button
-                        class="px-4 py-2 text-sm font-semibold text-gray-800 bg-gray-300 rounded-r hover:bg-gray-400">
-                        Next </button></div>
+            <div class="p-4">
+                {{ $models->links() }}
             </div>
         </div>
     </div>

@@ -2,15 +2,46 @@
 
 namespace Modules\Master\Tenant\Traits;
 
-use Modules\Master\Tenant\Manager;
+use RuntimeException;
+use Illuminate\Support\Facades\Auth;
+use Modules\Master\Tenant\TenantRepository;
 use Modules\Master\Tenant\Scopes\TenantScope;
 
 trait ForTenants
 {
-    public static function boot()
+    public static function booted()
     {
-        parent::boot();
+        $authUser = auth()->user()->tenant_id ?? null;
+        static::addGlobalScope(new TenantScope($authUser));
+    }
 
-        static::addGlobalScope(new TenantScope(app(Manager::class)->getTenant()));
+    /**
+     * Sets tenant id column with current tenant
+     *
+     * @throws TenantException
+     */
+    public function applyTenant()
+    {
+        $user = Auth::user();
+
+        $tenantId = $this->getAttribute(TenantRepository::ATTRIBUTE_NAME);
+
+        if (!$tenantId) {
+            if ($user instanceof TenantRepository) {
+                $this->setAttribute(TenantRepository::ATTRIBUTE_NAME, $user->getTenantId());
+            } else {
+                throw new RuntimeException("Current user must implement Tenant interface");
+            }
+        }
+    }
+
+    /**
+     * Remove a registered Tenant global scope.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function withoutTenant()
+    {
+        return static::withoutGlobalScope(TenantScope::class);
     }
 }

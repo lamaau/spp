@@ -39,11 +39,6 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
-        'tenant' => [
-            \Modules\Master\Http\Middleware\TenantMiddleware::class,
-            // \Modules\Master\Http\Middleware\ConfigMiddleware::class,
-        ],
-
         'api' => [
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,

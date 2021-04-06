@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\Master\Http\Controllers\RoomController;
 use Modules\Master\Http\Controllers\InstallController;
 
-Route::middleware(['auth', 'verified', 'tenant'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     /** install */
     Route::get('/install', [InstallController::class, 'view'])->name('install');
     Route::post('/install', [InstallController::class, 'setup'])->name('setup');

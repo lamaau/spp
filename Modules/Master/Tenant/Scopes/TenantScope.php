@@ -2,21 +2,20 @@
 
 namespace Modules\Master\Tenant\Scopes;
 
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
+use Illuminate\Database\Eloquent\Builder;
+use Modules\Master\Tenant\TenantRepository;
 
 class TenantScope implements Scope
 {
-    private $tenant;
-
-    public function __construct(string $tenant)
-    {
-        $this->tenant = $tenant;
-    }
-
     public function apply(Builder $builder, Model $model)
     {
-        return $builder->where('tenant_id', $this->tenant);
+        $user = Auth::user();
+
+        if ($user instanceof TenantRepository) {
+            $builder->where($model->qualifyColumn(TenantRepository::ATTRIBUTE_NAME), $user->getTenantId());
+        }
     }
 }

@@ -8,10 +8,12 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Modules\Master\Tenant\TenantRepository;
+use Modules\Master\Tenant\Traits\ForTenants;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, TenantRepository
 {
-    use Uuid, Notifiable;
+    use Uuid, Notifiable, ForTenants;
 
     /**
      * The attributes that are mass assignable.
@@ -42,6 +44,11 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getTenantId()
+    {
+        return $this->tenant_id;
+    }
 
     /**
      * Related to setting

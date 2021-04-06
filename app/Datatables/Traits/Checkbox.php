@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DataTables\Traits;
+namespace App\Datatables\Traits;
 
 trait Checkbox {
 
