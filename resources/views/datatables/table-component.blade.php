@@ -14,7 +14,7 @@
 
                 </tbody>
             </table>
-            @include('datatable::includes.pagination')
+            @includeWhen($paginationEnabled, 'datatable::includes.pagination')
         </div>
     </div>
 

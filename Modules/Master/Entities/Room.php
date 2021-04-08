@@ -2,6 +2,7 @@
 
 namespace Modules\Master\Entities;
 
+use Modules\Utils\Uuid;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Master\Tenant\TenantRepository;
 use Modules\Master\Tenant\Traits\ForTenants;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Room extends Model implements TenantRepository
 {
-    use HasFactory, ForTenants;
+    use HasFactory, Uuid, ForTenants;
 
     protected $guarded = [];
 

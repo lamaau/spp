@@ -4,6 +4,7 @@ namespace Modules\Master\Tenant\Traits;
 
 use RuntimeException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Master\Tenant\TenantRepository;
 use Modules\Master\Tenant\Scopes\TenantScope;
 
@@ -13,6 +14,10 @@ trait ForTenants
     {
         $authUser = auth()->user()->tenant_id ?? null;
         static::addGlobalScope(new TenantScope($authUser));
+
+        static::creating(function (Model $model) {
+            $model->applyTenant();
+        });
     }
 
     /**

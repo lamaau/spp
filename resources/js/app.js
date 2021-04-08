@@ -23,6 +23,6 @@ if (token) {
 require("./bootstrap");
 
 /**
- * My custom lib
+ * Helper
  */
-require("./lib/index");
+require("./helper");

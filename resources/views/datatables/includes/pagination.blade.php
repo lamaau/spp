@@ -1,5 +1,3 @@
-@if ($paginationEnabled)
-    <div class="p-4">
-        {{ $models->links() }}
-    </div>
-@endif
+<div class="p-4">
+    {{ $models->links() }}
+</div>

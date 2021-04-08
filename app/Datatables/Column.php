@@ -13,6 +13,11 @@ class Column
     use CanBeHidden;
 
     /**
+     * @var boolean
+     */
+    public $rowIndex = false;
+
+    /**
      * @var string
      */
     protected $text;
@@ -160,6 +165,18 @@ class Column
     public function isRaw(): bool
     {
         return $this->raw === true;
+    }
+
+    /**
+     * Set row index
+     *
+     * @return Column
+     */
+    public function rowIndex(): Column
+    {
+        $this->rowIndex = true;
+
+        return $this;
     }
 
     /**

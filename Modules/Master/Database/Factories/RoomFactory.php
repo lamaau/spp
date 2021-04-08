@@ -24,7 +24,7 @@ class RoomFactory extends Factory
     {
         return [
             'id' => Str::uuid(),
-            'name' => $this->faker->numerify('##########'),
+            'name' => $this->faker->firstName(),
             'code' => $this->faker->numerify('##########'),
             'tenant_id' => Tenant::inRandomOrder()->first()->id
         ];

@@ -5,6 +5,13 @@ namespace App\Datatables\Traits;
 trait Pagination
 {
     /**
+     * Display per page
+     *
+     * @var boolean
+     */
+    public $perPageEnabled = true;
+    
+    /**
      * Displays per page and pagination links.
      *
      * @var bool
@@ -24,15 +31,6 @@ trait Pagination
      * @var integer
      */
     public $perPage = 10;
-
-    /**
-     * https://laravel-livewire.com/docs/pagination
-     * Resetting Pagination After Filtering Data.
-     */
-    public function updatingSearch(): void
-    {
-        $this->resetPage();
-    }
 
     /**
      * https://laravel-livewire.com/docs/pagination

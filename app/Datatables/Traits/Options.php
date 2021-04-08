@@ -2,42 +2,41 @@
 
 namespace App\Datatables\Traits;
 
-use Illuminate\Support\Arr;
-
 /**
  * Trait Options.
  */
 trait Options
 {
     /**
-     * @var array
-     */
-    protected $options = [];
-
-    /**
-     * @var array
-     */
-    protected $optionDefaults = [
-        // 
-    ];
-
-    /**
-     * @param $option
+     * Display loading when request
      *
-     * @return mixed
+     * @var boolean
      */
-    public function getOption($option)
-    {
-        return Arr::dot($this->optionDefaults)[$option] ?? null;
-    }
+    public $loadingEnabled = true;
 
     /**
-     * @param  array  $overrides
+     * Display add button
+     *
+     * @var boolean
      */
-    protected function setOptions(array $overrides = []): void
-    {
-        foreach ($overrides as $key => $value) {
-            data_set($this->optionDefaults, $key, $value);
-        }
-    }
+    public $optionComponentEnabled = true;
+
+    /**
+     * Display option component view
+     *
+     * @var string
+     */
+    public $optionComponentView = 'datatable::includes.component-action';
+
+    /**
+     * Default cog list
+     *
+     * @var array
+     */
+    public $defaultCogLists = [
+        'import',
+        'download pdf',
+        'download excel',
+        'download format',
+    ];
 }

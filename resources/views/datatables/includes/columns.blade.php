@@ -18,7 +18,11 @@
             @else
                 <th class="{{ $this->setTableHeadClass($column->getAttribute()) }} w-4 p-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
                     id="{{ $this->setTableHeadId($column->getAttribute()) }}" @foreach ($this->setTableHeadAttributes($column->getAttribute()) as $key => $value) {{ $key }}="{{ $value }}" @endforeach>
-                    {{ $column->getText() }}
+                    @if (strtolower($column->getText()) === 'checkbox')
+                        @include('datatable::includes.checkbox-all')
+                    @else
+                        {{ $column->getText() }}
+                    @endif
                 </th>
             @endif
         @endif

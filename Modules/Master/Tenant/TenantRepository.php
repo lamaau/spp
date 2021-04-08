@@ -8,7 +8,7 @@ if (!interface_exists('TenantRepository')) {
         const ATTRIBUTE_NAME = 'tenant_id';
 
         /**
-         * Get tenant colunm
+         * Get tenant column
          *
          * @return string
          */

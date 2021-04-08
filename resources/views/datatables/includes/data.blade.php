@@ -1,4 +1,4 @@
-@foreach($models as $model)
+@foreach($models as $index => $model)
     <tr
         class="{{ $this->setTableRowClass($model) }}"
         id="{{ $this->setTableRowId($model) }}"
@@ -18,7 +18,7 @@
                     @foreach ($this->setTableDataAttributes($column->getAttribute(), data_get($model, $column->getAttribute())) as $key => $value)
                     {{ $key }}="{{ $value }}"
                     @endforeach
-                >
+                >                    
                     @if ($column->isFormatted())
                         @if ($column->isRaw())
                             {!! $column->formatted($model, $column) !!}
@@ -26,6 +26,12 @@
                             {{ $column->formatted($model, $column) }}
                         @endif
                     @else
+                        @if ($column->rowIndex)
+                            {{++$index}}
+                        @endif
+
+                        @includeWhen(strtolower($column->getAttribute()) === 'checkbox', 'datatable::includes.checkbox-row')
+                        
                         @if ($column->isRaw())
                             {!! data_get($model, $column->getAttribute()) !!}
                         @else

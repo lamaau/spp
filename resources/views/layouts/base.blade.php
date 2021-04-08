@@ -15,7 +15,7 @@
 
     <!-- Favicon -->
     @if ($setting ?? false)
-        <link rel="shortcut icon" href="{{$setting->logo}}">
+        <link rel="shortcut icon" href="{{ $setting->logo }}">
     @else
         <link rel="shortcut icon" href="{{ url(asset('favicon.ico')) }}">
     @endif
@@ -32,9 +32,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    @if ($css ?? false)
-        {{ $css }}
-    @endif
+    @stack('styles')
 </head>
 
 <body>
@@ -53,6 +51,7 @@
     </div>
 
     @livewireScripts
+    @stack('scripts')
 </body>
 
 </html>

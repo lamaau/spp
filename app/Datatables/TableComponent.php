@@ -2,6 +2,8 @@
 
 namespace App\Datatables;
 
+use App\Datatables\Traits\Checkbox;
+use App\Datatables\Traits\Options;
 use Livewire\Component;
 use Illuminate\View\View;
 use Illuminate\Support\Str;
@@ -9,7 +11,6 @@ use Livewire\WithPagination;
 use App\Datatables\Traits\Table;
 use App\Datatables\Traits\Yajra;
 use App\Datatables\Traits\Search;
-use App\Datatables\Traits\Options;
 use App\Datatables\Traits\Sorting;
 use App\Datatables\Traits\Pagination;
 use Illuminate\Database\Eloquent\Builder;
@@ -18,8 +19,9 @@ abstract class TableComponent extends Component
 {
     use WithPagination,
         Pagination,
-        // Options,
+        Checkbox,
         Sorting,
+        Options,
         Search,
         Table,
         Yajra;
@@ -30,13 +32,6 @@ abstract class TableComponent extends Component
      * @var string
      */
     public $paginationTheme = 'tailwind';
-
-    public function __construct($id = null)
-    {
-        // $this->setOptions($this->options);
-
-        parent::__construct($id);
-    }
 
     /**
      * Query for the table
@@ -68,6 +63,7 @@ abstract class TableComponent extends Component
     public function render(): View
     {
         return view($this->view(), [
+            'title'   => $this->title,
             'columns' => $this->columns(),
             'models'  => $this->paginationEnabled ? $this->models()->paginate($this->perPage) : $this->models()->get(),
         ]);

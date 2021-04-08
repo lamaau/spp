@@ -43,6 +43,7 @@
                 <path id="Stroke 3" d="M14.306 20.5122C13.0117 21.9579 10.9927 21.9751 9.68604 20.5122"
                     stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
+            <span class="absolute top-0 w-2 h-2 bg-red-500 border border-white rounded-full right-0.5 animate-ping opacity-75"></span>
             <span class="absolute top-0 w-2 h-2 bg-red-500 border border-white rounded-full right-0.5"></span>
         </button>
         <button type="button" onclick="event.preventDefault(); document.getElementById('logout').submit();"

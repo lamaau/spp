@@ -12,13 +12,6 @@ trait Search
     public $search = '';
 
     /**
-     * Method to search by debounce or lazy
-     *
-     * @var string
-     */
-    public $searchUpdateMethod = 'debounce';
-
-    /**
      * Whethever or not searching is enabled
      *
      * @var boolean
@@ -32,4 +25,13 @@ trait Search
      * @var int
      */
     public $searchDebounce = 350;
+
+    /**
+     * https://laravel-livewire.com/docs/pagination
+     * Resetting Pagination After Filtering Data.
+     */
+    public function updatingSearch(): void
+    {
+        $this->resetPage();
+    }
 }

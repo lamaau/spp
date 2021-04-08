@@ -17,5 +17,10 @@ class RepositoryServiceProvider extends ServiceProvider
             \Modules\Master\Repository\InstallRepository::class,
             \Modules\Master\Repository\Eloquent\InstallEloquent::class
         );
+
+        $this->app->bind(
+            \Modules\Master\Repository\RoomRepository::class,
+            \Modules\Master\Repository\Eloquent\RoomEloquent::class
+        );
     }
 }
