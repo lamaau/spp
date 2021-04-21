@@ -10,12 +10,12 @@
         class="fixed inset-y-0 left-0 z-30 w-64 overflow-y-auto transition duration-300 transform -translate-x-full bg-gray-900 scroll-component lg:translate-x-0 lg:static lg:inset-0">
         <div class="flex items-center justify-center mt-8">
             <div class="flex flex-col items-center">
-                <img src="{{ $setting->logo }}" alt="Logo Sekolah" class="w-24 rounded-full">
-                <span class="px-8 mt-6 text-2xl font-semibold text-center text-white">{{ $setting->name }}</span>
+                <img src="{{ asset($setting->logo) }}" alt="Logo Sekolah" class="w-24 rounded-full">
+                <span class="px-8 mt-6 font-semibold text-center text-white text-md">{{ $setting->name }}</span>
             </div>
         </div>
         <div>
-            <ul class="mt-5" x-data="{isMasterOpen: '{{ is_active('rooms')['state'] }}'}">
+            <ul class="mt-5" x-data="{isMasterOpen: '{{ is_active(['room*', 'student*', 'school-year*'])['state'] }}'}">
                 <li>
                     <a href="{{ route('dashboard') }}" class="{{ is_active('dashboard')['class'] }}">
                         <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none"
@@ -28,7 +28,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" x-on:click="isMasterOpen = !isMasterOpen" class="{{ is_active('rooms')['class'] }}">
+                    <a href="#" x-on:click="isMasterOpen = !isMasterOpen"
+                        class="{{ is_active(['room*', 'student*', 'school-year*'])['class'] }}">
                         <svg x-show="!isMasterOpen" width="24px" height="24px" viewBox="0 0 24 24" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"
@@ -51,7 +52,7 @@
                         x-transition:leave-end="opacity-0 transform scale-x-0 -translate-x-1/2">
                         <li>
                             <a href="{{ route('master.room.index') }}"
-                                x-bind:class="{ 'text-white' : '{{ is_active('rooms')['state'] }}', 'text-gray-500' : !('{{ is_active('rooms')['state'] }}') }"
+                                x-bind:class="{ 'text-white' : '{{ is_active('room')['state'] }}', 'text-gray-500' : !('{{ is_active('room')['state'] }}') }"
                                 class="flex items-center pl-12 duration-200 hover:text-gray-100">
                                 <svg width="13px" height="13px" class="mx-3" viewBox="0 0 32 32"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -62,13 +63,27 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="flex items-center pl-12 text-gray-500 duration-200 hover:text-gray-100">
+                            <a href="{{ route('master.student.index') }}"
+                                x-bind:class="{ 'text-white' : '{{ is_active(['student*'])['state'] }}', 'text-gray-500' : !('{{ is_active(['student*'])['state'] }}') }"
+                                class="flex items-center pl-12 text-gray-500 duration-200 hover:text-gray-100">
                                 <svg width="13px" height="13px" class="mx-3" viewBox="0 0 32 32"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path fill="currentColor"
                                         d="M 16 4 C 9.382813 4 4 9.382813 4 16 C 4 22.617188 9.382813 28 16 28 C 22.617188 28 28 22.617188 28 16 C 28 9.382813 22.617188 4 16 4 Z M 16 6 C 21.535156 6 26 10.464844 26 16 C 26 21.535156 21.535156 26 16 26 C 10.464844 26 6 21.535156 6 16 C 6 10.464844 10.464844 6 16 6 Z M 16 13 C 14.34375 13 13 14.34375 13 16 C 13 17.65625 14.34375 19 16 19 C 17.65625 19 19 17.65625 19 16 C 19 14.34375 17.65625 13 16 13 Z" />
                                 </svg>
                                 Siswa
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('master.school-year.index') }}"
+                                x-bind:class="{ 'text-white' : '{{ is_active(['school-year*'])['state'] }}', 'text-gray-500' : !('{{ is_active(['school-year*'])['state'] }}') }"
+                                class="flex items-center pl-12 text-gray-500 duration-200 hover:text-gray-100">
+                                <svg width="13px" height="13px" class="mx-3" viewBox="0 0 32 32"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill="currentColor"
+                                        d="M 16 4 C 9.382813 4 4 9.382813 4 16 C 4 22.617188 9.382813 28 16 28 C 22.617188 28 28 22.617188 28 16 C 28 9.382813 22.617188 4 16 4 Z M 16 6 C 21.535156 6 26 10.464844 26 16 C 26 21.535156 21.535156 26 16 26 C 10.464844 26 6 21.535156 6 16 C 6 10.464844 10.464844 6 16 6 Z M 16 13 C 14.34375 13 13 14.34375 13 16 C 13 17.65625 14.34375 19 16 19 C 17.65625 19 19 17.65625 19 16 C 19 14.34375 17.65625 13 16 13 Z" />
+                                </svg>
+                                Tahun Ajaran
                             </a>
                         </li>
                     </ul>
@@ -91,6 +106,20 @@
                                 fill="currentColor" />
                         </svg>
                         <span class="mx-4">Laporan</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="{{ is_active('reports')['class'] }}">
+                        <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path id="Stroke 1" fill-rule="evenodd" clip-rule="evenodd"
+                                d="M12 9.5C13.3809 9.5 14.5 10.6191 14.5 12C14.5 13.3809 13.3809 14.5 12 14.5C10.6191 14.5 9.5 13.3809 9.5 12C9.5 10.6191 10.6191 9.5 12 9.5Z"
+                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path id="Stroke 3" fill-rule="evenodd" clip-rule="evenodd"
+                                d="M20.168 7.25025V7.25025C19.4845 6.05799 17.9712 5.65004 16.7885 6.33852C15.7598 6.93613 14.4741 6.18838 14.4741 4.99218C14.4741 3.61619 13.3659 2.5 11.9998 2.5V2.5C10.6337 2.5 9.52546 3.61619 9.52546 4.99218C9.52546 6.18838 8.23977 6.93613 7.21199 6.33852C6.02829 5.65004 4.51507 6.05799 3.83153 7.25025C3.14896 8.4425 3.55399 9.96665 4.73769 10.6541C5.76546 11.2527 5.76546 12.7473 4.73769 13.3459C3.55399 14.0343 3.14896 15.5585 3.83153 16.7498C4.51507 17.942 6.02829 18.35 7.21101 17.6625H7.21199C8.23977 17.0639 9.52546 17.8116 9.52546 19.0078V19.0078C9.52546 20.3838 10.6337 21.5 11.9998 21.5V21.5C13.3659 21.5 14.4741 20.3838 14.4741 19.0078V19.0078C14.4741 17.8116 15.7598 17.0639 16.7885 17.6625C17.9712 18.35 19.4845 17.942 20.168 16.7498C20.8515 15.5585 20.4455 14.0343 19.2628 13.3459H19.2618C18.2341 12.7473 18.2341 11.2527 19.2628 10.6541C20.4455 9.96665 20.8515 8.4425 20.168 7.25025Z"
+                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <span class="mx-4">Pengaturan</span>
                     </a>
                 </li>
             </ul>

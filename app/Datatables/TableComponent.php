@@ -27,6 +27,13 @@ abstract class TableComponent extends Component
         Yajra;
 
     /**
+     * Table title
+     *
+     * @var null
+     */
+    public $title;
+
+    /**
      * Default pagination theme
      *
      * @var string

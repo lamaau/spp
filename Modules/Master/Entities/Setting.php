@@ -4,17 +4,36 @@ namespace Modules\Master\Entities;
 
 use Modules\Utils\Uuid;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Master\Tenant\TenantRepository;
-use Modules\Master\Tenant\Traits\ForTenants;
 
-class Setting extends Model implements TenantRepository
+class Setting extends Model
 {
-    use Uuid, ForTenants;
+    use Uuid;
 
+    /**
+     * Primary Key Incrementing
+     *
+     * @var boolean
+     */
+    public $incrementing = false;
+
+    /**
+     * Mass Assignment
+     *
+     * @var array
+     */
     protected $guarded = [];
 
-    public function getTenantId()
-    {
-        return $this->tenant_id;
-    }
+    /**
+     * Primary Key Type
+     *
+     * @var string
+     */
+    protected $keyType = "string";
+
+    /**
+     * Table name
+     *
+     * @var string
+     */
+    protected $table = 'settings';
 }

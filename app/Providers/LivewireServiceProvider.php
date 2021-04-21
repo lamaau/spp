@@ -5,6 +5,8 @@ namespace App\Providers;
 use Livewire\Livewire;
 use Illuminate\Support\ServiceProvider;
 use Modules\Master\Datatables\RoomDatatable;
+use Modules\Master\Datatables\StudentDatatable;
+use Modules\Master\Datatables\SchoolYearDatatable;
 
 class LivewireServiceProvider extends ServiceProvider
 {
@@ -17,5 +19,7 @@ class LivewireServiceProvider extends ServiceProvider
     {
         /** @datatable room */
         Livewire::component('room-datatable', RoomDatatable::class);
+        Livewire::component('student-datatable', StudentDatatable::class);
+        Livewire::component('school-year-datatable', SchoolYearDatatable::class);
     }
 }

@@ -1,4 +1,4 @@
-<button type="button"
+<button type="button" wire:click.prevent="edit('{{ $model->id }}')"
     class="p-2 text-white bg-yellow-500 rounded focus:outline-none focus:ring-2 focus:ring-yellow-300">
     <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path id="Stroke 1" d="M13.3352 19.5078H19.7122" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
@@ -10,7 +10,7 @@
             stroke-linecap="round" stroke-linejoin="round" />
     </svg>
 </button>
-<button type="button" wire:click="destroy('{{ $model->id }}')"
+<button type="button" wire:click.prevent="destroy('{{ $model->id }}')"
     class="p-2 text-white bg-red-500 rounded focus:outline-none focus:ring-2 focus:ring-red-300">
     <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none"
         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"

@@ -15,7 +15,7 @@
 
     <!-- Favicon -->
     @if ($setting ?? false)
-        <link rel="shortcut icon" href="{{ $setting->logo }}">
+        <link rel="shortcut icon" href="{{ asset($setting->logo) }}">
     @else
         <link rel="shortcut icon" href="{{ url(asset('favicon.ico')) }}">
     @endif

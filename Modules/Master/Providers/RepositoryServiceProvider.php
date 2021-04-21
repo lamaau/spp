@@ -19,8 +19,23 @@ class RepositoryServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
+            \Modules\Master\Repository\SchoolYearRepository::class,
+            \Modules\Master\Repository\Eloquent\SchoolYearEloquent::class
+        );
+
+        $this->app->bind(
             \Modules\Master\Repository\RoomRepository::class,
             \Modules\Master\Repository\Eloquent\RoomEloquent::class
+        );
+
+        $this->app->bind(
+            \Modules\Master\Repository\StudentRepository::class,
+            \Modules\Master\Repository\Eloquent\StudentEloquent::class
+        );
+
+        $this->app->bind(
+            \Modules\Master\Repository\FileUploadRepository::class,
+            \Modules\Master\Repository\Eloquent\FileUploadEloquent::class
         );
     }
 }

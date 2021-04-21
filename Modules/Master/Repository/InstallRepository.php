@@ -2,7 +2,8 @@
 
 namespace Modules\Master\Repository;
 
-if (!interface_exists('InstallRepository')) {
+if (!interface_exists('InstallRepository'))
+{
     interface InstallRepository
     {
         /**

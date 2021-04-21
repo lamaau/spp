@@ -2,9 +2,18 @@
 
 namespace Modules\Master\Repository;
 
+use Illuminate\Http\JsonResponse;
+
 if (!interface_exists('RoomRepository')) {
     interface RoomRepository
     {
+        /**
+         * Get all room
+         *
+         * @return JsonResponse
+         */
+        public function all();
+        
         /**
          * Save room
          *

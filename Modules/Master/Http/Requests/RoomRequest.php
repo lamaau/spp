@@ -2,6 +2,7 @@
 
 namespace Modules\Master\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RoomRequest extends FormRequest
@@ -25,11 +26,11 @@ class RoomRequest extends FormRequest
      *
      * @return array
      */
-    public function rules(): array
+    public function rules(string $id = null): array
     {
         return [
-            'name' => ['required', 'unique:rooms', 'string'],
-            'code' => ['required', 'unique:rooms', 'string'],
+            'name' => ['required', Rule::unique('rooms')->ignore($id)],
+            'code' => ['required', Rule::unique('rooms')->ignore($id)],
             'description' => ['nullable', 'min:5'],
         ];
     }

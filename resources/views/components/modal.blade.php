@@ -19,7 +19,7 @@
         </div>
         <!-- Add margin if you want to see some of the overlay behind the modal-->
         <div class="modal-content">
-            <div class="fixed inset-x-0 bottom-0 z-50 p-4 mx-4 bg-white rounded-lg md:max-w-md md:mx-auto md:relative">
+            <div class="fixed inset-x-0 bottom-0 z-50 p-5 mx-4 bg-gray-100 rounded-lg md:max-w-md md:mx-auto md:relative">
                 {{ $slot }}
             </div>
         </div>

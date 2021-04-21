@@ -44,7 +44,6 @@ class MasterServiceProvider extends ServiceProvider
     {
         $this->app->register(RouteServiceProvider::class);
         $this->app->register(EventServiceProvider::class);
-        // $this->app->register(TenantServiceProvider::class);
         $this->app->register(RepositoryServiceProvider::class);
     }
 

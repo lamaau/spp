@@ -18,7 +18,6 @@ class CreateRoomsTable extends Migration
             $table->string('name');
             $table->string('code');
             $table->text('description')->nullable();
-            $table->uuid('tenant_id')->index();
             $table->timestamps();
         });
     }

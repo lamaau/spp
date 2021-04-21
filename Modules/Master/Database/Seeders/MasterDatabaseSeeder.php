@@ -3,6 +3,8 @@
 namespace Modules\Master\Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Modules\Master\Entities\Room;
+use Modules\Master\Entities\Student;
 use Illuminate\Database\Eloquent\Model;
 
 class MasterDatabaseSeeder extends Seeder
@@ -15,7 +17,6 @@ class MasterDatabaseSeeder extends Seeder
     public function run()
     {
         Model::unguard();
-
-        // $this->call("OthersTableSeeder");
+        Student::factory()->count(10)->for(Room::factory())->create();
     }
 }
