@@ -24,6 +24,11 @@ class RepositoryServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
+            \Modules\Master\Repository\BillRepository::class,
+            \Modules\Master\Repository\Eloquent\BillEloquent::class
+        );
+
+        $this->app->bind(
             \Modules\Master\Repository\RoomRepository::class,
             \Modules\Master\Repository\Eloquent\RoomEloquent::class
         );

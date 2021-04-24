@@ -6,10 +6,12 @@ use Modules\Utils\Uuid;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Room extends Model
 {
     use HasFactory,
+        SoftDeletes,
         Uuid;
 
     /**
@@ -18,6 +20,13 @@ class Room extends Model
      * @var boolean
      */
     public $incrementing = false;
+
+    /**
+     * Unique
+     *
+     * @var array
+     */
+    public $unique = ['name'];
 
     /**
      * Mass Assignment
@@ -43,6 +52,11 @@ class Room extends Model
     protected static function newFactory()
     {
         return \Modules\Master\Database\Factories\RoomFactory::new();
+    }
+
+    public function getNameAttribute($value): string
+    {
+        return explode('-', $value)[1] ?? $value;
     }
 
     /**

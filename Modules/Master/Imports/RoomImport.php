@@ -2,44 +2,39 @@
 
 namespace Modules\Master\Imports;
 
+use Illuminate\Validation\Rule;
 use Modules\Master\Entities\Room;
-use Modules\Master\Entities\User;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Concerns\WithEvents;
-use Maatwebsite\Excel\Events\ImportFailed;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithStartRow;
+use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
-use Modules\Master\Notifications\ImportHasFailedNotification;
 
-class RoomImport implements ToModel, WithChunkReading, ShouldQueue, WithStartRow, WithEvents
+class RoomImport implements ToModel, WithChunkReading, WithStartRow, WithValidation
 {
-    protected $uploaded;
-
-    public function __construct(object $uploaded)
-    {
-        $this->uploaded = $uploaded;
-    }
+    use Importable;
 
     public function model(array $row)
     {
         return new Room([
-            'code' => $row[0],
-            'name' => $row[1],
-            'description' => $row[2],
+            'name' => $row[0],
+            'description' => $row[1],
             'created_at'  => now(),
+            'created_by'  => Auth::id(),
         ]);
     }
 
-    public function registerEvents(): array
+    public function rules(): array
     {
-        $user = User::where('id', $this->uploaded->created_by)->first();
-
         return [
-            ImportFailed::class => function (ImportFailed $event) use ($user) {
-                $user->notify(new ImportHasFailedNotification($user, $this->uploaded->filename, $event->getException()));
-            },
+            '0' => Rule::unique('rooms', 'name')->whereNull('deleted_at'),
         ];
+    }
+
+    public function customValidationAttributes()
+    {
+        return ['0' => 'Nama kelas'];
     }
 
     public function chunkSize(): int

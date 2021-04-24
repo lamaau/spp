@@ -1,5 +1,18 @@
 <?php
 
+if (!function_exists('uploaded_path')) {
+    /**
+     * Get uploaded file from storage
+     *
+     * @param string $filename
+     * @return string
+     */
+    function uploaded_path(string $filename): string
+    {
+        return storage_path('/../public/storage/' . $filename);
+    }
+}
+
 if (!function_exists('idr')) {
     /**
      * Format currency idr format

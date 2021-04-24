@@ -2,15 +2,34 @@
 
 namespace App\Datatables\Traits;
 
-use Illuminate\Support\Facades\Auth;
-use Maatwebsite\Excel\Facades\Excel;
-use Modules\Master\Imports\RoomImport;
+use Livewire\Event;
+use Modules\Master\Entities\FormatFile;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 trait WithUploadAndImport
 {
     /** @var object */
     public $file;
 
+    /**
+     * Download import format
+     *
+     * @return BinaryFileResponse
+     */
+    public function downloadFormat(): ?BinaryFileResponse
+    {
+        if (property_exists($this, 'fileFormatName')) {
+            return response()->download(config('format.path') . "/{$this->fileFormatName}");
+        }
+
+        throw new \Exception("File format name not defined", 1);
+    }
+
+    /**
+     * Handle file upload
+     *
+     * @return string|object
+     */
     public function upload()
     {
         $this->validate([
@@ -26,22 +45,23 @@ trait WithUploadAndImport
                 $this->file->getClientOriginalName()
             );
 
-            if (method_exists($this, 'getImportModel')) {
-                $uploaded = $this->getImportModel()->create([
-                    'filename'   => $filename,
-                    'created_by' => Auth::id(),
+            /**
+             * If add importModel property
+             * the filename and model saved on format_files table
+             * and return is object
+             */
+            if (property_exists($this, 'importModel')) {
+                $uploaded = FormatFile::create([
+                    'model' => $this->importModel,
+                    'filename' => $filename,
                 ]);
+
+                return $uploaded;
             }
 
-            if (method_exists($this, 'import')) {
-                $this->import($uploaded);
-            }
-
-            $this->remove();
-
-            return $this->success('Yosh..', 'Dokumen berhasil diupload.');
+            return $filename;
         } catch (\Exception $e) {
-            return $this->error('Oops..', 'Terjadi kesalahan, periksa kembali data anda.');
+            return $e;
         }
     }
 

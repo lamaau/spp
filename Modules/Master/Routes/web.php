@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Master\Http\Controllers\RoomController;
+use Modules\Master\Http\Controllers\MajorController;
 use Modules\Master\Http\Controllers\InstallController;
 use Modules\Master\Http\Controllers\StudentController;
 use Modules\Master\Http\Controllers\SchoolYearController;
@@ -16,6 +17,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
         /** Room */
         Route::prefix('room')->as('room.')->group(function () {
             Route::get('/', [RoomController::class, 'index'])->name('index');
+        });
+
+        /** Bill */
+        Route::prefix('bill')->as('bill.')->group(function () {
+            Route::get('/', BillController::class)->name('index');
+        });
+
+        /** Major */
+        Route::prefix('major')->as('major.')->group(function () {
+            Route::get('/', [MajorController::class, 'index'])->name('index');
         });
 
         /** SchoolYear */

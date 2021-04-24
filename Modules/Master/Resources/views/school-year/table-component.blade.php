@@ -17,28 +17,8 @@
                 <h2 class="mb-4 text-xl font-semibold leading-tight text-center text-gray-800" x-text="title"></h2>
                 <div class="flex flex-col justify-center space-y-2 text-gray-800">
                     <div>
-                        <label class="text-xs font-bold uppercase" for="year">Tahun Ajaran</label>
-                        <input type="text" wire:model.defer="year" name="year" id="year"
-                            class="w-full mt-1 rounded shadow @error('year') border border-red-500 @else border-none @enderror" />
-                        @error('year')
-                            <small class="text-red-500 text-2xs">{{ $message }}</small>
-                        @enderror
-                    </div>
-                    <div>
-                        <label class="text-xs font-bold uppercase" for="bill">Biaya Komite</label>
-                        <input type="number" wire:model.defer="bill" name="bill" id="bill"
-                            class="w-full mt-1 rounded shadow @error('bill') border border-red-500 @else border-none @enderror">
-                        @error('bill')
-                            <small class="text-red-500 text-2xs">{{ $message }}</small>
-                        @enderror
-                    </div>
-                    <div>
-                        <label class="text-xs font-bold uppercase" for="description">Keterangan</label>
-                        <textarea name="description" wire:model.defer="description" id="description"
-                            class="w-full mt-1 rounded shadow @error('name') border border-red-500 @else border-none @enderror"></textarea>
-                        @error('description')
-                            <small class="text-red-500 text-2xs">{{ $message }}</small>
-                        @enderror
+                        <x-inputs.text label="tahun ajaran" name="year" wire:model.defer='year' />
+                        <x-inputs.textarea name="description" label="keterangan" wire:model.defer='description' />
                     </div>
                     <div>
                         <button type="button" wire:click.prevent='save' x-show="save"
@@ -90,7 +70,7 @@
         </div>
         <x-modal x-state="importOpen">
             <form class="flex flex-col space-y-3" enctype="multipart/form-data">
-                <h2 class="text-xl font-semibold leading-tight text-center text-gray-800">Import Kelas</h2>
+                <h2 class="text-xl font-semibold leading-tight text-center text-gray-800">Import Tahun Ajaran</h2>
                 <div>
                     <label
                         class="flex flex-col items-center w-64 px-4 py-6 text-gray-800 uppercase transition-all duration-300 bg-gray-100 border rounded-md cursor-pointer border-blue hover:bg-blue hover:text-white hover:bg-gray-800">
@@ -127,12 +107,13 @@
                 </div>
                 <div class="flex flex-row space-x-2 text-xs text-white">
                     <button type="button" wire:click.prevent="remove"
-                        class="w-full py-2 font-semibold bg-red-500 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400">
+                        class="w-full py-2 font-semibold bg-red-500 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 disabled:opacity-50"
+                        {{ is_null($file) ? 'disabled' : '' }}>
                         Hapus
                     </button>
-                    <button type="button" wire:click.prevent="upload"
+                    <button type="button" wire:click.prevent="import"
                         class="w-full py-2 font-semibold bg-indigo-600 rounded hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-500">
-                        Upload
+                        import
                     </button>
                 </div>
             </form>
@@ -140,43 +121,17 @@
     </div>
 </div>
 
-<div x-data="alert" x-init="init">
-    <x-layouts.alert x-state="open" />
-</div>
-
 @push('scripts')
     <script type="text/javascript">
         const cog = {
-            file: null,
-            fileName: null,
-            fileModel: null,
             importOpen: false,
             dropdownOpen: false,
             init: function() {
-                Livewire.on('complete', () => {
+                Livewire.on('notice', () => {
                     this.importOpen = false;
                 });
             },
-
         };
-
-        const alert = {
-            id: '',
-            open: false,
-            init: function() {
-                Livewire.on('notice', () => {
-                    this.open = false;
-                });
-
-                Livewire.on('delete', (id) => {
-                    this.id = id;
-                    this.open = true;
-                });
-            },
-            remove: function() {
-                @this.call('delete', this.id);
-            },
-        }
 
         const createOrEdit = {
             title: '',
@@ -185,14 +140,14 @@
             update: false,
             init: function() {
                 Livewire.on('create', () => {
-                    this.title = 'Tambah Kelas';
+                    this.title = 'Tambah Tahun Ajaran';
                     this.save = true;
                     this.update = false;
                     this.open = true;
                 });
 
                 Livewire.on('edit', () => {
-                    this.title = 'Ubah Kelas';
+                    this.title = 'Ubah Tahun Ajaran';
                     this.save = false;
                     this.update = true;
                     this.open = true;

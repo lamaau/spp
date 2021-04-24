@@ -20,10 +20,10 @@
                 class="block w-full py-2 pl-8 pr-6 text-sm text-gray-700 placeholder-gray-400 bg-white border border-gray-400 rounded appearance-none focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none">
         </div>
         @if ($loadingEnabled)
-            <svg version="1.1" wire:loading id="Layer_1" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-700 animate-spin"
-                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 367.136 367.136"
-                fill="currentColor"
-                style="enable-background:new 0 0 367.136 367.136;" xml:space="preserve">
+            <svg version="1.1" wire:loading id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                class="w-6 h-6 text-gray-700 animate-spin" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                viewBox="0 0 367.136 367.136" fill="currentColor" style="enable-background:new 0 0 367.136 367.136;"
+                xml:space="preserve">
                 <path
                     d="M336.954,87.494C318.821,59.1,293.251,36.318,263.01,21.613l-13.119,26.979c52.77,25.661,85.551,78.029,85.551,136.669 c0,83.744-68.131,151.874-151.874,151.874S31.694,269.005,31.694,185.262c0-49.847,24.899-96.439,65.042-124.571L149.7,113.91V0 H36.335l38.953,39.14C57.727,52.164,42.557,68.287,30.582,86.871c-18.898,29.33-28.888,63.352-28.888,98.391 c0,100.286,81.588,181.874,181.874,181.874s181.874-81.588,181.874-181.874C365.442,150.485,355.59,116.678,336.954,87.494z" />
             </svg>
@@ -31,5 +31,9 @@
     </div>
     <div class="space-x-1">
         @includeWhen($optionComponentEnabled, $optionComponentView)
+
+        @if ($optionComponentEnabled)
+            <x-layouts.dialog />
+        @endif
     </div>
 </div>

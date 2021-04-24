@@ -8,14 +8,12 @@ use Livewire\WithFileUploads;
 use App\Datatables\Traits\Notify;
 use App\Datatables\TableComponent;
 use Maatwebsite\Excel\Facades\Excel;
-use Modules\Master\Entities\RoomFile;
-use Modules\Master\Imports\RoomImport;
 use Modules\Master\Entities\SchoolYear;
 use App\Datatables\Traits\HtmlComponents;
 use Illuminate\Database\Eloquent\Builder;
+use Modules\Master\Imports\SchoolYearImport;
 use App\Datatables\Traits\WithUploadAndImport;
 use Modules\Master\Http\Requests\SchoolYearRequest;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class SchoolYearDatatable extends TableComponent
 {
@@ -26,16 +24,17 @@ class SchoolYearDatatable extends TableComponent
 
     /** @var string */
     public $pid;
-    public $query;
     public $year = null;
-    public $bill = null;
     public $description = null;
     public $optionComponentView = 'master::school-year.table-component';
 
-    /** @var string file upload */
+    /** @var string file upload and import */
+    protected $importModel = SchoolYear::class;
     protected $fileUploadDestination = 'school-year';
+    protected $fileFormatName = 'Format_Tahun_Ajaran.xlsx';
 
     /** @var object */
+    public $query;
     protected $request;
 
     public function __construct(string $id = null)
@@ -57,12 +56,6 @@ class SchoolYearDatatable extends TableComponent
             Column::make('tahun ajaran', 'year')
                 ->searchable()
                 ->sortable(),
-            Column::make('biaya', 'bill')
-                ->searchable()
-                ->sortable()
-                ->format(function (SchoolYear $model) {
-                    return idr($model->bill);
-                }),
             Column::make('keterangan', 'description')
                 ->searchable()
                 ->format(function (SchoolYear $model) {
@@ -89,7 +82,6 @@ class SchoolYearDatatable extends TableComponent
     public function resetValue(): void
     {
         $this->year = null;
-        $this->bill = null;
         $this->description = null;
     }
 
@@ -122,7 +114,6 @@ class SchoolYearDatatable extends TableComponent
         $this->query = $this->query()->where('id', $id)->first();
 
         $this->year = $this->query->year;
-        $this->bill = $this->query->bill;
         $this->description = $this->query->description;
 
         return $this->emit('edit', $id);
@@ -142,9 +133,13 @@ class SchoolYearDatatable extends TableComponent
      * @param string $id
      * @return Event
      */
-    public function destroy(string $id): Event
+    public function destroy(string $id)
     {
-        return $this->emit('delete', $id);
+        $this->dispatchBrowserEvent('delete-alert', [
+            'id' => $id,
+            'title' => 'Hapus Tahun Ajaran?',
+            'message' => 'Tindakan ini akan menghapus tahun ajaran secara permanen, tahun ajaran yang telah dihapus tidak dapat dikembalikan.'
+        ]);
     }
 
     /**
@@ -164,39 +159,20 @@ class SchoolYearDatatable extends TableComponent
 
     /**
      * Upload and import
-     * -----------------------------------------------
-     */
-
-    /**
-     * Download format
      *
-     * @return BinaryFileResponse
+     * @return Event|\Illuminate\Support\MessageBag
      */
-    public function downloadFormat(): BinaryFileResponse
+    public function import()
     {
-        return response()->download(config('format.path') . '/room.xlsx');
-    }
+        $uploaded = $this->upload();
 
-    /**
-     * Get import model
-     *
-     * @return RoomFile
-     */
-    public function getImportModel(): RoomFile
-    {
-        return new RoomFile;
-    }
+        try {
+            Excel::import(new SchoolYearImport, uploaded_path($uploaded->filename));
 
-    /**
-     * Get import class
-     *
-     * @return Event
-     */
-    public function import(object $uploaded): Event
-    {
-        $file = storage_path('/../public/storage/' . $uploaded->filename);
-        Excel::queueImport(new RoomImport($uploaded), $file);
-
-        return $this->emit('complete');
+            $this->remove();
+            return $this->success('Yosh..', 'Kelas berhasil diimport.');
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            return $this->addError('file', $e->failures()[0]->errors()[0]);
+        }
     }
 }

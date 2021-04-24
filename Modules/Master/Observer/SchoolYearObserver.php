@@ -7,10 +7,32 @@ use Modules\Master\Entities\SchoolYear;
 
 class SchoolYearObserver
 {
-    public function creating(SchoolYear $setting)
+    public function creating(SchoolYear $model)
     {
-        $setting->fill([
+        $model->fill([
             'created_by' => Auth::id(),
         ]);
+    }
+
+    public function updating(SchoolYear $model)
+    {
+        $model->fill([
+            'updated_by' => Auth::id(),
+        ]);
+    }
+
+    public function deleting(SchoolYear $model)
+    {
+        if (property_exists(SchoolYear::class, 'unique') && is_array($model->unique)) {
+            foreach ($model->unique as $key) {
+                $tmp[$key] = uniqid() . "-" . $model->{$key};
+            }
+
+            $result = array_merge($tmp, [
+                'deleted_by' => Auth::id(),
+            ]);
+
+            $model->update($result);
+        }
     }
 }

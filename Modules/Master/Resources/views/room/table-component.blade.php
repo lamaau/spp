@@ -17,28 +17,8 @@
                 <h2 class="mb-4 text-xl font-semibold leading-tight text-center text-gray-800" x-text="title"></h2>
                 <div class="flex flex-col justify-center space-y-2 text-gray-800">
                     <div>
-                        <label class="text-xs font-bold uppercase" for="code">Kode Kelas</label>
-                        <input type="text" wire:model.defer="code" name="code" id="code"
-                            class="w-full mt-1 rounded shadow @error('code') border border-red-500 @else border-none @enderror" />
-                        @error('code')
-                            <small class="text-red-500 text-2xs">{{ $message }}</small>
-                        @enderror
-                    </div>
-                    <div>
-                        <label class="text-xs font-bold uppercase" for="name">Nama Kelas</label>
-                        <input type="text" wire:model.defer="name" name="name" id="name"
-                            class="w-full mt-1 rounded shadow @error('name') border border-red-500 @else border-none @enderror">
-                        @error('name')
-                            <small class="text-red-500 text-2xs">{{ $message }}</small>
-                        @enderror
-                    </div>
-                    <div>
-                        <label class="text-xs font-bold uppercase" for="description">Keterangan</label>
-                        <textarea name="description" wire:model.defer="description" id="description"
-                            class="w-full mt-1 rounded shadow @error('name') border border-red-500 @else border-none @enderror"></textarea>
-                        @error('description')
-                            <small class="text-red-500 text-2xs">{{ $message }}</small>
-                        @enderror
+                        <x-inputs.text label="nama kelas" name="name" wire:model.defer='name' />
+                        <x-inputs.textarea name="description" label="keterangan" wire:model.defer='description' />
                     </div>
                     <div>
                         <button type="button" wire:click.prevent='save' x-show="save"
@@ -127,12 +107,13 @@
                 </div>
                 <div class="flex flex-row space-x-2 text-xs text-white">
                     <button type="button" wire:click.prevent="remove"
-                        class="w-full py-2 font-semibold bg-red-500 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400">
+                        class="w-full py-2 font-semibold bg-red-500 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 disabled:opacity-50"
+                        {{ is_null($file) ? 'disabled' : '' }}>
                         Hapus
                     </button>
-                    <button type="button" wire:click.prevent="upload"
+                    <button type="button" wire:click.prevent="import"
                         class="w-full py-2 font-semibold bg-indigo-600 rounded hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-500">
-                        Upload
+                        Import
                     </button>
                 </div>
             </form>
@@ -140,43 +121,18 @@
     </div>
 </div>
 
-<div x-data="alert" x-init="init">
-    <x-layouts.alert x-state="open" />
-</div>
-
 @push('scripts')
     <script type="text/javascript">
         const cog = {
-            file: null,
-            fileName: null,
-            fileModel: null,
             importOpen: false,
             dropdownOpen: false,
             init: function() {
-                Livewire.on('complete', () => {
+                Livewire.on('notice', (event) => {
                     this.importOpen = false;
                 });
             },
 
         };
-
-        const alert = {
-            id: '',
-            open: false,
-            init: function() {
-                Livewire.on('notice', () => {
-                    this.open = false;
-                });
-
-                Livewire.on('delete', (id) => {
-                    this.id = id;
-                    this.open = true;
-                });
-            },
-            remove: function() {
-                @this.call('delete', this.id);
-            },
-        }
 
         const createOrEdit = {
             title: '',

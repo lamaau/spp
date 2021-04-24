@@ -11,6 +11,9 @@ class SchoolYear extends Model
 {
     use SoftDeletes, Uuid;
 
+    /** @var array unique for observer */
+    public $unique = ['year'];
+
     /**
      * Primary Key Incrementing
      *

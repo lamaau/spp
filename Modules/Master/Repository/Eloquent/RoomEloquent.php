@@ -2,10 +2,7 @@
 
 namespace Modules\Master\Repository\Eloquent;
 
-use Illuminate\Http\JsonResponse;
 use Modules\Master\Entities\Room;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 use Modules\Master\Repository\RoomRepository;
 
 class RoomEloquent implements RoomRepository

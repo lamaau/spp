@@ -16,7 +16,6 @@ class RoomRequest extends FormRequest
     {
         return [
             'name' => 'Nama Kelas',
-            'code' => 'Kode Kelas',
             'description' => 'Keterangan',
         ];
     }
@@ -30,7 +29,6 @@ class RoomRequest extends FormRequest
     {
         return [
             'name' => ['required', Rule::unique('rooms')->ignore($id)],
-            'code' => ['required', Rule::unique('rooms')->ignore($id)],
             'description' => ['nullable', 'min:5'],
         ];
     }
@@ -39,7 +37,6 @@ class RoomRequest extends FormRequest
     {
         return [
             'name' => $this->name,
-            'code' => $this->code,
             'description' => $this->description,
         ];
     }

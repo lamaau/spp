@@ -1,11 +1,11 @@
-@props(['label', 'name'])
+@props(['label', 'name', 'selected'])
 
-<x-inputs.label :text="$label" :for="$name" />
-<div @click.away="closeListbox()" @keydown.escape="closeListbox()" class="relative">
+<label class="block mt-2 mb-1 text-xs font-bold uppercase">{{ $label }}</label>
+<div @click.away="closeListbox()" @keydown.escape="closeListbox()" class="relative mt-1">
     <span class="inline-block w-full rounded-md shadow-sm">
         <button type="button" x-ref="button" @click="toggleListboxVisibility()" :aria-expanded="open"
             aria-haspopup="listbox"
-            class="relative z-0 w-full py-3 pl-3 pr-10 text-left transition duration-150 ease-in-out bg-white border @error($name) border-red-500 @enderror rounded shadow cursor-default focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5">
+            class="relative z-0 w-full py-3 pl-3 pr-10 text-left transition duration-150 ease-in-out bg-white border rounded shadow cursor-default focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5">
             <span x-show="! open" x-text="value in options ? options[value].name : placeholder"
                 :class="{ 'text-gray-500 my-2': !(value in options) }" class="block text-xs truncate"></span>
 
@@ -14,7 +14,7 @@
                 type="search" class="w-full h-full border-none form-control focus:outline-none" />
 
             {{-- value is here :) --}}
-            <input type="hidden" x-ref="selected" x-bind:name="name">
+            <input type="hidden" x-ref="selected" {{ $attributes }}>
 
             <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                 <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="none" stroke="currentColor">
@@ -26,7 +26,8 @@
     </span>
 
     <div x-show="open" x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100"
-        x-transition:leave-end="opacity-0" class="absolute z-10 w-full mt-1 bg-white rounded-md shadow-lg" style="display: none;">
+        x-transition:leave-end="opacity-0" class="absolute z-10 w-full mt-1 bg-white rounded-md shadow-lg"
+        style="display: none;">
         <ul x-ref="listbox" @keydown.enter.stop.prevent="selectOption()"
             @keydown.arrow-up.prevent="focusPreviousOption()" @keydown.arrow-down.prevent="focusNextOption()"
             role="listbox" :aria-activedescendant="focusedOptionIndex ? name + 'Option' + focusedOptionIndex : null"
@@ -69,6 +70,8 @@
             return {
                 url: config.url,
                 data: config.data,
+                wireModel: '{{ $name }}',
+                selected: '{{ $selected }}',
                 emptyOptionsMessage: config.emptyOptionsMessage ?? 'No results match your search.',
                 focusedOptionIndex: null,
                 name: config.name,
@@ -118,11 +121,12 @@
                 },
                 selectOption: function() {
                     if (!this.open) return this.toggleListboxVisibility()
-                    this.value = Object.keys(this.options)[this.focusedOptionIndex];
-                    this.$refs.selected.value = this.options[this.focusedOptionIndex].id;
+                    this.value = Object.keys(this.options)[this.focusedOptionIndex]
+                    @this.set(this.wireModel, this.options[this.focusedOptionIndex].id);
                     this.closeListbox()
                 },
                 toggleListboxVisibility: function() {
+
                     if (this.open) return this.closeListbox()
                     this.focusedOptionIndex = Object.keys(this.options).indexOf(this.value)
                     if (this.focusedOptionIndex < 0) this.focusedOptionIndex = 0

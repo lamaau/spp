@@ -15,6 +15,11 @@ class SchoolYearEloquent implements SchoolYearRepository
         $this->school_year = $school_year;
     }
 
+    public function select(): object
+    {
+        return $this->school_year->query()->select(['id', 'year'])->get();
+    }
+
     public function save(array $request): bool
     {
         return $this->school_year->create($request) ? true : false;

@@ -7,19 +7,18 @@
                 x-transition:leave-start="transform translate-x-0 opacity-100"
                 x-transition:leave-end="transform translate-x-full opacity-0" class="mt-2" style="display: none;">
                 <div class="flex items-start p-3 space-x-2 bg-white border border-gray-300 rounded-md shadow-lg">
-                    <svg  x-show="notice.type === 'success'" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="text-green-400 feather feather-check-circle">
+                    <svg x-show="notice.type === 'success'" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" class="text-green-400 feather feather-check-circle">
                         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                         <polyline points="22 4 12 14.01 9 11.01"></polyline>
                     </svg>
-                    {{-- <x-icons.circle-x class="w-6 ml-0 text-red-400" x-show="notice.type === 'error'" /> --}}
                     <div class="flex-1 space-y-1">
                         <p class="text-base font-medium leading-6 text-gray-700">
-                            <span x-text="notice.title"></span>
+                            <span x-html="notice.title"></span>
                         </p>
                         <p class="text-sm leading-5 text-gray-600">
-                            <span x-text="notice.message"></span>
+                            <span x-html="notice.message"></span>
                         </p>
                     </div>
                     <svg class="flex-shrink-0 w-4 h-4 text-gray-400 cursor-pointer" x-on:click="remove(notice.id)"

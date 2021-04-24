@@ -9,13 +9,11 @@ use App\Datatables\Traits\Notify;
 use Modules\Master\Entities\Room;
 use App\Datatables\TableComponent;
 use Maatwebsite\Excel\Facades\Excel;
-use Modules\Master\Entities\RoomFile;
 use Modules\Master\Imports\RoomImport;
 use App\Datatables\Traits\HtmlComponents;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Master\Http\Requests\RoomRequest;
 use App\Datatables\Traits\WithUploadAndImport;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class RoomDatatable extends TableComponent
 {
@@ -28,14 +26,19 @@ class RoomDatatable extends TableComponent
     public $pid;
     public $query;
     public $name = null;
-    public $code = null;
     public $description = null;
+
+    /** @var string table component */
+    public $sortField = 'name';
+    public $sortDirection = 'asc';
     public $optionComponentView = 'master::room.table-component';
 
-    /** @var string file upload */
+    /** @var string file upload and import */
+    protected $importModel = Room::class;
     protected $fileUploadDestination = 'rooms';
+    protected $fileFormatName = 'Format_Kelas.xlsx';
 
-    /** @var object */
+    /** @var RoomRequest */
     protected $request;
 
     public function __construct(string $id = null)
@@ -54,10 +57,7 @@ class RoomDatatable extends TableComponent
     {
         return [
             Column::make('no')->rowIndex(),
-            Column::make('kode kelas', 'code')
-                ->searchable()
-                ->sortable(),
-            Column::make('nama kelas', 'name')
+            Column::make('nama', 'name')
                 ->searchable()
                 ->sortable(),
             Column::make('keterangan', 'description')
@@ -65,7 +65,7 @@ class RoomDatatable extends TableComponent
                 ->format(function (Room $model) {
                     return $model->description ?? '-';
                 }),
-            Column::make('siswa', 'id')
+            Column::make('jumlah siswa', 'id')
                 ->sortable()
                 ->format(function (Room $model) {
                     return $model->students_count;
@@ -90,7 +90,6 @@ class RoomDatatable extends TableComponent
      */
     public function resetValue(): void
     {
-        $this->code = null;
         $this->name = null;
         $this->description = null;
     }
@@ -123,7 +122,6 @@ class RoomDatatable extends TableComponent
         $this->pid = $id;
         $this->query = $this->query()->where('id', $id)->first();
 
-        $this->code = $this->query->code;
         $this->name = $this->query->name;
         $this->description = $this->query->description;
 
@@ -143,9 +141,13 @@ class RoomDatatable extends TableComponent
      * @param string $id
      * @return Event
      */
-    public function destroy(string $id): Event
+    public function destroy(string $id)
     {
-        return $this->emit('delete', $id);
+        $this->dispatchBrowserEvent('delete-alert', [
+            'id' => $id,
+            'title' => 'Hapus Kelas?',
+            'message' => 'Tindakan ini akan menghapus kelas secara permanen, kelas yang telah dihapus tidak dapat dikembalikan.'
+        ]);
     }
 
     /**
@@ -169,35 +171,21 @@ class RoomDatatable extends TableComponent
      */
 
     /**
-     * Download format
-     *
-     * @return BinaryFileResponse
-     */
-    public function downloadFormat(): BinaryFileResponse
-    {
-        return response()->download(config('format.path') . '/room.xlsx');
-    }
-
-    /**
-     * Get import model
-     *
-     * @return RoomFile
-     */
-    public function getImportModel(): RoomFile
-    {
-        return new RoomFile;
-    }
-
-    /**
      * Get import class
      *
-     * @return Event
+     * @return Event|\Illuminate\Support\MessageBag
      */
-    public function import(object $uploaded): Event
+    public function import()
     {
-        $file = storage_path('/../public/storage/' . $uploaded->filename);
-        Excel::queueImport(new RoomImport($uploaded), $file);
+        $uploaded = $this->upload();
 
-        return $this->emit('complete');
+        try {
+            Excel::import(new RoomImport, uploaded_path($uploaded->filename));
+
+            $this->remove();
+            return $this->success('Yosh..', 'Kelas berhasil diimport.');
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            return $this->addError('file', $e->failures()[0]->errors()[0]);
+        }
     }
 }

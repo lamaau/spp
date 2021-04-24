@@ -24,6 +24,20 @@ if (token) {
 }
 
 /**
+ * Input number add comma when typing
+ */
+var el = document.querySelector("input.number");
+if (el) {
+    el.addEventListener("keyup", function (event) {
+        if (event.which >= 37 && event.which <= 40) return;
+
+        this.value = this.value
+            .replace(/\D/g, "")
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    });
+}
+
+/**
  * Bootstraping file
  */
 require("./bootstrap");

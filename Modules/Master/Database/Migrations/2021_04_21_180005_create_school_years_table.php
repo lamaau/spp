@@ -16,7 +16,6 @@ class CreateSchoolYearsTable extends Migration
         Schema::create('school_years', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('year')->unique();
-            $table->bigInteger('bill');
             $table->text('description')->nullable();
             $table->uuid('created_by')->index();
             $table->uuid('updated_by')->nullable()->index();

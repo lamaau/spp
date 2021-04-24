@@ -16,7 +16,6 @@ class SchoolYearRequest extends FormRequest
     {
         return [
             'year' => 'Tahun ajaran',
-            'bill' => 'Biaya',
             'description' => 'Keterangan'
         ];
     }
@@ -29,8 +28,7 @@ class SchoolYearRequest extends FormRequest
     public function rules(string $id = null): array
     {
         return [
-            'year' => ['required', Rule::unique('school_years')->ignore($id)],
-            'bill' => ['required', 'integer'],
+            'year' => ['required', Rule::unique('school_years')->ignore($id)->whereNull('deleted_at')],
             'description' => ['nullable', 'min:3']
         ];
     }
