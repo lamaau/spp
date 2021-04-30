@@ -17,14 +17,44 @@
                 <h2 class="mb-4 text-xl font-semibold leading-tight text-center text-gray-800" x-text="title"></h2>
                 <div class="flex flex-col justify-center space-y-2 text-gray-800">
                     <div>
-                        <x-inputs.text name="name" label="nama" wire:model.defer="name" />
-                        <div x-data="select({ url: 'school-year', name: 'year' })" x-init="init()">
-                            <x-inputs.select name="school_year_id" label="tahun ajaran" :selected="$school_year_id"
-                                wire:model="school_year_id" />
+                        <div>
+                            <x-inputs.text
+                                name="name"
+                                label="nama"
+                                wire:model.defer="name"
+                            />
                         </div>
-                        <x-inputs.text name="nominal" class="number" label="nominal" wire:model.defer='nominal'
-                            wire:ignore />
-                        <x-inputs.textarea name="description" label="keterangan" wire:model.defer='description' />
+                        
+                        <div
+                            x-data="multipleSelect({
+                                name: 'country',
+                                placeholder: 'Pilih kelas',
+                                data: { au: 'Australia', be: 'Belgium', cn: 'China', fr: 'France', de: 'Germany', it: 'Italy', mx: 'Mexico', es: 'Spain', tr: 'Turkey', gb: 'United Kingdom', 'us': 'United States' },
+                            })"
+                            x-init="init()"
+                        >
+                            <x-inputs.multiple-select
+                                label="kelas"
+                                name="rooms"
+                                wire:model.defer="rooms"
+                            />
+                        </div>
+
+                        <div>
+                            <x-inputs.text 
+                                name="nominal"
+                                label="nominal"
+                                wire:model.defer='nominal'
+                            />
+                        </div>
+
+                        <div>
+                            <x-inputs.textarea 
+                                name="description"
+                                label="keterangan"
+                                wire:model.defer='description'
+                            />
+                        </div>
                     </div>
                     <div>
                         <button type="button" wire:click.prevent='save' x-show="save"

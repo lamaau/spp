@@ -146,7 +146,7 @@ class RoomDatatable extends TableComponent
         $this->dispatchBrowserEvent('delete-alert', [
             'id' => $id,
             'title' => 'Hapus Kelas?',
-            'message' => 'Tindakan ini akan menghapus kelas secara permanen, kelas yang telah dihapus tidak dapat dikembalikan.'
+            'message' => 'Menghapus data master membuat semua data yang berhubungan akan terhapus, data yang telah dihapus tidak dapat dikembalikan.'
         ]);
     }
 

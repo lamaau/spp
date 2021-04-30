@@ -1,20 +1,17 @@
 @props(['label', 'name'])
 
-<label class="block mt-2 mb-1 text-xs font-bold uppercase">{{ $label }}</label>
+<label class="mt-2 mb-1 text-xs font-bold uppercase">{{ $label }}</label>
 <div @click.away="closeListbox()" @keydown.escape="closeListbox()" class="relative mt-1">
     <span class="inline-block w-full rounded-md shadow-sm">
         <button type="button" x-ref="button" @click="toggleListboxVisibility()" :aria-expanded="open"
             aria-haspopup="listbox"
             class="relative z-0 w-full py-3 pl-3 pr-10 text-left transition duration-150 ease-in-out bg-white border rounded shadow cursor-default focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5 @error($name) border-red-500 @enderror">
-            <span x-show="! open" x-text="value in options ? options[value].name : placeholder"
-                :class="{ 'text-gray-500 my-2': !(value in options) }" class="block text-xs truncate"></span>
+            <span x-show="! open" x-text="value in options ? options[value] : placeholder"
+                :class="{ 'text-gray-500': !(value in options) }" class="block truncate"></span>
 
             <input x-ref="search" x-show="open" x-model="search" @keydown.enter.stop.prevent="selectOption()"
                 @keydown.arrow-up.prevent="focusPreviousOption()" @keydown.arrow-down.prevent="focusNextOption()"
                 type="search" class="w-full h-full border-none form-control focus:outline-none" />
-
-            {{-- value is here :) --}}
-            <input type="hidden" x-ref="selected" {{ $attributes }}>
 
             <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                 <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="none" stroke="currentColor">
@@ -32,14 +29,14 @@
             @keydown.arrow-up.prevent="focusPreviousOption()" @keydown.arrow-down.prevent="focusNextOption()"
             role="listbox" :aria-activedescendant="focusedOptionIndex ? name + 'Option' + focusedOptionIndex : null"
             tabindex="-1"
-            class="py-1 overflow-auto text-base leading-6 rounded-md shadow-xs scroll-component max-h-60 focus:outline-none sm:text-sm sm:leading-5">
+            class="py-1 overflow-auto text-base leading-6 rounded-md shadow-xs scroll-component max-h-40 focus:outline-none sm:text-sm sm:leading-5">
             <template x-for="(key, index) in Object.keys(options)" :key="index">
                 <li :id="name + 'Option' + focusedOptionIndex" @click="selectOption()"
                     @mouseenter="focusedOptionIndex = index" @mouseleave="focusedOptionIndex = null" role="option"
                     :aria-selected="focusedOptionIndex === index"
                     :class="{ 'text-white bg-indigo-600': index === focusedOptionIndex, 'text-gray-900': index !== focusedOptionIndex }"
                     class="relative py-2 pl-3 text-gray-900 cursor-default select-none pr-9">
-                    <span x-text="options[index].name"
+                    <span x-text="Object.values(options)[index]"
                         :class="{ 'font-semibold': index === focusedOptionIndex, 'font-normal': index !== focusedOptionIndex }"
                         class="block font-normal truncate"></span>
 
@@ -66,11 +63,10 @@
 
 @push('scripts')
     <script type="text/javascript">
-        function select(config) {
+        function multipleSelect(config) {
             return {
                 url: config.url,
                 data: config.data,
-                wireModel: '{{ $name }}',
                 emptyOptionsMessage: config.emptyOptionsMessage ?? 'No results match your search.',
                 focusedOptionIndex: null,
                 name: config.name,
@@ -79,7 +75,6 @@
                 placeholder: config.placeholder ?? null,
                 search: '',
                 value: config.value,
-                oldValue: config.old ?? null,
                 closeListbox: function() {
                     this.open = false
                     this.focusedOptionIndex = null
@@ -103,29 +98,25 @@
                     })
                 },
                 init: async function() {
-                    if (this.url) {
-                        let response = await axios.get(this.url);
-                        this.data = response.data.data;
-                        this.options = response.data.data;
-                    } else {
-                        this.options = this.data;
-                    }
+                    this.options = this.data
 
                     if (!(this.value in this.options)) this.value = null
                     this.$watch('search', ((value) => {
                         if (!this.open || !value) return this.options = this.data
-                        this.options = this.data.filter((key) => key.name.toLowerCase().includes(value
-                            .toLowerCase()));
+                        this.options = Object.keys(this.data)
+                            .filter((key) => this.data[key].toLowerCase().includes(value.toLowerCase()))
+                            .reduce((options, key) => {
+                                options[key] = this.data[key]
+                                return options
+                            }, {})
                     }))
                 },
                 selectOption: function() {
                     if (!this.open) return this.toggleListboxVisibility()
                     this.value = Object.keys(this.options)[this.focusedOptionIndex]
-                    @this.set(this.wireModel, this.options[this.focusedOptionIndex].id);
                     this.closeListbox()
                 },
                 toggleListboxVisibility: function() {
-
                     if (this.open) return this.closeListbox()
                     this.focusedOptionIndex = Object.keys(this.options).indexOf(this.value)
                     if (this.focusedOptionIndex < 0) this.focusedOptionIndex = 0
