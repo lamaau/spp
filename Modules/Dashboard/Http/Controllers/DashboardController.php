@@ -11,10 +11,9 @@ class DashboardController extends Controller
 {
     public function __invoke()
     {
-        DB::enableQueryLog();
-        $query = Room::query()->count();
-        // dd(DB::getQueryLog());
-        
-        return view('dashboard::index', ['title' => 'Dashboard', 'rooms' => Room::query()->get()]);
+        return view('dashboard::index', [
+            'title' => 'Dashboard',
+            'rooms' => Room::query()->get()
+        ]);
     }
 }

@@ -28,10 +28,8 @@ class RoomDatatable extends TableComponent
     public $name = null;
     public $description = null;
 
-    /** @var string table component */
-    public $sortField = 'name';
-    public $sortDirection = 'asc';
-    public $optionComponentView = 'master::room.table-component';
+    /** @var string right table component */
+    public $rightTableComponent = 'master::room.component';
 
     /** @var string file upload and import */
     protected $importModel = Room::class;
@@ -111,10 +109,10 @@ class RoomDatatable extends TableComponent
 
         if (resolve(\Modules\Master\Repository\RoomRepository::class)->save($validated)) {
             $this->resetValue();
-            return $this->success('Yosh..', 'Kelas berhasil ditambahkan.');
+            return $this->success('Berhasil!', 'Kelas berhasil ditambahkan.');
         }
 
-        return $this->error('Oopss..', 'Maaf, terjadi kesalahan.');
+        return $this->error('Oopss!', 'Maaf, terjadi kesalahan.');
     }
 
     public function edit(string $id): Event
@@ -132,22 +130,7 @@ class RoomDatatable extends TableComponent
     {
         $validated = $this->validate($this->request->rules($this->pid), [], $this->request->attributes());
         $this->query->update($validated);
-        return $this->success('Yosh..', 'Kelas berhasil diubah.');
-    }
-
-    /**
-     * Want to delete
-     *
-     * @param string $id
-     * @return Event
-     */
-    public function destroy(string $id)
-    {
-        $this->dispatchBrowserEvent('delete-alert', [
-            'id' => $id,
-            'title' => 'Hapus Kelas?',
-            'message' => 'Menghapus data master membuat semua data yang berhubungan akan terhapus, data yang telah dihapus tidak dapat dikembalikan.'
-        ]);
+        return $this->success('Berhasil!', 'Kelas berhasil diubah.');
     }
 
     /**
@@ -159,16 +142,13 @@ class RoomDatatable extends TableComponent
     public function delete(string $id): Event
     {
         if (resolve(\Modules\Master\Repository\RoomRepository::class)->delete($id)) {
-            return $this->success('Yosh..', 'Kelas berhasil dihapus.');
+            return $this->success('Berhasil!', 'Kelas berhasil dihapus.');
         }
 
-        return $this->error('Oopss..', 'Maaf, terjadi kesalahan.');
+        return $this->error('Oopss!', 'Maaf, terjadi kesalahan.');
     }
 
-    /**
-     * Upload and import
-     * -----------------------------------------------
-     */
+    public $test;
 
     /**
      * Get import class
@@ -183,7 +163,7 @@ class RoomDatatable extends TableComponent
             Excel::import(new RoomImport, uploaded_path($uploaded->filename));
 
             $this->remove();
-            return $this->success('Yosh..', 'Kelas berhasil diimport.');
+            return $this->success('Berhasil!', 'Kelas berhasil diimport.');
         } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
             return $this->addError('file', $e->failures()[0]->errors()[0]);
         }

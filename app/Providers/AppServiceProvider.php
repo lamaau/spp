@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,10 +26,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Blade::component('layouts.home', 'home-layout');
-        Blade::component('layouts.base', 'base-layout');
         Blade::component('layouts.app',  'app-layout');
         Blade::component('layouts.auth', 'auth-layout');
+
         $this->loadViewsFrom(resource_path('views/datatables'), 'datatable');
     }
 }

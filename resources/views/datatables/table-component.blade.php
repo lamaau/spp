@@ -1,21 +1,27 @@
 <div>
-    @include('datatable::includes.options')
+    <section class="section">
+        <div class="section-body">
+            <div class="card">
+                <div class="py-3 border-0 card-header d-flex align-items-center">
+                    @include('datatable::includes.options')
+                </div>
 
-    <div class="px-4 py-4 -mx-4 overflow-x-auto sm:-mx-8 sm:px-8 scroll-component">
-        <div class="inline-block min-w-full overflow-hidden rounded-lg shadow">
-            <table class="min-w-full leading-normal">
-                @include('datatable::includes.thead')
+                <div class="p-0 card-body">
+                    <table class="table mb-0 table-bordered">
+                        <thead>
+                            @include('datatable::includes.columns')
+                        </thead>
+                        <tbody>
+                            @includeWhen($models->isEmpty(), 'datatable::includes.empty')
+                            @includeWhen($models->isNotEmpty(), 'datatable::includes.data')
+                        </tbody>
+                    </table>
+                </div>
 
-                @if ($models->isEmpty())
-                    @include('datatable::includes.empty')
-                @else
-                    @include('datatable::includes.data')
-                @endif
-
-                </tbody>
-            </table>
-            @includeWhen($paginationEnabled, 'datatable::includes.pagination')
+                <div class="card-footer bg-whitesmoke d-flex align-items-center">
+                    {{ $models->links() }}
+                </div>
+            </div>
         </div>
-    </div>
-
+    </section>
 </div>

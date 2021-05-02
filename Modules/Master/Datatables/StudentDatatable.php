@@ -40,9 +40,6 @@ class StudentDatatable extends TableComponent
             }),
             Column::make('kelas', 'room_id')->format(function (Student $model) {
                 return $model->room->name;
-            }),
-            Column::make('aksi')->format(function (Student $model) {
-                return view('master::student.action', ['model' => $model]);
             })
         ];
     }

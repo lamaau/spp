@@ -2,34 +2,36 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="{{ url(asset('favicon.ico')) }}">
-    <!-- Fonts -->
-    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
-    <!-- Styles -->
-    <link rel="stylesheet" href="{{ url(mix('css/app.css')) }}">
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+    <title>{{ $title }} &mdash; Stisla</title>
+
     @livewireStyles
-    <!-- Scripts -->
-    <script src="{{ url(mix('js/app.js')) }}" defer></script>
-    <!-- CSRF Token -->
-    @if ($title ?? false)
-        <title>{{ config('app.name') }} - {{ $title }}</title>
-    @else
-        <title>{{ config('app.name') }}</title>
-    @endif
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <!-- General CSS Files -->
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
 </head>
 
 <body>
-    <div class="relative flex flex-col justify-center min-h-screen bg-gray-200">
-        @yield('content')
-    </div>
+    <section class="section">
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
+                    <div class="login-brand">
+                        <img src="assets/img/stisla-fill.svg" alt="logo" width="100"
+                            class="shadow-light rounded-circle">
+                    </div>
+                    @yield('content')
+                </div>
+            </div>
+        </div>
+    </section>
 
     @livewireScripts
-
-    {{ $javascript ?? '' }}
 </body>
 
 </html>

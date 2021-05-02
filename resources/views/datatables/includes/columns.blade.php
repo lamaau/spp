@@ -2,22 +2,26 @@
     @foreach ($columns as $column)
         @if ($column->isVisible())
             @if ($column->isSortable())
-                <th class="{{ $this->setTableHeadClass($column->getAttribute()) }} w-4 p-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
+                <th class="{{ $this->setTableHeadClass($column->getAttribute()) }} text-uppercase"
                     id="{{ $this->setTableHeadId($column->getAttribute()) }}" @foreach ($this->setTableHeadAttributes($column->getAttribute()) as $key => $value) {{ $key }}="{{ $value }}" @endforeach
-                    wire:click="sort('{{ $column->getAttribute() }}')" style="cursor:pointer;">
+                    wire:click="sort('{{ $column->getAttribute() }}')"
+                    style="cursor:pointer; background-color: #fff;border-bottom:1px solid #f6f6f6">
                     {{ $column->getText() }}
 
-                    @if ($sortField !== $column->getAttribute())
-                        {{ new \Illuminate\Support\HtmlString($sortDefaultIcon) }}
-                    @elseif ($sortDirection === 'asc')
-                        {{ new \Illuminate\Support\HtmlString($ascSortIcon) }}
-                    @else
-                        {{ new \Illuminate\Support\HtmlString($descSortIcon) }}
-                    @endif
+                    <span style="float: right;">
+                        @if ($sortField !== $column->getAttribute())
+                            {{ new \Illuminate\Support\HtmlString($sortDefaultIcon) }}
+                        @elseif ($sortDirection === 'asc')
+                            {{ new \Illuminate\Support\HtmlString($ascSortIcon) }}
+                        @else
+                            {{ new \Illuminate\Support\HtmlString($descSortIcon) }}
+                        @endif
+                    </span>
                 </th>
             @else
-                <th class="{{ $this->setTableHeadClass($column->getAttribute()) }} w-4 p-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase bg-gray-100 border-b-2 border-gray-200"
-                    id="{{ $this->setTableHeadId($column->getAttribute()) }}" @foreach ($this->setTableHeadAttributes($column->getAttribute()) as $key => $value) {{ $key }}="{{ $value }}" @endforeach>
+                <th class="{{ $this->setTableHeadClass($column->getAttribute()) }} text-uppercase"
+                    id="{{ $this->setTableHeadId($column->getAttribute()) }}" @foreach ($this->setTableHeadAttributes($column->getAttribute()) as $key => $value) {{ $key }}="{{ $value }}" @endforeach
+                    style="cursor:pointer; background-color: #fff;border-bottom:1px solid #f6f6f6">
                     @if (strtolower($column->getText()) === 'checkbox')
                         @include('datatable::includes.checkbox-all')
                     @else

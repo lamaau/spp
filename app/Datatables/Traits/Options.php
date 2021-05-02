@@ -15,18 +15,18 @@ trait Options
     public $loadingEnabled = true;
 
     /**
-     * Display add button
+     * Left table component
      *
      * @var boolean
      */
-    public $optionComponentEnabled = true;
+    public $leftTableComponent = false;
 
     /**
-     * Display option component view
-     *
-     * @var string
+     * Right table component
+     * 
+     * @var boolean
      */
-    public $optionComponentView = 'datatable::includes.component-action';
+    public $rightTableComponent = false;
 
     /**
      * Default cog list

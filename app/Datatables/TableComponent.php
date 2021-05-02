@@ -38,7 +38,7 @@ abstract class TableComponent extends Component
      *
      * @var string
      */
-    public $paginationTheme = 'tailwind';
+    public $paginationTheme = 'bootstrap';
 
     /**
      * Query for the table

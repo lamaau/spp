@@ -6,13 +6,23 @@ use Livewire\Event;
 
 trait Notify
 {
-    public function success(string $title, string $message): Event
+    protected function e(string $color, string $title, string $message, string $position = 'topRight'): Event
     {
-        return $this->emit('notice', ['type' => 'success', 'title' => $title, 'message' => $message]);
+        return $this->emit('notify', ['color' => $color, 'title' => $title, 'message' => $message, 'position' => $position]);
     }
 
-    public function error(string $title, string $message): Event
+    public function error(string $title, string $message, string $position = 'topRight'): Event
     {
-        return $this->emit('notice', ['type' => 'error', 'title' => $title, 'message' => $message]);
+        return $this->e('red', $title, $message, $position);
+    }
+
+    public function info(string $title, string $message, string $position = 'topRight'): Event
+    {
+        return $this->e('blue', $title, $message, $position);
+    }
+
+    public function success(string $title, string $message, string $position = 'topRight'): Event
+    {
+        return $this->e('green', $title, $message, $position);
     }
 }

@@ -67,10 +67,6 @@ class SchoolYearDatatable extends TableComponent
                 ->format(function (SchoolYear $model) {
                     return date('F d, Y', strtotime($model->created_at));
                 }),
-            Column::make('aksi')
-                ->format(function (SchoolYear $model) {
-                    return view('master::room.action', ['model' => $model]);
-                })
         ];
     }
 
