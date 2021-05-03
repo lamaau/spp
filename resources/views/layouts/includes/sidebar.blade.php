@@ -30,7 +30,7 @@
                 </a>
             </li>
 
-            <li class="{{ active('student') }}">
+            <li class="{{ active('student*') }}">
                 <a class="nav-link" href="{{ route('master.student.index') }}">
                     <i class="fas fa-fire"></i>
                     <span>Siswa</span>

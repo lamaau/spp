@@ -16,9 +16,9 @@ class CreateBillsTable extends Migration
         Schema::create('bills', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
-            $table->uuid('school_year_id');
             $table->bigInteger('nominal');
             $table->text('description')->nullable();
+            $table->boolean('monthly')->default(false)->comment('true is monthly, else not');
             $table->uuid('created_by')->index();
             $table->uuid('updated_by')->index()->nullable();
             $table->uuid('deleted_by')->index()->nullable();

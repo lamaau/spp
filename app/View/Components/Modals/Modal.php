@@ -6,6 +6,7 @@ use Illuminate\View\Component;
 
 class Modal extends Component
 {
+    /** @var string */
     public $id;
     public $title;
 

@@ -1,5 +1,5 @@
-<div wire:ignore.self class="modal fade" tabindex="-1" id="import" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
+<div wire:ignore.self class="modal fade" tabindex="-1" id="{{ $id }}" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <form>
             <div class="modal-content">

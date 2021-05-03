@@ -63,7 +63,7 @@ class RoomDatatable extends TableComponent
                 ->format(function (Room $model) {
                     return $model->description ?? '-';
                 }),
-            Column::make('jumlah siswa', 'id')
+            Column::make('jumlah siswa', 'students_count')
                 ->sortable()
                 ->format(function (Room $model) {
                     return $model->students_count;

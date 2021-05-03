@@ -15,7 +15,7 @@ class BillRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'school_year_id' => ['required', 'string'],
+            'monthly' => ['nullable'],
             'nominal' => ['required', 'integer'],
             'description' => ['nullable', 'min:3', 'string']
         ];
@@ -30,7 +30,7 @@ class BillRequest extends FormRequest
     {
         return [
             'name' => 'Nama',
-            'school_year_id' => 'Tahun ajaran',
+            'monthly' => 'Bulanan',
             'description' => 'Keterangan'
         ];
     }

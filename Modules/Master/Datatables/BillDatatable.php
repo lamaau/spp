@@ -22,16 +22,21 @@ class BillDatatable extends TableComponent
         HtmlComponents,
         Notify;
 
+    public $years;
+    public $title;
+
+    public $state = false;
+
     /** @var string */
     public $pid;
     public $query;
     public $name = null;
-    public $school_year_id = null;
+    public $monthly = false;
     public $nominal = null;
     public $description = null;
 
     /** @var string table component */
-    public $optionComponentView = 'master::bill.table-component';
+    public $rightTableComponent = 'master::bill.component';
 
     /** @var string file upload and import */
     protected $importModel = Room::class;
@@ -60,17 +65,17 @@ class BillDatatable extends TableComponent
             Column::make('nama', 'name')
                 ->searchable()
                 ->sortable(),
-            Column::make('tahun ajaran', 'school_year_id')
-                ->searchable()
-                ->sortable()
-                ->format(function (Bill $model) {
-                    return $model->year->year;
-                }),
             Column::make('nominal')
                 ->searchable()
                 ->sortable()
                 ->format(function (Bill $model) {
                     return idr($model->nominal);
+                }),
+            Column::make('bulanan', 'monthly')
+                ->searchable()
+                ->sortable()
+                ->format(function (Bill $model) {
+                    return ($model->monthly) ? 'Ya' : 'Tidak';
                 }),
             Column::make('keterangan', 'description')
                 ->searchable()
@@ -98,15 +103,17 @@ class BillDatatable extends TableComponent
     public function resetValue(): void
     {
         $this->name = null;
-        $this->school_year_id = null;
+        $this->monthly = false;
         $this->nominal = null;
         $this->description = null;
     }
 
     public function create(): Event
     {
+        $this->state = true;
+        $this->title = "Tambah Tagihan";
         $this->resetValue();
-        return $this->emit('create');
+        return $this->emit('modal-toggle');
     }
 
     /**
@@ -122,30 +129,31 @@ class BillDatatable extends TableComponent
 
         if (resolve(\Modules\Master\Repository\BillRepository::class)->save($validated)) {
             $this->resetValue();
-            return $this->success('Yosh..', 'Tagihan berhasil ditambahkan.');
+            return $this->success('Berhasil!', 'Tagihan telah ditambahkan.');
         }
 
-        return $this->error('Oopss..', 'Maaf, terjadi kesalahan.');
+        return $this->error('Oopss!', 'Maaf, terjadi kesalahan.');
     }
 
     public function edit(string $id): Event
     {
+        $this->state = false;
+        $this->title = "Ubah Tagihan";
         $this->pid = $id;
         $this->query = $this->query()->where('id', $id)->first();
-
         $this->name = $this->query->name;
-        $this->school_year_id = $this->query->school_year_id;
+        $this->monthly = $this->query->monthly;
         $this->nominal = $this->query->nominal;
         $this->description = $this->query->description;
 
-        return $this->emit('edit', $id);
+        return $this->emit('modal-toggle');
     }
 
     public function update(): Event
     {
         $validated = $this->validate($this->request->rules($this->pid), [], $this->request->attributes());
         $this->query->update($validated);
-        return $this->success('Yosh..', 'Tagihan berhasil diubah.');
+        return $this->success('Berhasil!', 'Tagihan telah diubah.');
     }
 
     /**
@@ -172,10 +180,10 @@ class BillDatatable extends TableComponent
     public function delete(string $id): Event
     {
         if (resolve(\Modules\Master\Repository\BillRepository::class)->delete($id)) {
-            return $this->success('Yosh..', 'Tagihan berhasil dihapus.');
+            return $this->success('Berhasil!', 'Tagihan telah dihapus.');
         }
 
-        return $this->error('Oopss..', 'Maaf, terjadi kesalahan.');
+        return $this->error('Oopss!', 'Maaf, terjadi kesalahan.');
     }
 
     /**
@@ -196,7 +204,7 @@ class BillDatatable extends TableComponent
             Excel::import(new RoomImport, uploaded_path($uploaded->filename));
 
             $this->remove();
-            return $this->success('Yosh..', 'Tagihan berhasil diimport.');
+            return $this->success('Berhasil!', 'Tagihan telah diimport.');
         } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
             return $this->addError('file', $e->failures()[0]->errors()[0]);
         }

@@ -16,13 +16,13 @@ class CreateStudentsTable extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
+            $table->string('nis')->nullable();
             $table->string('nisn')->nullable();
             $table->string('email')->unique()->nullable();
             $table->string('phone')->nullable();
             $table->integer('religion');
-            $table->integer('status');
+            $table->integer('status')->comment('aktif, pindah, berhenti, lulus, etc');
             $table->integer('sex');
-            $table->string('force')->comment('angkatan');
             $table->uuid('room_id')->index();
             $table->uuid('created_by')->index();
             $table->uuid('updated_by')->nullable()->index();

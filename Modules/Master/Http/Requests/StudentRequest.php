@@ -17,6 +17,7 @@ class StudentRequest extends FormRequest
     {
         return [
             'name' => 'Nama',
+            'nis' => 'Nomor induk siswa',
             'nisn' => 'Nomor induk siswa nasional',
             'sex' => 'Jenis Kelamin',
             'email' => 'Alamat email',
@@ -36,13 +37,12 @@ class StudentRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'min:3'],
-            'nisn' => ['required', 'string', 'min:4', Rule::unique('students')->ignore(request()->route('id'))],
+            'nis' => ['nullable', 'min:11', Rule::unique('students')->ignore(request()->route('id'))],
+            'nisn' => ['nullable', 'min:11', Rule::unique('students')->ignore(request()->route('id'))],
             'sex' => ['required'],
-            'email' => ['required', 'email', Rule::unique('students')->ignore(request()->route('id'))],
-            'phone' => ['nullable', 'min:11', 'string'],
+            'email' => ['nullable', 'email', Rule::unique('students')->ignore(request()->route('id'))],
+            'phone' => ['nullable', 'min:11'],
             'religion' => ['required', 'string'],
-            'status' => ['required'],
-            'force' => ['required'],
             'room_id' => ['required', 'string'],
         ];
     }
@@ -56,14 +56,13 @@ class StudentRequest extends FormRequest
     {
         return [
             'name' => $this->name,
+            'nis' => $this->nis,
             'nisn' => $this->nisn,
             'sex' => $this->sex,
             'email' => $this->email,
             'phone' => $this->phone,
-            'status' => $this->status,
             'religion' => $this->religion,
             'room_id' => $this->room_id,
-            'force' => $this->force,
             'created_by' => Auth::id(),
         ];
     }

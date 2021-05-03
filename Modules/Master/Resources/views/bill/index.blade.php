@@ -9,5 +9,5 @@
         </div>
     </section>
 
-    <livewire:bill-datatable :title="$title" />
+    <livewire:bill-datatable :title="$title" :years="$years" />
 </x-app-layout>

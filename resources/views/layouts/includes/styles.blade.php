@@ -8,9 +8,21 @@
     integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
     crossorigin="anonymous" />
 
-{{-- toastr --}}
+{{-- CSS Library --}}
 <link rel="stylesheet" href="https://demo.getstisla.com/assets/modules/izitoast/css/iziToast.min.css">
+<link rel="stylesheet" href="https://demo.getstisla.com/assets/modules/select2/dist/css/select2.min.css">
 
 <!-- Template CSS -->
 <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
+
+<style type="text/css">
+    .has-error .select2-selection {
+        border-color: #dc3545 !important;
+    }
+
+    .is-invalid-select2 + .select2 .select2-selection {
+        border-color: #dc3545 !important;
+    }
+
+</style>

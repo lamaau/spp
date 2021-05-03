@@ -39,14 +39,4 @@ class Bill extends Model
      * @var string
      */
     protected $table = 'bills';
-
-    /**
-     * Get year
-     *
-     * @return BelongsTo
-     */
-    public function year(): BelongsTo
-    {
-        return $this->belongsTo(SchoolYear::class, 'school_year_id');
-    }
 }

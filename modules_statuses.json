@@ -1,5 +1,6 @@
 {
     "Dashboard": true,
     "Master": true,
-    "Payment": true
+    "Payment": true,
+    "Report": true
 }
