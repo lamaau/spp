@@ -42,6 +42,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/edit/{id}', [StudentController::class, 'edit'])->name('edit');
             Route::put('/update/{id}', [StudentController::class, 'update'])->name('update');
             Route::delete('/delete/{id}', [StudentController::class, 'destroy'])->name('destroy');
+            Route::get('setting-room', [StudentController::class, 'settingRoom'])->name('setting-room');
         });
     });
 });

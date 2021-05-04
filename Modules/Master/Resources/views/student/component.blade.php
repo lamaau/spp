@@ -8,8 +8,7 @@
             <i class="fas fa-cog"></i>
         </button>
         <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-start">
-            <a class="dropdown-item" href="#">Kenaikan Kelas</a>
-            <a class="dropdown-item" href="#">Perpindahan Kelas</a>
+            <a class="dropdown-item" href="{{ route('master.student.setting-room') }}">Atur Kelas</a>
         </div>
     </div>
 </div>

@@ -65,7 +65,7 @@
         <div class="p-3 mt-4 mb-4 hide-sidebar-mini">
             <a href="documentation.html" class="btn btn-primary btn-lg btn-icon-split btn-block">
                 <i class="far fa-question-circle"></i>
-                <div>Documentation</div>
+                <div>Dokumentasi</div>
             </a>
         </div>
     </aside>

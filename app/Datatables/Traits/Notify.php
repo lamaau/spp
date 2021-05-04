@@ -16,6 +16,11 @@ trait Notify
         return $this->e('red', $title, $message, $position);
     }
 
+    public function warning(string $title, string $message, string $position = 'topRight'): Event
+    {
+        return $this->e('yellow', $title, $message, $position);
+    }
+
     public function info(string $title, string $message, string $position = 'topRight'): Event
     {
         return $this->e('blue', $title, $message, $position);

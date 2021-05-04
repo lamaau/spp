@@ -8,4 +8,6 @@
             </div>
         </div>
     </section>
+
+    <livewire:payment :students="$students" :bills="$bills" />
 </x-app-layout>

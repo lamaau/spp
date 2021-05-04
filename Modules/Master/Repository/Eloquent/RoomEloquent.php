@@ -17,7 +17,7 @@ class RoomEloquent implements RoomRepository
 
     public function all()
     {
-        return $this->room->all();
+        return $this->room->query()->select(['id', 'name'])->orderBy('name', 'asc')->get();
     }
 
     public function save(array $request): bool

@@ -5,7 +5,7 @@
                 <th class="{{ $this->setTableHeadClass($column->getAttribute()) }} text-uppercase"
                     id="{{ $this->setTableHeadId($column->getAttribute()) }}" @foreach ($this->setTableHeadAttributes($column->getAttribute()) as $key => $value) {{ $key }}="{{ $value }}" @endforeach
                     wire:click="sort('{{ $column->getAttribute() }}')"
-                    style="cursor:pointer; background-color: #fff;border-bottom:1px solid #f6f6f6">
+                    style="cursor:pointer; background-color: #fff;border-bottom:1px solid #f6f6f6;">
                     {{ $column->getText() }}
 
                     <span style="float: right;">
@@ -21,7 +21,7 @@
             @else
                 <th class="{{ $this->setTableHeadClass($column->getAttribute()) }} text-uppercase"
                     id="{{ $this->setTableHeadId($column->getAttribute()) }}" @foreach ($this->setTableHeadAttributes($column->getAttribute()) as $key => $value) {{ $key }}="{{ $value }}" @endforeach
-                    style="cursor:pointer; background-color: #fff;border-bottom:1px solid #f6f6f6">
+                    style="background-color: #fff;border-bottom:1px solid #f6f6f6; {{ strtolower($column->getText()) === 'checkbox' ? 'width: 1em;' : 'cursor: pointer;' }}">
                     @if (strtolower($column->getText()) === 'checkbox')
                         @include('datatable::includes.checkbox-all')
                     @else

@@ -822,8 +822,8 @@ select.form-control:not([size]):not([multiple]) {
     align-items: center;
 }
 .card .card-header .btn {
-    /* margin-top: 1px;
-    padding: 2px 15px; */
+    margin-top: 1px;
+    /* padding: 2px 15px; */
 }
 .card .card-header .btn:not(.note-btn) {
     /* border-radius: 30px; */
@@ -832,9 +832,9 @@ select.form-control:not([size]):not([multiple]) {
     box-shadow: none;
 }
 .card .card-header .form-control {
-    /* height: 31px;
+    /* height: 31px; */
     font-size: 13px;
-    border-radius: 30px; */
+    /* border-radius: 30px; */
 }
 .card .card-header .form-control + .input-group-btn .btn {
     margin-top: -1px;

@@ -1,1 +1,1 @@
-<input type="checkbox" wire:model="checkbox_values" class="border border-gray-300 rounded" />
+<input type="checkbox" wire:model="checkbox_values" style="cursor: pointer;" value="{{ $model->{$checkbox_attribute} }}" />

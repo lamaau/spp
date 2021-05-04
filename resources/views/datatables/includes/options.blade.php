@@ -1,4 +1,4 @@
-<div class="align-self-start">
+<div class="align-self-start col-sm-8 col-md-6">
     <div class="form-inline">
         <select wire:model='perPage' class="form-control">
             @foreach ($perPageOptions as $option)

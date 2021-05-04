@@ -1,7 +1,8 @@
 @props([
-    'label',
     'name',
     'data',
+    'id' => null,
+    'label' => null,
     'text' => null,
     'value' => null,
     'key' => null,
@@ -9,14 +10,16 @@
 ])
 
 <div class="@error($name) has-error @enderror">
-    <label for="{{ $name }}" class="text-capitalize">
-        {{ $label }}
-    
-        @if ($required)
-            <small class="required text-danger">*</small>
-        @endif
-    </label>
-    <select class="form-control select2 @error($name) is-invalid-select2 @enderror" name="{{ $name }}" id="{{ $name }}">
+    @if ($label)
+        <label for="{{ $id ?? $name }}" class="text-capitalize text-dark">
+            {{ $label }}
+        
+            @if ($required)
+                <small class="required text-danger">*</small>
+            @endif
+        </label>
+    @endif
+    <select wire:ignore class="form-control select2 @error($name) is-invalid-select2 @enderror" name="{{ $name }}" id="{{ $id ?? $name }}">
         <option></option>
         @foreach ($data as $item)
             <option value="{{ $item->$key }}" {{old($name, $value) == $item->$key  ? 'selected' : ''}}>{{ $item->$text }}</option>

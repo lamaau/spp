@@ -7,18 +7,33 @@ use Modules\Master\Entities\Room;
 use Illuminate\Routing\Controller;
 use Modules\Master\Constants\SexConstant;
 use Illuminate\Contracts\Support\Renderable;
+use Modules\Master\Repository\RoomRepository;
 use Modules\Master\Constants\ReligionConstant;
 use Modules\Master\Http\Requests\StudentRequest;
 use Modules\Master\Repository\StudentRepository;
 
 class StudentController extends Controller
 {
+    /** @var RoomRepository */
+    protected $room;
+
     /** @var StudentRepository */
     protected $student;
 
-    public function __construct(StudentRepository $student)
-    {
+    public function __construct(
+        RoomRepository $room,
+        StudentRepository $student
+    ) {
+        $this->room = $room;
         $this->student = $student;
+    }
+
+    public function settingRoom(): Renderable
+    {
+        return view('master::student.room.index', [
+            'title' => 'Atur Kelas',
+            'rooms' => $this->room->all(),
+        ]);
     }
 
     public function index(): Renderable
@@ -30,9 +45,9 @@ class StudentController extends Controller
     {
         return view('master::student.create', [
             'title' => 'Tambah Siswa',
+            'rooms' => $this->room->all(),
             'sexuals' => SexConstant::labels(),
             'religions' => ReligionConstant::labels(),
-            'rooms' => Room::query()->select(['id', 'name'])->get(),
         ]);
     }
 
@@ -54,10 +69,10 @@ class StudentController extends Controller
     {
         return view('master::student.edit', [
             'title' => 'Tambah Siswa',
-            'row' => $this->student->findOrFail($id),
+            'rooms' => $this->room->all(),
             'sexuals' => SexConstant::labels(),
+            'row' => $this->student->findOrFail($id),
             'religions' => ReligionConstant::labels(),
-            'rooms' => Room::query()->select(['id', 'name'])->get(),
         ]);
     }
 

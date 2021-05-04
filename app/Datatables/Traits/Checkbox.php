@@ -4,12 +4,14 @@ namespace App\Datatables\Traits;
 
 trait Checkbox
 {
-
-    /** @var checkbox */
+    /** @var string */
     public $checkbox_attribute = 'id';
+
+    /** @var array */
     public $checkbox_values    = [];
-    public $checkbox           = false;
-    public $checkbox_all       = false;
+
+    /** @var bool */
+    public $checkbox_all = false;
 
     /**
      * Reset the checkbox
@@ -23,7 +25,27 @@ trait Checkbox
     }
 
     /**
-     * Updated the checkbox values
+     * Updating the checkbox all
+     * 
+     * @return void
+     */
+    public function updatingCheckboxAll(): void
+    {
+        $this->checkbox_values = [];
+    }
+
+    /**
+     * Update the checkbox values
+     * 
+     * @return void
+     */
+    public function updatingCheckboxValues(): void
+    {
+        $this->checkbox_values = [];
+    }
+
+    /**
+     * Updatedt the checkbox values
      * 
      * @return void
      */
