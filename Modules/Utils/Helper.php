@@ -1,5 +1,34 @@
 <?php
 
+use Illuminate\Support\Carbon;
+
+if (!function_exists('create_date')) {
+    /**
+     * Create date
+     *
+     * @param  string $month
+     * @return string
+     */
+    function create_date($month): string
+    {
+        $y = date('Y');
+        return "$y-$month-1";
+    }
+}
+
+if (!function_exists('format_date')) {
+    /**
+     * Convert readable date
+     *
+     * @param  string $date
+     * @return string
+     */
+    function format_date($date): string
+    {
+        return Carbon::parse($date)->translatedFormat('d F Y');
+    }
+}
+
 if (!function_exists('notify')) {
     /**
      * Notification
@@ -43,12 +72,12 @@ if (!function_exists('idr')) {
     /**
      * Format currency idr format
      *
-     * @param string $bill
+     * @param string|int $bill
      * @return string
      */
-    function idr(string $bill): string
+    function idr($bill = 0): string
     {
-        return "Rp " . number_format($bill, 0, ",", ".");
+        return "Rp " . number_format((float)$bill, 0, ",", ".");
     }
 }
 

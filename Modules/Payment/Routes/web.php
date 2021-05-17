@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('payment')->as('payment.')->group(function () {
-    Route::get('/', PaymentController::class)->name('index');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::prefix('payment')->as('payment.')->group(function () {
+        Route::get('/', PaymentController::class)->name('index');
+    });
 });

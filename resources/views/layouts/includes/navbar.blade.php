@@ -91,9 +91,14 @@
                     <i class="fas fa-cog"></i> Settings
                 </a>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item has-icon text-danger">
+                <a href="{{ route('logout') }}" class="dropdown-item has-icon text-danger"
+                    onclick="event.preventDefault(); document.getElementById('logout').submit();">
                     <i class="fas fa-sign-out-alt"></i> Logout
                 </a>
+                <form action="{{ route('logout') }}" method="post" id="logout" style="display: none;">
+                    @csrf
+                    @method('post')
+                </form>
             </div>
         </li>
     </ul>

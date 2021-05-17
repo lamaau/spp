@@ -13,12 +13,12 @@
                 <div class="form-group">
                     <div class="d-block">
                         <div class="float-right">
-                            <a href="auth-forgot-password.html" class="text-small">
+                            <a href="#" class="text-small">
                                 Forgot Password?
                             </a>
                         </div>
                     </div>
-                    <x-inputs.text label="password" name="password" wire:model.lazy='password' />
+                    <x-inputs.password label="password" name="password" wire:model.lazy='password' />
                 </div>
 
                 <div class="form-group">

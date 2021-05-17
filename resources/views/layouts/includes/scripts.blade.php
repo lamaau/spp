@@ -8,13 +8,11 @@
 <script src="https://demo.getstisla.com/assets/modules/sweetalert/sweetalert.min.js"></script>
 <script src="https://demo.getstisla.com/assets/modules/izitoast/js/iziToast.min.js"></script>
 <script src="https://demo.getstisla.com/assets/modules/select2/dist/js/select2.full.min.js"></script>
-
+<script src="https://demo.getstisla.com/assets/modules/moment.min.js"></script>
 <script src="https://demo.getstisla.com/assets/js/scripts.js"></script>
 
 {{-- Livewire --}}
 {!! Livewire::scripts() !!}
-
-@stack('scripts')
 
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', () => {
@@ -42,10 +40,10 @@
         <script type="text/javascript">
             @foreach ($values as $value)
                 iziToast.show({
-                color: "{{ $value['color'] }}",
-                title: "{{ $value['title'] }}",
-                message: "{{ $value['message'] }}",
-                position: "{{ $value['position'] }}",
+                    color: "{{ $value['color'] }}",
+                    title: "{{ $value['title'] }}",
+                    message: "{{ $value['message'] }}",
+                    position: "{{ $value['position'] }}",
                 });
             @endforeach
 
@@ -55,3 +53,21 @@
         session()->forget('notify');
     @endphp
 @endif
+
+<script type="text/javascript">
+    function customSelect(element, object, callable = null) {
+        $(element).select2({
+            allowClear: object.allowClear ?? false,
+            placeholder: object.placeholder
+        });
+
+        if (callable) {
+            $(element).on('change', (e) => {
+                callable(e);
+            })
+        }
+    }
+
+</script>
+
+@stack('scripts')

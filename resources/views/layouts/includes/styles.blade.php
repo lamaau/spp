@@ -17,6 +17,12 @@
 <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
 
 <style type="text/css">
+    .daterangepicker td.active,
+    .daterangepicker td.active:hover {
+        color: #fff;
+        background-color: #6777ef !important;
+    }
+
     /* custom for select2 */
     .custom-select-icon .select2-selection__arrow>b {
         display: none;

@@ -4142,3 +4142,11 @@ body:not(.sidebar-mini)
 .input-file-icon {
     font-size: 30px;
 }
+
+.not-allowed {
+    cursor: not-allowed !important;
+}
+
+.thead-dark {
+    background-color:rgba(0, 0, 0, 0.02)!important;
+}

@@ -39,4 +39,28 @@ class Bill extends Model
      * @var string
      */
     protected $table = 'bills';
+
+    protected $casts = [
+        'monthly' => 'boolean',
+    ];
+
+    /**
+     * Nominal in idr
+     *
+     * @return string
+     */
+    public function getNominalIdrAttribute()
+    {
+        return idr($this->nominal);
+    }
+
+    /**
+     * Monthly state
+     *
+     * @return void
+     */
+    public function getBillMonthlyAttribute()
+    {
+        return $this->monthly ? 'Ya' : 'Tidak';
+    }
 }
