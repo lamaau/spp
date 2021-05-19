@@ -9,5 +9,9 @@
         </div>
     </section>
 
-    <livewire:payment />
+    <livewire:payment
+        :bills="$bills"
+        :years="$years"
+        :students="$students"
+    />
 </x-app-layout>

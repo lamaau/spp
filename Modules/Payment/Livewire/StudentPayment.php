@@ -16,9 +16,9 @@ class StudentPayment extends Component
     use Notify;
 
     /** @var object get data object from controller */
-    // public $bills;
-    // public $years;
-    // public $students;
+    public $bills;
+    public $years;
+    public $students;
 
     /** @var string */
     public $bill = null;
@@ -29,18 +29,25 @@ class StudentPayment extends Component
     /** @var array */
     public $evens = [];
     public $payments = [];
+    public $totalPayment = [];
 
-    /** @var attributes */
+    /** @var attributes string */
     public $pay;
-    public $mines;
     public $month;
     public $change;
     public $pay_date;
 
+    /** @var boolean */
+    public $paymentState = false;
+
+    public function mount()
+    {
+        $this->pay_date = date('Y-m-d');
+    }
+
     public function resetValue()
     {
         $this->pay = null;
-        $this->mines = null;
         $this->change = null;
     }
 
@@ -49,7 +56,7 @@ class StudentPayment extends Component
         $this->billResult = Bill::query()->where('id', $this->bill)->first();
 
         if ($this->billResult->monthly) {
-            $rawQuery = 'MONTH(month) as month, `change`, `pay`, `mines`, `pay_date`';
+            $rawQuery = 'MONTH(month) as month, `change`, `pay`, `pay_date`';
 
             $payments = DB::table('payments')
                 ->select(DB::raw($rawQuery))
@@ -70,27 +77,35 @@ class StudentPayment extends Component
         }
     }
 
-    public function updatedPay()
-    {
-        if (!is_null($this->pay) && is_numeric($this->pay)) {
-            $result = idr((int)$this->pay - (int)$this->billResult->nominal);
-            if ($this->pay < $this->billResult->nominal) {
-                $this->mines = $result;
-                $this->change = 0;
-            } else {
-                $this->mines = 0;
-                $this->change = $result;
-            }
-        } else {
-            $this->mines = 0;
-            $this->change = 0;
-        }
-    }
-
     public function pay($month)
     {
+        $this->totalPayment = [];
+        if (isset($this->payments[$month])) {
+            foreach ($this->payments[$month] as $value) {
+                $this->totalPayment[] = $value['pay'];
+            }
+
+            $this->paymentState = ($this->billResult->nominal - array_sum($this->totalPayment)) <= 0 ? true : false;
+        } else {
+            $this->paymentState = false;
+        }
+
         $this->month = create_date($month);
         $this->emit('pay');
+    }
+
+    public function updatedPay()
+    {
+        $nominal = $this->billResult->nominal;
+
+        if (!is_null($this->pay) && is_numeric($this->pay)) {
+            $payed = $nominal - array_sum($this->totalPayment);
+            if ($payed != 0 && $this->pay > $payed) {
+                $this->change = $this->pay - $payed;
+            }
+        }
+
+        $this->change = 0;
     }
 
     public function onPay()
@@ -103,21 +118,18 @@ class StudentPayment extends Component
             'bill_id' => $this->bill,
             'student_id' => $this->student,
             'month' => $this->month,
-            'mines' => $this->mines,
             'change' => $this->change,
+            'pay' => abs($validated['pay'] - $this->change)
         ]);
 
         Payment::create($payment);
         $this->resetValue();
+        $this->search();
         return $this->success('Berhasil!', 'Pembayaran telah dilakukan.');
     }
 
     public function render()
     {
-        return view('payment::livewire.payment', [
-            'bills' => Bill::query()->select(['id', 'name'])->get(),
-            'years' => SchoolYear::query()->select(['id', 'year'])->get(),
-            'students' => Student::query()->select(['id', 'name', 'nis', 'nisn'])->get(),
-        ]);
+        return view('payment::livewire.payment');
     }
 }
