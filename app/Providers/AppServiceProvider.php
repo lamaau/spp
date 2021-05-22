@@ -26,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Blade::component('layouts.pdf', 'pdf-layout');
         Blade::component('layouts.app',  'app-layout');
         Blade::component('layouts.auth', 'auth-layout');
 

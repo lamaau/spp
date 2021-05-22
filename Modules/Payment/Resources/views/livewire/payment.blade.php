@@ -65,118 +65,38 @@
                         <div class="card card-primary">
                             <div class="card-header">
                                 <h4>Detail Pembayaran</h4>
+                                <div class="card-header-action">
+                                    <div>
+                                        <a href="{{ route('payment.pdf-yearly', ['user' => $student, 'bill' => $bill, 'year' => $year]) }}"
+                                            target="_blank" class="btn btn-dark">
+                                            <i class="fa fa-print"></i>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="card-body">
-                                <h6>Semester Genap</h6>
-                                <table class="table table-bordered mt-3">
-                                    <thead>
-                                        <tr>
-                                            <th>Bulan</th>
-                                            <th>Tagihan</th>
-                                            <th>Status</th>
-                                            <th>Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (\Modules\Utils\Semester::even() as $i => $e)
-                                            @php
-                                                $any = isset($payments[$i]);
-                                                $totalForStatus = [];
-                                                if ($any) {
-                                                    foreach ($payments[$i] as $key => $value) {
-                                                        $totalForStatus[] = $value['pay'];
-                                                    }
-                                                }
-                                            @endphp
-                                            <tr>
-                                                <td>
-                                                    <strong>{{ $e }}</strong>
-                                                </td>
-                                                <td>{{ idr($billResult->nominal) }}</td>
-                                                <td>
-                                                    @if (array_sum($totalForStatus) === $billResult['nominal'])
-                                                        <span class="badge badge-success" style="font-size: 11px; padding: 3px 8px">Lunas</span>
-                                                    @else
-                                                        <span class="badge badge-danger" style="font-size: 11px; padding: 3px 8px">Tunggak</span>
-                                                    @endif
-                                                </td>
-                                                <td style="width: 9rem;">
-                                                    <button
-                                                        class="btn btn-info btn-sm {{ !$any && empty($payments[$i]) ? 'not-allowed' : '' }}"
-                                                        role="button" @if ($any) data-toggle="collapse" data-target="#table-detail-{{ $i }}" @endif
-                                                        {{ !$any && empty($payments[$i]) ? 'disabled' : '' }}>
-                                                        <i class="fa fa-eye"></i>
-                                                    </button>
-                                                    <button wire:click.prevent='pay("{{ $i }}")'
-                                                        class="btn btn-sm btn-success">
-                                                        <i class="far fa-money-bill-alt"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            @if ($any)
-                                                <tr>
-                                                    <td colspan="12" class="hiddenRow">
-                                                        <div class="collapse" id="table-detail-{{ $i }}"
-                                                            wire:ignore.self>
-                                                            <table class="table table-striped table-inner">
-                                                                <thead class="thead-dark">
-                                                                    <tr class="info">
-                                                                        <th>Dibayar</th>
-                                                                        <th>Kembalian</th>
-                                                                        <th>Tanggal Pembayaran</th>
-                                                                        <th>Aksi</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                @if (!empty($payments[$i]))
-                                                                    <tbody>
-                                                                        @foreach ($payments[$i] as $item)
-                                                                            @php
-                                                                                $total[$i][] = $item['pay'];
-                                                                            @endphp
-                                                                            <tr>
-                                                                                <td>{{ idr($item['pay']) }}</td>
-                                                                                <td> {{ idr($item['change']) }}
-                                                                                </td>
-                                                                                <td> {{ format_date($item['pay_date']) }}
-                                                                                </td>
-                                                                                <td style="width: 9rem;">
-                                                                                    <button
-                                                                                        class="btn btn-danger btn-sm">
-                                                                                        <i class="fa fa-trash"></i>
-                                                                                    </button>
-                                                                                    <button class="btn btn-dark btn-sm">
-                                                                                        <i class="fa fa-print"></i>
-                                                                                    </button>
-                                                                                </td>
-                                                                            </tr>
-                                                                        @endforeach
-                                                                    </tbody>
-                                                                    <tfoot class="table-inner">
-                                                                        @php
-                                                                            $resultOfTotalPayment = array_sum($total[$i]);
-                                                                        @endphp
-                                                                        <tr>
-                                                                            <td>Total:
-                                                                                <strong>{{ idr($resultOfTotalPayment) }}</strong>
-                                                                            </td>
-                                                                            <td>Tersisa:
-                                                                                @php
-                                                                                    $result = $resultOfTotalPayment - $billResult->nominal;
-                                                                                @endphp
-                                                                                <strong>{{ idr($result) }}</strong>
-                                                                            </td>
-                                                                            <td colspan="2">-</td>
-                                                                        </tr>
-                                                                    </tfoot>
-                                                                @endif
-                                                            </table>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            @endif
-                                        @endforeach
-                                    </tbody>
-                                </table>
+
+                            <x-payments.table :year="$year" :bill="$bill" :semester="$odd" :student="$student"
+                                :payments="$payments" title="Semester Ganjil" :bill-result="$billResult" />
+
+                            <x-payments.table :year="$year" :bill="$bill" :semester="$even" :student="$student"
+                                :payments="$payments" title="Semester Genap" :bill-result="$billResult" />
+                        </div>
+                    </div>
+                @endif
+
+                @if ($billResult && !$billResult->monthly)
+                    <div class="col-12">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h4>Detail Pembayaran</h4>
+                                <div class="card-header-action">
+                                    <div>
+                                        <a href="{{ route('payment.pdf-yearly', ['user' => $student, 'bill' => $bill, 'year' => $year]) }}"
+                                            target="_blank" class="btn btn-dark">
+                                            <i class="fa fa-print"></i>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -210,8 +130,7 @@
                     </x-slot>
                     <x-slot name="footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                        <button type="button" wire:click.prevent='onPay'
-                            class="btn btn-primary {{ $paymentState ? 'not-allowed' : '' }}"
+                        <button type="button" wire:click.prevent='onPay' class="btn btn-primary"
                             {{ $paymentState ? 'disabled' : '' }}>Bayar</button>
                     </x-slot>
                 </form>
@@ -245,6 +164,22 @@
 
                     Livewire.on("pay", () => {
                         $('#pay').modal('toggle');
+                    });
+
+                    Livewire.on("remove", (id) => {
+                        swal({
+                                title: 'Hapus data pembayaran?',
+                                text: 'Data pembayaran yang dihapus tidak dapat dikembalikan!',
+                                icon: 'warning',
+                                buttons: true,
+                                dangerMode: true,
+                                buttons: ['Batal', 'Hapus']
+                            })
+                            .then((willDelete) => {
+                                if (willDelete) {
+                                    @this.call('remove', id);
+                                }
+                            });
                     });
                 });
 

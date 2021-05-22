@@ -2,13 +2,13 @@
 
 namespace Modules\Payment\Livewire;
 
+use Livewire\Event;
 use Livewire\Component;
+use Modules\Payment\Utils\Trx;
 use App\Datatables\Traits\Notify;
 use Modules\Master\Entities\Bill;
 use Illuminate\Support\Facades\DB;
-use Modules\Master\Entities\Student;
 use Modules\Payment\Entities\Payment;
-use Modules\Master\Entities\SchoolYear;
 use Modules\Payment\Http\Requests\PaymentRequest;
 
 class StudentPayment extends Component
@@ -56,7 +56,7 @@ class StudentPayment extends Component
         $this->billResult = Bill::query()->where('id', $this->bill)->first();
 
         if ($this->billResult->monthly) {
-            $rawQuery = 'MONTH(month) as month, `change`, `pay`, `pay_date`';
+            $rawQuery = 'MONTH(month) as month, `id`, `change`, `pay`, `pay_date`';
 
             $payments = DB::table('payments')
                 ->select(DB::raw($rawQuery))
@@ -79,6 +79,8 @@ class StudentPayment extends Component
 
     public function pay($month)
     {
+        $this->resetValue();
+
         $this->totalPayment = [];
         if (isset($this->payments[$month])) {
             foreach ($this->payments[$month] as $value) {
@@ -96,16 +98,16 @@ class StudentPayment extends Component
 
     public function updatedPay()
     {
-        $nominal = $this->billResult->nominal;
-
         if (!is_null($this->pay) && is_numeric($this->pay)) {
-            $payed = $nominal - array_sum($this->totalPayment);
+            $payed = $this->billResult->nominal - array_sum($this->totalPayment);
             if ($payed != 0 && $this->pay > $payed) {
                 $this->change = $this->pay - $payed;
+            } else {
+                $this->change = 0;
             }
+        } else {
+            $this->change = 0;
         }
-
-        $this->change = 0;
     }
 
     public function onPay()
@@ -113,23 +115,59 @@ class StudentPayment extends Component
         $request = new PaymentRequest();
         $validated = $this->validate($request->rules(), [], $request->attributes());
 
-        $payment = array_merge($validated, [
-            'year_id' => $this->year,
-            'bill_id' => $this->bill,
-            'student_id' => $this->student,
-            'month' => $this->month,
-            'change' => $this->change,
-            'pay' => abs($validated['pay'] - $this->change)
-        ]);
+        DB::beginTransaction();
 
-        Payment::create($payment);
-        $this->resetValue();
+        try {
+            $payment = array_merge($validated, [
+                'month' => $this->month,
+                'bill_id' => $this->bill,
+                'year_id' => $this->year,
+                'change' => $this->change,
+                'student_id' => $this->student,
+                'code' => Trx::generate(Payment::class),
+                'pay' => abs($validated['pay'] - $this->change),
+            ]);
+
+            Payment::create($payment);
+            DB::commit();
+            $this->resetValue();
+            $this->search();
+            return $this->success('Berhasil!', 'Pembayaran telah dilakukan.');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return $this->error('Oops..', 'Terjadi kesalahan.');
+        }
+    }
+
+    /**
+     * Swal delete aler
+     *
+     * @param string $id
+     * @return Event
+     */
+    public function swalRemove(string $id): Event
+    {
+        return $this->emit('remove', $id);
+    }
+
+    /**
+     * Remove
+     *
+     * @param string $id
+     * @return Event
+     */
+    public function remove(string $id): Event
+    {
+        Payment::query()->where('id', $id)->first()->forceDelete();
         $this->search();
-        return $this->success('Berhasil!', 'Pembayaran telah dilakukan.');
+        return $this->success('Berhasil!', 'Pembayaran telah dihapus.');
     }
 
     public function render()
     {
-        return view('payment::livewire.payment');
+        return view('payment::livewire.payment', [
+            'odd' => \Modules\Utils\Semester::odd(),
+            'even' => \Modules\Utils\Semester::even(),
+        ]);
     }
 }

@@ -853,7 +853,7 @@ select.form-control:not([size]):not([multiple]) {
 .card .card-header h4 + .card-header-action .btn,
 .card .card-header h4 + .card-header-form .btn {
     font-size: 12px;
-    border-radius: 30px !important;
+    /* border-radius: 30px !important; */
     padding-left: 13px !important;
     padding-right: 13px !important;
 }
@@ -4143,10 +4143,7 @@ body:not(.sidebar-mini)
     font-size: 30px;
 }
 
-.not-allowed {
+.btn[disabled],
+.btn.disabled {
     cursor: not-allowed !important;
-}
-
-.thead-dark {
-    background-color:rgba(0, 0, 0, 0.02)!important;
 }
