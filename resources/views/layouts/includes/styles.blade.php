@@ -23,6 +23,17 @@
         background-color: #6777ef !important;
     }
 
+    /* table collapse */
+    .hiddenRow {
+        height: 0 !important;
+        padding: 0 !important;
+    }
+
+    .table-inner {
+        background-color: rgba(172, 172, 172, 0.08);
+        border-top: 2px solid #d8d8d8;
+    }
+
     /* custom for select2 */
     .custom-select-icon .select2-selection__arrow>b {
         display: none;

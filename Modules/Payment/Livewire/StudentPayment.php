@@ -26,12 +26,12 @@ class StudentPayment extends Component
     public $student = null;
     public $billResult = null;
 
-    /** @var array */
+    /** @var array|object */
     public $evens = [];
     public $payments = [];
     public $totalPayment = [];
 
-    /** @var attributes string */
+    /** @var null|string|integer */
     public $pay;
     public $month;
     public $change;
@@ -56,7 +56,7 @@ class StudentPayment extends Component
         $this->billResult = Bill::query()->where('id', $this->bill)->first();
 
         if ($this->billResult->monthly) {
-            $rawQuery = 'MONTH(month) as month, `id`, `change`, `pay`, `pay_date`';
+            $rawQuery = 'MONTH(month) as month, `id`, `change`, `pay`, `pay_date`, `code`';
 
             $payments = DB::table('payments')
                 ->select(DB::raw($rawQuery))
@@ -74,22 +74,30 @@ class StudentPayment extends Component
             }
 
             $this->payments = $results;
+        } else {
+            $this->payments = Payment::query()
+                ->where('year_id', $this->year)
+                ->where('bill_id', $this->bill)
+                ->where('student_id', $this->student)
+                ->get();
         }
     }
 
-    public function pay($month)
+    public function pay($month = null)
     {
         $this->resetValue();
 
-        $this->totalPayment = [];
-        if (isset($this->payments[$month])) {
-            foreach ($this->payments[$month] as $value) {
-                $this->totalPayment[] = $value['pay'];
-            }
+        if (!is_null($month)) {
+            $this->totalPayment = [];
+            if (isset($this->payments[$month])) {
+                foreach ($this->payments[$month] as $value) {
+                    $this->totalPayment[] = $value['pay'];
+                }
 
-            $this->paymentState = ($this->billResult->nominal - array_sum($this->totalPayment)) <= 0 ? true : false;
-        } else {
-            $this->paymentState = false;
+                $this->paymentState = ($this->billResult->nominal - array_sum($this->totalPayment)) <= 0 ? true : false;
+            } else {
+                $this->paymentState = false;
+            }
         }
 
         $this->month = create_date($month);
@@ -99,7 +107,13 @@ class StudentPayment extends Component
     public function updatedPay()
     {
         if (!is_null($this->pay) && is_numeric($this->pay)) {
-            $payed = $this->billResult->nominal - array_sum($this->totalPayment);
+            if ($this->billResult->monthly) {
+                $totalPayments = array_sum($this->totalPayment);
+            } else {
+                $totalPayments = array_sum($this->payments->pluck('pay')->toArray());
+            }
+
+            $payed = $this->billResult->nominal - $totalPayments;
             if ($payed != 0 && $this->pay > $payed) {
                 $this->change = $this->pay - $payed;
             } else {

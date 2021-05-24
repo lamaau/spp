@@ -5,6 +5,7 @@
             <tr>
                 <th>Bulan</th>
                 <th>Tagihan</th>
+                <th>Nominal</th>
                 <th>Status</th>
                 <th>Aksi</th>
             </tr>
@@ -24,6 +25,7 @@
                     <td>
                         <strong>{{ $e }}</strong>
                     </td>
+                    <td>{{ $billResult->name }}</td>
                     <td>{{ idr($billResult->nominal) }}</td>
                     <td>
                         @if (array_sum($totalForStatus) === $billResult['nominal'])
@@ -32,7 +34,7 @@
                             <span class="badge badge-danger" style="font-size: 11px; padding: 3px 8px">Tunggak</span>
                         @endif
                     </td>
-                    <td style="width: 9.5rem;">
+                    <td>
                         <button class="btn btn-info btn-sm" role="button" @if ($any) data-toggle="collapse" data-target="#table-detail-{{ $i }}" @endif {{ !$any && empty($payments[$i]) ? 'disabled' : '' }}>
                             <i class="fa fa-eye"></i>
                         </button>
@@ -54,10 +56,9 @@
                                 <table class="table table-striped table-inner">
                                     <thead class="thead-dark">
                                         <tr class="info">
+                                            <th>Kode Transaksi</th>
                                             <th>Dibayar</th>
-                                            <th>Kembalian</th>
                                             <th>Tanggal Pembayaran</th>
-                                            <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     @if (!empty($payments[$i]))
@@ -65,18 +66,12 @@
                                             @foreach ($payments[$i] as $item)
                                                 @php
                                                     $total[$i][] = $item['pay'];
+                                                    $totalChange[$i][] = $item['change'];
                                                 @endphp
                                                 <tr>
+                                                    <td>{{ $item['code'] }}</td>
                                                     <td>{{ idr($item['pay']) }}</td>
-                                                    <td> {{ idr($item['change']) }}
-                                                    </td>
                                                     <td> {{ format_date($item['pay_date']) }}
-                                                    </td>
-                                                    <td style="width: 9.5rem;">
-                                                        <button class="btn btn-danger btn-sm"
-                                                            wire:click.prevent='swalRemove("{{ $item['id'] }}")'>
-                                                            <i class="fa fa-trash"></i>
-                                                        </button>
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -84,18 +79,14 @@
                                         <tfoot class="table-inner">
                                             @php
                                                 $resultOfTotalPayment = array_sum($total[$i]);
+                                                $resultOfTotalChange  = array_sum($totalChange[$i])
                                             @endphp
                                             <tr>
-                                                <td>Total:
+                                                <th>Total</th>
+                                                <th>
                                                     <strong>{{ idr($resultOfTotalPayment) }}</strong>
-                                                </td>
-                                                <td>Tersisa:
-                                                    @php
-                                                        $result = $resultOfTotalPayment - $billResult->nominal;
-                                                    @endphp
-                                                    <strong>{{ idr($result) }}</strong>
-                                                </td>
-                                                <td colspan="2">-</td>
+                                                </th>
+                                                <th></th>
                                             </tr>
                                         </tfoot>
                                     @endif
