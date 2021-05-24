@@ -24,10 +24,13 @@
                         data-target="#table-detail">
                         <i class="fa fa-eye"></i>
                     </button>
-                    <a href="#" target="_blank" class="btn btn-dark btn-sm">
+                    <a href="#" target="_blank" class="btn btn-dark btn-sm {{array_sum($payments->pluck('pay')->toArray()) > 0 ? '' : 'disabled' }}"
+                    >
                         <i class="fa fa-print"></i>
                     </a>
-                    <button wire:click.prevent='pay' class="btn btn-sm btn-success">
+                    <button wire:click.prevent='pay' class="btn btn-sm btn-success"
+                        {{$bill->nominal == array_sum($payments->pluck('pay')->toArray()) ? 'disabled' : ''}}
+                    >
                         <i class="far fa-money-bill-alt"></i>
                     </button>
                 </td>
@@ -44,21 +47,27 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($payments as $payment)
+                                @forelse ($payments as $payment)
                                     <tr>
                                         <td>{{ $payment->code }}</td>
                                         <td>{{ idr($payment->pay) }}</td>
                                         <td>{{ format_date($payment->pay_date) }}</td>
                                     </tr>
-                                @endforeach
+                                @empty
+                                    <tr>
+                                        <td colspan="3" align="center">Tidak ada transaksi</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>Total</th>
-                                    <th>{{ idr(array_sum($payments->pluck('pay')->toArray())) }}</th>
-                                    <th></th>
-                                </tr>
-                            </tfoot>
+                            @if ($payments->isNotEmpty())
+                                <tfoot>
+                                    <tr>
+                                        <th>Total</th>
+                                        <th>{{ idr(array_sum($payments->pluck('pay')->toArray())) }}</th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
+                            @endif
                         </table>
                     </div>
                 </td>

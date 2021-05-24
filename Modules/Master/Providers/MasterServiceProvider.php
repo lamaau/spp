@@ -2,9 +2,9 @@
 
 namespace Modules\Master\Providers;
 
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
-use Illuminate\Support\Facades\View;
 use Modules\Master\View\Composer\SettingComposer;
 
 class MasterServiceProvider extends ServiceProvider
@@ -30,9 +30,6 @@ class MasterServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
-
-        // setting view composer
-        View::composer('*', SettingComposer::class);
     }
 
     /**
@@ -44,6 +41,7 @@ class MasterServiceProvider extends ServiceProvider
     {
         $this->app->register(RouteServiceProvider::class);
         $this->app->register(EventServiceProvider::class);
+        $this->app->register(ComposerServiceProvider::class);
         $this->app->register(RepositoryServiceProvider::class);
     }
 

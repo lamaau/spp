@@ -35,7 +35,7 @@
                         @endif
                     </td>
                     <td>
-                        <button class="btn btn-info btn-sm" role="button" @if ($any) data-toggle="collapse" data-target="#table-detail-{{ $i }}" @endif {{ !$any && empty($payments[$i]) ? 'disabled' : '' }}>
+                        <button class="btn btn-info btn-sm" role="button" data-toggle="collapse" data-target="#table-detail-{{ $i }}">
                             <i class="fa fa-eye"></i>
                         </button>
                         <a href="{{ route('payment.pdf-monthly', ['user' => $student, 'bill' => $bill, 'year' => $year, 'month' => $i]) }}" target="_blank"
@@ -90,6 +90,27 @@
                                             </tr>
                                         </tfoot>
                                     @endif
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                @else
+                    <tr>
+                        <td colspan="12" class="hiddenRow">
+                            <div class="collapse" id="table-detail-{{ $i }}" wire:ignore.self>
+                                <table class="table table-striped table-inner">
+                                    <thead class="thead-dark">
+                                        <tr class="info">
+                                            <th>Kode Transaksi</th>
+                                            <th>Dibayar</th>
+                                            <th>Tanggal Pembayaran</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="3" align="center">Tidak ada transaksi</td>
+                                        </tr>
+                                    </tbody>
                                 </table>
                             </div>
                         </td>

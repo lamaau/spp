@@ -98,9 +98,12 @@ class StudentPayment extends Component
             } else {
                 $this->paymentState = false;
             }
+
+            $this->month = create_date($month);
+        } else {
+            $this->month = null;
         }
 
-        $this->month = create_date($month);
         $this->emit('pay');
     }
 
@@ -126,7 +129,7 @@ class StudentPayment extends Component
 
     public function onPay()
     {
-        $request = new PaymentRequest();
+        $request = new PaymentRequest($this->bill, $this->year, $this->student, $this->month);
         $validated = $this->validate($request->rules(), [], $request->attributes());
 
         DB::beginTransaction();
@@ -151,30 +154,6 @@ class StudentPayment extends Component
             DB::rollBack();
             return $this->error('Oops..', 'Terjadi kesalahan.');
         }
-    }
-
-    /**
-     * Swal delete aler
-     *
-     * @param string $id
-     * @return Event
-     */
-    public function swalRemove(string $id): Event
-    {
-        return $this->emit('remove', $id);
-    }
-
-    /**
-     * Remove
-     *
-     * @param string $id
-     * @return Event
-     */
-    public function remove(string $id): Event
-    {
-        Payment::query()->where('id', $id)->first()->forceDelete();
-        $this->search();
-        return $this->success('Berhasil!', 'Pembayaran telah dihapus.');
     }
 
     public function render()

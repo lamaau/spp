@@ -11,8 +11,8 @@ if (!function_exists('create_date')) {
      */
     function create_date($month): string
     {
-        $y = date('Y');
-        return "$y-$month-1";
+        $year = date('Y');
+        return "$year-" . str_pad($month, 2, "0", STR_PAD_LEFT) . "-1";
     }
 }
 
