@@ -3,12 +3,13 @@
 namespace Modules\Payment\Entities;
 
 use Modules\Utils\Uuid;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Master\Entities\Bill;
-use Modules\Master\Entities\SchoolYear;
+use Modules\Master\Entities\User;
 use Modules\Master\Entities\Student;
+use Illuminate\Database\Eloquent\Model;
+use Modules\Master\Entities\SchoolYear;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Payment extends Model
 {
@@ -43,6 +44,16 @@ class Payment extends Model
      */
     protected $table = 'payments';
 
+    /**
+     * Get student
+     *
+     * @return BelongsTo
+     */
+    public function author(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+    
     /**
      * Get bill
      *

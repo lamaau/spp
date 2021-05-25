@@ -2,8 +2,8 @@
     <table class="table table-bordered mt-3">
         <thead>
             <tr>
-                <th>Tagihan</th>
-                <th>Nominal</th>
+                <th style="width: 23.4em;">Tagihan</th>
+                <th style="width: 16.9em;">Nominal</th>
                 <th>Status</th>
                 <th>Aksi</th>
             </tr>
@@ -44,6 +44,7 @@
                                     <th>Kode Transaksi</th>
                                     <th>Dibayar</th>
                                     <th>Tanggal Pembayaran</th>
+                                    <th>Operator</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -52,10 +53,11 @@
                                         <td>{{ $payment->code }}</td>
                                         <td>{{ idr($payment->pay) }}</td>
                                         <td>{{ format_date($payment->pay_date) }}</td>
+                                        <td>{{ $payment->author->name }}</td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="3" align="center">Tidak ada transaksi</td>
+                                        <td colspan="4" align="center">Tidak ada transaksi</td>
                                     </tr>
                                 @endforelse
                             </tbody>

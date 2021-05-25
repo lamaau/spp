@@ -53,12 +53,18 @@
                 </a>
             </li>
 
-            <li class="menu-header">Laporan</li>
+            <li class="menu-header">Ekstra</li>
 
             <li class="">
                 <a class="nav-link" href="#">
                     <i class="fas fa-fire"></i>
                     <span>Laporan</span>
+                </a>
+            </li>
+            <li class="">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-cog"></i>
+                    <span>Pengaturan</span>
                 </a>
             </li>
         </ul>

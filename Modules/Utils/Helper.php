@@ -23,9 +23,9 @@ if (!function_exists('format_date')) {
      * @param  string $date
      * @return string
      */
-    function format_date($date): string
+    function format_date($date, $format = 'd F Y'): string
     {
-        return Carbon::parse($date)->translatedFormat('d F Y');
+        return Carbon::parse($date)->translatedFormat($format);
     }
 }
 

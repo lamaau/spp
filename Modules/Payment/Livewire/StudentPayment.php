@@ -56,15 +56,18 @@ class StudentPayment extends Component
         $this->billResult = Bill::query()->where('id', $this->bill)->first();
 
         if ($this->billResult->monthly) {
-            $rawQuery = 'MONTH(month) as month, `id`, `change`, `pay`, `pay_date`, `code`';
+            $rawQuery = 'MONTH(`payments`.`month`) as month';
+            $rawQuery .= ', `users`.`name` as author_name';
+            $rawQuery .= ', `payments`.`id`, `payments`.`change`, `payments`.`pay`, `payments`.`pay_date`, `payments`.`code`';
 
             $payments = DB::table('payments')
                 ->select(DB::raw($rawQuery))
-                ->where('year_id', $this->year)
-                ->where('bill_id', $this->bill)
-                ->where('student_id', $this->student)
-                ->groupBy('id')
-                ->orderBy('month', 'asc')
+                ->where('payments.year_id', $this->year)
+                ->where('payments.bill_id', $this->bill)
+                ->where('payments.student_id', $this->student)
+                ->leftJoin('users', 'payments.created_by', '=', 'users.id')
+                ->groupBy('payments.id')
+                ->orderBy('payments.month', 'asc')
                 ->get()
                 ->toArray();
 
@@ -79,6 +82,7 @@ class StudentPayment extends Component
                 ->where('year_id', $this->year)
                 ->where('bill_id', $this->bill)
                 ->where('student_id', $this->student)
+                ->with('student')
                 ->get();
         }
     }

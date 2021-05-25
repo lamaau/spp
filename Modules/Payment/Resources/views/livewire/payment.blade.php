@@ -79,25 +79,11 @@
                                 </div>
                             </div>
 
-                            <x-payments.table-monthly
-                                :year="$year"
-                                :bill="$bill"
-                                :semester="$odd"
-                                :student="$student"
-                                :payments="$payments"
-                                title="Semester Ganjil"
-                                :bill-result="$billResult"
-                            />
+                            <x-payments.table-monthly :year="$year" :bill="$bill" :semester="$odd" :student="$student"
+                                :payments="$payments" title="Semester Ganjil" :bill-result="$billResult" />
 
-                            <x-payments.table-monthly
-                                :year="$year"
-                                :bill="$bill"
-                                :semester="$even"
-                                :student="$student"
-                                :payments="$payments"
-                                title="Semester Genap"
-                                :bill-result="$billResult"
-                            />
+                            <x-payments.table-monthly :year="$year" :bill="$bill" :semester="$even" :student="$student"
+                                :payments="$payments" title="Semester Genap" :bill-result="$billResult" />
                         </div>
                     @endif
 
@@ -114,10 +100,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <x-payments.table-not-monthly
-                                :bill="$billResult"
-                                :payments="$payments"
-                            />
+                            <x-payments.table-not-monthly :bill="$billResult" :payments="$payments" />
                         </div>
                     @endif
                 </div>
@@ -127,31 +110,15 @@
                 <form>
                     <x-slot name="body">
                         <div class="form-group">
-                            <x-inputs.text
-                                required
-                                id="pay_date"
-                                name="pay_date"
-                                class="datepicker"
-                                wire:model='pay_date'
-                                label="tanggal bayar"
-                            />
+                            <x-inputs.text required id="pay_date" name="pay_date" class="datepicker"
+                                wire:model='pay_date' label="tanggal bayar" />
                         </div>
                         <div class="form-group">
-                            <x-inputs.number
-                            required
-                            name="pay"
-                            label="nominal"
-                            wire:model='pay'
-                        />
+                            <x-inputs.number required name="pay" label="nominal" wire:model='pay' />
                         </div>
                         <div class="form-group">
-                            <x-inputs.text
-                                disabled
-                                name="change"
-                                label="kembalian"
-                                wire:model='change'
-                                value="{{ idr($change) }}"
-                            />
+                            <x-inputs.text disabled name="change" label="kembalian" wire:model='change'
+                                value="{{ idr($change) }}" />
                         </div>
                     </x-slot>
                     <x-slot name="footer">

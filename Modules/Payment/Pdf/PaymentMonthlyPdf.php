@@ -2,6 +2,7 @@
 
 namespace Modules\Payment\Pdf;
 
+use DOMPDF;
 use Modules\Payment\Entities\Payment;
 
 class PaymentMonthlyPdf
@@ -30,7 +31,7 @@ class PaymentMonthlyPdf
             ->get();
 
         if (count($payments)) {
-            return \PDF::loadView($view, [
+            return DOMPDF::loadView($view, [
                 'title' => 'NotaMonthly -' . date('Ymd-His'),
                 'rows' => $payments,
             ])->setPaper('a4', 'portrait')->stream();

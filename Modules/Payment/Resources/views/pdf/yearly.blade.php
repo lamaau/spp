@@ -82,6 +82,7 @@
                             @foreach ($results[$index] as $key => $item)
                                 @php
                                     $count = count($results[$index]);
+                                    $sum[] = $key;
                                 @endphp
 
                                 <tr>

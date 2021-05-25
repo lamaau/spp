@@ -59,6 +59,7 @@
                                             <th>Kode Transaksi</th>
                                             <th>Dibayar</th>
                                             <th>Tanggal Pembayaran</th>
+                                            <th>Operator</th>
                                         </tr>
                                     </thead>
                                     @if (!empty($payments[$i]))
@@ -71,8 +72,8 @@
                                                 <tr>
                                                     <td>{{ $item['code'] }}</td>
                                                     <td>{{ idr($item['pay']) }}</td>
-                                                    <td> {{ format_date($item['pay_date']) }}
-                                                    </td>
+                                                    <td> {{ format_date($item['pay_date']) }}</td>
+                                                    <td>{{ $item['author_name'] }}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -86,6 +87,7 @@
                                                 <th>
                                                     <strong>{{ idr($resultOfTotalPayment) }}</strong>
                                                 </th>
+                                                <th></th>
                                                 <th></th>
                                             </tr>
                                         </tfoot>
@@ -104,11 +106,12 @@
                                             <th>Kode Transaksi</th>
                                             <th>Dibayar</th>
                                             <th>Tanggal Pembayaran</th>
+                                            <th>Operator</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td colspan="3" align="center">Tidak ada transaksi</td>
+                                            <td colspan="4" align="center">Tidak ada transaksi</td>
                                         </tr>
                                     </tbody>
                                 </table>

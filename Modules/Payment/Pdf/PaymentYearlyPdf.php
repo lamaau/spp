@@ -2,11 +2,11 @@
 
 namespace Modules\Payment\Pdf;
 
-use Illuminate\Support\Facades\DB;
+use DOMPDF;
 use Modules\Master\Entities\Bill;
-use Modules\Master\Entities\SchoolYear;
+use Illuminate\Support\Facades\DB;
 use Modules\Master\Entities\Student;
-use Modules\Payment\Entities\Payment;
+use Modules\Master\Entities\SchoolYear;
 
 class PaymentYearlyPdf
 {
@@ -47,7 +47,7 @@ class PaymentYearlyPdf
         ];
 
         if (count($payments)) {
-            return \PDF::loadView($view, [
+            return DOMPDF::loadView($view, [
                 'results' => $results,
                 'odd' => \Modules\Utils\Semester::odd(),
                 'even' => \Modules\Utils\Semester::even(),
