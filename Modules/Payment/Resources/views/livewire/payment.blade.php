@@ -69,21 +69,13 @@
                         <div class="card card-primary">
                             <div class="card-header">
                                 <h4>Detail Pembayaran</h4>
-                                <div class="card-header-action">
-                                    <div>
-                                        <a href="{{ route('payment.pdf-yearly', ['user' => $student, 'bill' => $bill, 'year' => $year]) }}"
-                                            target="_blank" class="btn btn-dark">
-                                            <i class="fa fa-print"></i>
-                                        </a>
-                                    </div>
-                                </div>
                             </div>
 
                             <x-payments.table-monthly :year="$year" :bill="$bill" :semester="$odd" :student="$student"
-                                :payments="$payments" title="Semester Ganjil" :bill-result="$billResult" />
+                                :payments="$payments" title="Semester Ganjil" :bill-result="$billResult" type="ganjil" />
 
                             <x-payments.table-monthly :year="$year" :bill="$bill" :semester="$even" :student="$student"
-                                :payments="$payments" title="Semester Genap" :bill-result="$billResult" />
+                                :payments="$payments" title="Semester Genap" :bill-result="$billResult" type="genap" />
                         </div>
                     @endif
 
@@ -91,14 +83,6 @@
                         <div class="card card-primary">
                             <div class="card-header">
                                 <h4>Detail Pembayaran</h4>
-                                <div class="card-header-action">
-                                    <div>
-                                        <a href="{{ route('payment.pdf-yearly', ['user' => $student, 'bill' => $bill, 'year' => $year]) }}"
-                                            target="_blank" class="btn btn-dark">
-                                            <i class="fa fa-print"></i>
-                                        </a>
-                                    </div>
-                                </div>
                             </div>
                             <x-payments.table-not-monthly :bill="$billResult" :payments="$payments" />
                         </div>

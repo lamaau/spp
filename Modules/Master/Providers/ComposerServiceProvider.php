@@ -11,6 +11,7 @@ class ComposerServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer([
+            'layouts.includes.sidebar',
             'layouts.includes.pdf.cop',
             'layouts.includes.pdf.ttd',
         ], SettingComposer::class);

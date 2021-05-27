@@ -4,7 +4,7 @@ namespace Tests\Feature\Auth\Passwords;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
-use Modules\GoenDataMaster\Entities\User;
+use Modules\Master\Entities\User;
 use Tests\TestCase;
 
 class EmailTest extends TestCase

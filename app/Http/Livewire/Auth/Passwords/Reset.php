@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Auth\Passwords;
 
-use App\Providers\RouteServiceProvider;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;

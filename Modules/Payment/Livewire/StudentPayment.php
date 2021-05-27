@@ -2,7 +2,6 @@
 
 namespace Modules\Payment\Livewire;
 
-use Livewire\Event;
 use Livewire\Component;
 use Modules\Payment\Utils\Trx;
 use App\Datatables\Traits\Notify;

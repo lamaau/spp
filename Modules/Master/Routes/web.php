@@ -3,15 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Master\Http\Controllers\RoomController;
 use Modules\Master\Http\Controllers\MajorController;
-use Modules\Master\Http\Controllers\InstallController;
 use Modules\Master\Http\Controllers\StudentController;
 use Modules\Master\Http\Controllers\SchoolYearController;
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    /** install */
-    Route::get('/install', [InstallController::class, 'view'])->name('install');
-    Route::post('/install', [InstallController::class, 'setup'])->name('setup');
-
     /** data master */
     Route::group(['as' => 'master.'], function () {
         /** Room */

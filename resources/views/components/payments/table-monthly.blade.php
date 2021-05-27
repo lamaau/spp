@@ -1,5 +1,13 @@
 <div class="card-body">
-    <h6>{{ $title }}</h6>
+    <div class="d-flex">
+        <h6 class="mb-0 mt-2">{{ $title }}</h6>
+        <div class="ml-auto">
+            <a href="{{ route('payment.print-yearly', ['user' => $student, 'bill' => $bill, 'year' => $year, 'type' => $type]) }}"
+                target="_blank" class="btn btn-dark">
+                <i class="fa fa-print"></i>
+            </a>
+        </div>
+    </div>
     <table class="table table-bordered mt-3">
         <thead>
             <tr>
@@ -35,14 +43,15 @@
                         @endif
                     </td>
                     <td>
-                        <button class="btn btn-info btn-sm" role="button" data-toggle="collapse" data-target="#table-detail-{{ $i }}">
+                        <button class="btn btn-info btn-sm" role="button" data-toggle="collapse"
+                            data-target="#table-detail-{{ $i }}">
                             <i class="fa fa-eye"></i>
                         </button>
-                        <a href="{{ route('payment.pdf-monthly', ['user' => $student, 'bill' => $bill, 'year' => $year, 'month' => $i]) }}" target="_blank"
+                        {{-- <a href="{{ route('payment.pdf-monthly', ['user' => $student, 'bill' => $bill, 'year' => $year, 'month' => $i]) }}" target="_blank"
                             class="btn btn-dark btn-sm {{ !$any && empty($payments[$i]) ? 'disabled' : '' }}"
                             {{ !$any && empty($payments[$i]) ? 'disabled' : '' }}>
                             <i class="fa fa-print"></i>
-                        </a>
+                        </a> --}}
                         <button wire:click.prevent='pay("{{ $i }}")' class="btn btn-sm btn-success"
                             {{ array_sum($totalForStatus) === $billResult['nominal'] ? 'disabled' : '' }}>
                             <i class="far fa-money-bill-alt"></i>
@@ -80,7 +89,7 @@
                                         <tfoot class="table-inner">
                                             @php
                                                 $resultOfTotalPayment = array_sum($total[$i]);
-                                                $resultOfTotalChange  = array_sum($totalChange[$i])
+                                                $resultOfTotalChange = array_sum($totalChange[$i]);
                                             @endphp
                                             <tr>
                                                 <th>Total</th>

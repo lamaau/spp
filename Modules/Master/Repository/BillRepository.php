@@ -6,6 +6,13 @@ if (!interface_exists('BillRepository')) {
     interface BillRepository
     {
         /**
+         * Get all bill
+         *
+         * @return null|object
+         */
+        public function all();
+        
+        /**
          * Save room
          *
          * @param array $request

@@ -5,11 +5,13 @@ namespace Modules\Master\Entities;
 use Modules\Utils\Uuid;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use Notifiable,
+    use HasFactory,
+        Notifiable,
         Uuid;
 
     /**
@@ -41,4 +43,9 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected static function newFactory()
+    {
+        return \Modules\Master\Database\Factories\UserFactory::new();
+    }
 }

@@ -24,10 +24,10 @@
                         data-target="#table-detail">
                         <i class="fa fa-eye"></i>
                     </button>
-                    <a href="#" target="_blank" class="btn btn-dark btn-sm {{array_sum($payments->pluck('pay')->toArray()) > 0 ? '' : 'disabled' }}"
+                    {{-- <a href="#" target="_blank" class="btn btn-dark btn-sm {{array_sum($payments->pluck('pay')->toArray()) > 0 ? '' : 'disabled' }}"
                     >
                         <i class="fa fa-print"></i>
-                    </a>
+                    </a> --}}
                     <button wire:click.prevent='pay' class="btn btn-sm btn-success"
                         {{$bill->nominal == array_sum($payments->pluck('pay')->toArray()) ? 'disabled' : ''}}
                     >

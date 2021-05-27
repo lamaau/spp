@@ -21,11 +21,23 @@ class PaymentController extends Controller
     public function index(): Renderable
     {
         return view('payment::index', [
-            'title' => 'Kelola Pembayaran',
+            'title' => 'Pembayaran',
             'bills' => Bill::query()->select(['id', 'name'])->get(),
             'years' => SchoolYear::query()->select(['id', 'year'])->get(),
             'students' => Student::query()->select(['id', 'name', 'nis', 'nisn'])->get(),
         ]);
+    }
+
+    public function printYearly(Request $request)
+    {
+        $user = $request->query('user');
+        $bill = $request->query('bill');
+        $year = $request->query('year');
+        $type = $request->query('type');
+
+        if ($user && $bill && $year && $type) {
+            return (new PaymentYearlyPdf($user, $bill, $year, $type))->loadView('payment::print.yearly');
+        }
     }
 
     public function pdfMonthly(Request $request)

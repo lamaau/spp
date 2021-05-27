@@ -166,6 +166,7 @@ return [
          * Package Service Providers...
          */
         Barryvdh\DomPDF\ServiceProvider::class,
+        App\Providers\RegionalServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -228,6 +229,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         // 
         'DOMPDF' => Barryvdh\DomPDF\Facade::class,
+        'Regional' => App\Facades\RegionalFacade::class,
     ],
 
 ];

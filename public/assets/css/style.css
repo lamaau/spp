@@ -3817,18 +3817,28 @@ body.layout-3 .main-footer {
     display: inline-block;
     width: 100%;
     text-align: center;
-    height: 60px;
-    line-height: 60px;
+    line-height: 40px;
+    margin: 0 auto;
 }
 .main-sidebar .sidebar-brand.sidebar-brand-sm {
     display: none;
 }
 .main-sidebar .sidebar-brand a {
-    text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
     font-weight: 700;
-    color: #000;
+    font-size: 22px;
+    line-height: 0;
+    color: #34395e;
+}
+
+.main-sidebar .sidebar-brand a:hover {
+    color: #4c5383;
+    text-decoration: none;
+}
+
+.main-sidebar .sidebar-brand img {
+    width: 120px;
+    display: block;
+    margin: 18px;
 }
 
 .main-sidebar .sidebar-user {

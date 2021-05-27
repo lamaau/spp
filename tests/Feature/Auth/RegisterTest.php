@@ -6,9 +6,8 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Str;
 use Livewire\Livewire;
-use Modules\GoenDataMaster\Entities\User;
+use Modules\Master\Entities\User;
 use Tests\TestCase;
 
 class RegisterTest extends TestCase
@@ -31,7 +30,7 @@ class RegisterTest extends TestCase
         $this->be($user);
 
         $this->get(route('register'))
-            ->assertRedirect(route('home'));
+            ->assertRedirect(route('dashboard'));
     }
 
     public function a_user_can_register()

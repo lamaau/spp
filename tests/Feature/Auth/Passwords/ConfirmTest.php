@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
-use Modules\GoenDataMaster\Entities\User;
+use Modules\Master\Entities\User;
 use Tests\TestCase;
 
 class ConfirmTest extends TestCase

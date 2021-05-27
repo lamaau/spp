@@ -8,6 +8,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>{{ $title ?? 'Document' }}</title>
     @include('layouts.includes.pdf.style')
+    @stack('styles')
 </head>
 
 <body>
@@ -16,6 +17,8 @@
     @yield('content')
 
     @includeWhen($ttd ?? false, 'layouts.includes.pdf.ttd')
+
+    @stack('scripts')
 </body>
 
 </html>

@@ -6,9 +6,7 @@ use Livewire\Livewire;
 use Illuminate\Support\ServiceProvider;
 use Modules\Master\Datatables\BillDatatable;
 use Modules\Master\Datatables\RoomDatatable;
-use Modules\Payment\Livewire\StudentPayment;
 use Modules\Master\Datatables\StudentDatatable;
-use Modules\Payment\Datatables\PaymentDatatable;
 use Modules\Master\Datatables\SchoolYearDatatable;
 use Modules\Master\Datatables\FirstMoveRoomDatatable;
 use Modules\Master\Datatables\SecondMoveRoomDatatable;
@@ -29,8 +27,5 @@ class LivewireServiceProvider extends ServiceProvider
         Livewire::component('student-datatable', StudentDatatable::class);
         Livewire::component('first-move-room-datatable', FirstMoveRoomDatatable::class);
         Livewire::component('second-move-room-datatable', SecondMoveRoomDatatable::class);
-
-        /** @component payment module */
-        Livewire::component('payment', StudentPayment::class);
     }
 }

@@ -17,6 +17,11 @@ class StudentEloquent implements StudentRepository
         $this->student = $student;
     }
 
+    public function all()
+    {
+        return $this->student->all();
+    }
+
     public function findOrFail(string $id)
     {
         return $this->student->findOrFail($id);

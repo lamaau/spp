@@ -5,14 +5,14 @@ namespace Modules\Master\Database\Factories;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class TenantFactory extends Factory
+class UserFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = \Modules\Master\Entities\Tenant::class;
+    protected $model = \Modules\Master\Entities\User::class;
 
     /**
      * Define the model's default state.
@@ -22,9 +22,10 @@ class TenantFactory extends Factory
     public function definition()
     {
         return [
-            'id' => Str::uuid(),
-            'name' => 'tenant-1',
-            'tenant' => '1',
+            'id' => $this->faker->uuid(),
+            'name' => $this->faker->firstName(),
+            'email' => $this->faker->unique()->email,
+            'password' => Str::random(8)
         ];
     }
 }

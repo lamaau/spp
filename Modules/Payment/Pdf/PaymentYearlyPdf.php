@@ -3,6 +3,7 @@
 namespace Modules\Payment\Pdf;
 
 use DOMPDF;
+use Modules\Utils\Semester;
 use Modules\Master\Entities\Bill;
 use Illuminate\Support\Facades\DB;
 use Modules\Master\Entities\Student;
@@ -13,13 +14,14 @@ class PaymentYearlyPdf
     protected $user;
     protected $bill;
     protected $year;
-    protected $month;
+    protected $type;
 
-    public function __construct($user, $bill, $year)
+    public function __construct($user, $bill, $year, $type)
     {
         $this->user = $user;
         $this->bill = $bill;
         $this->year = $year;
+        $this->type = $type;
     }
 
     public function loadView($view)
@@ -46,13 +48,13 @@ class PaymentYearlyPdf
             'student' => Student::query()->where('id', $this->user)->select('id', 'name', 'room_id')->with('room')->first(),
         ];
 
-        if (count($payments)) {
-            return DOMPDF::loadView($view, [
-                'results' => $results,
-                'odd' => \Modules\Utils\Semester::odd(),
-                'even' => \Modules\Utils\Semester::even(),
+        if (in_array($this->type, ['ganjil', 'genap'])) {
+            return view($view, [
+                'type' => $this->type,
                 'title' => 'NotaYearly -' . date('Ymd-His'),
-            ])->setPaper('a4', 'landscape')->stream();
+                'results' => $results,
+                'semesters' => $this->type == 'ganjil' ? Semester::odd() : Semester::even(),
+            ]);
         }
 
         notify('red', 'Gagal!', 'Data tidak ditemukan.');

@@ -24,10 +24,12 @@ class CreateSettingsTable extends Migration
             $table->integer('level')->comment('level sekolah');
             $table->string('principal')->comment('kepala sekolah');
             $table->string('principal_number')->comment('nip kepala sekolah');
+            $table->string('treasurer')->comment('bendahara');
+            $table->string('treasurer_number')->nullable()->comment('nip bendahara');
             $table->bigInteger('province')->nullable();
             $table->bigInteger('city')->nullable();
             $table->bigInteger('district')->nullable();
-            $table->bigInteger('sub_district')->nullable();
+            $table->bigInteger('subdistrict')->nullable();
             $table->longText('address');
             $table->uuid('created_by')->index();
             $table->uuid('updated_by')->nullable()->index();

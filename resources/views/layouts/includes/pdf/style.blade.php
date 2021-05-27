@@ -9,24 +9,24 @@
         margin: 0;
     }
 
-    .page-break {
-        page-break-before: always;
-    }
-
     @page {
-        margin: 30px;
+        padding: 30px 10px;
+        margin: 30px 10px;
     }
 
-    /* start cop */
     .cop-container {
-        padding: 0 20px 20px 20px;
-        margin-bottom: 20px;
+        width: 60%;
+        padding: 20px;
+        margin: 0 auto;
+        text-align: center;
     }
 
-    .cop-left {
-        width: 900px;
-        margin: 0 auto;
-        margin-right: 10px;
+    @media print {
+        .cop-container {
+            width: 90%;
+            margin-bottom: 20px;
+            padding: 0 20px 20px 20px;
+        }
     }
 
     .cop-left .logo {
@@ -36,7 +36,6 @@
 
     .cop-right {
         padding-top: 1rem;
-        text-align: center;
     }
 
     .cop-right .school-name {
@@ -50,14 +49,13 @@
     }
 
     .line-1 {
-        border: 1rem solid rgb(39, 39, 39);
+        border: 1px solid rgb(39, 39, 39);
+        margin: 20px 0;
     }
 
-    /* end cop */
-
     /* start content */
-    .content-container {
-        padding: 1rem 0;
+    .content-header {
+        text-align: center;
     }
 
     .table {
@@ -68,7 +66,7 @@
 
     .table td,
     .table th {
-        border: 1px solid #ddd;
+        border: 1px solid rgb(37, 37, 37);
         padding: 8px;
     }
 
@@ -80,8 +78,8 @@
         padding-top: 12px;
         padding-bottom: 12px;
         text-align: left;
-        background-color: #4CAF50;
-        color: white;
+        background-color: #f2f2f2;
+        color: #000;
     }
 
     /* end content */

@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Livewire;
-use Modules\GoenDataMaster\Entities\User;
+use Modules\Master\Entities\User;
 use Tests\TestCase;
 
 class LoginTest extends TestCase
@@ -29,7 +29,7 @@ class LoginTest extends TestCase
         $this->be($user);
 
         $this->get(route('login'))
-            ->assertRedirect(route('home'));
+            ->assertRedirect(route('dashboard'));
     }
 
     /** @test */
@@ -54,7 +54,7 @@ class LoginTest extends TestCase
             ->set('email', $user->email)
             ->set('password', 'password')
             ->call('authenticate')
-            ->assertRedirect(route('install'));
+            ->assertRedirect(route('dashboard'));
     }
 
     /** @test */

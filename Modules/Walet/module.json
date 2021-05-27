@@ -1,0 +1,13 @@
+{
+    "name": "Walet",
+    "alias": "walet",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Walet\\Providers\\WaletServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

@@ -6,6 +6,13 @@ if (!interface_exists('StudentRepository')) {
     interface StudentRepository
     {
         /**
+         * Get all student
+         *
+         * @return null|object
+         */
+        public function all();
+        
+        /**
          * Find student
          *
          * @param string $id

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Livewire\Livewire;
-use Modules\GoenDataMaster\Entities\User;
+use Modules\Master\Entities\User;
 use Tests\TestCase;
 
 class ResetTest extends TestCase

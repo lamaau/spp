@@ -4,7 +4,7 @@ namespace Tests\Feature\Auth;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
-use Modules\GoenDataMaster\Entities\User;
+use Modules\Master\Entities\User;
 use Tests\TestCase;
 
 class LogoutTest extends TestCase
@@ -18,7 +18,7 @@ class LogoutTest extends TestCase
         $this->be($user);
 
         $this->post(route('logout'))
-            ->assertRedirect(route('home'));
+            ->assertRedirect(route('dashboard'));
 
         $this->assertFalse(Auth::check());
     }
