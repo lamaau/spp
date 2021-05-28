@@ -12,5 +12,13 @@ if (!interface_exists('GeneralRepository'))
          * @return object
          */
         public function first(): object;
+
+        
+        /**
+         * Create general setting
+         *
+         * @return boolean
+         */
+        public function save(array $request): bool;
     }
 }

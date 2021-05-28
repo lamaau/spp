@@ -24,16 +24,22 @@ trait Regional
 
     public function updatedProvince(int $province)
     {
+        $this->cities = [];
+        $this->districts = [];
+        $this->subdistricts = [];
         $this->cities = $this->getRegional("regencies/{$province}");
     }
 
     public function updatedCity(int $city)
     {
+        $this->districts = [];
+        $this->subdistricts = [];
         $this->districts = $this->getRegional("districts/{$city}");
     }
 
     public function updatedDistrict(int $district)
     {
+        $this->subdistricts = [];
         $this->subdistricts = $this->getRegional("villages/{$district}");
     }
 

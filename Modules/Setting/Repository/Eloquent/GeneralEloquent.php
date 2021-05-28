@@ -19,4 +19,9 @@ class GeneralEloquent implements GeneralRepository
     {
         return $this->setting->first();
     }
+
+    public function save(array $request): bool
+    {
+        return $this->setting->create($request) ? true : false;
+    }
 }

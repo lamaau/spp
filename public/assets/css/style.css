@@ -153,6 +153,10 @@ a:not(.btn-social-icon):not(.btn-social):not(.page-link) .fab {
     color: #fc544b !important;
 }
 
+.text-validate-error {
+    color: #dc3545 !important;
+}
+
 .text-light,
 .text-light-all *,
 .text-light-all *:before,
@@ -285,7 +289,7 @@ select.form-control:not([size]):not([multiple]) {
     margin-bottom: 25px;
 }
 .form-group .control-label,
-.form-group > label {
+.form-group label {
     font-weight: 600;
     color: #34395e;
     font-size: 12px;

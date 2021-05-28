@@ -11,6 +11,6 @@
 |
 */
 
-Route::prefix('report')->group(function() {
+Route::middleware(['auth', 'verified', 'installed'])->group(function () {
     Route::get('/', 'ReportController@index');
 });

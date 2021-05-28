@@ -6,7 +6,7 @@ use Modules\Master\Http\Controllers\MajorController;
 use Modules\Master\Http\Controllers\StudentController;
 use Modules\Master\Http\Controllers\SchoolYearController;
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'installed'])->group(function () {
     /** data master */
     Route::group(['as' => 'master.'], function () {
         /** Room */

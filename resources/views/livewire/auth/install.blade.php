@@ -4,7 +4,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
         <style type="text/css">
             /* custom for select2 */
-            .custom-select-icon .select2-selection__arrow > b {
+            .custom-select-icon .select2-selection__arrow>b {
                 display: none;
             }
 
@@ -13,8 +13,8 @@
             }
 
             .select2-selection {
-                background-color: #fdfdff!important;
-                border-color: #e4e6fc!important;
+                background-color: #fdfdff !important;
+                border-color: #e4e6fc !important;
             }
 
             .has-error .select2-selection {
@@ -25,7 +25,7 @@
                 color: #444;
                 line-height: 40px;
             }
-        
+
             .stepwizard-step p {
                 margin-top: 10px;
             }
@@ -91,18 +91,20 @@
                         <div class="stepwizard-row setup-panel">
                             <div class="stepwizard-step">
                                 <button type="button" wire:click.prevent='changeStep(1)'
-                                    class="btn {{ $currentStep != 1 ? 'btn-secondary' : 'btn-primary' }} rounded-circle">1</button>
+                                    class="btn {{ $currentStep != 1 ? 'btn-secondary' : 'btn-primary' }} rounded-circle"
+                                    {{ !in_array($currentStep, [1, 2]) ? 'disabled' : '' }}>1</button>
                                 <p>Step 1</p>
                             </div>
                             <div class="stepwizard-step">
                                 <button type="button" wire:click.prevent='changeStep(2)'
-                                    class="btn {{ $currentStep != 2 ? 'btn-secondary' : 'btn-primary' }} rounded-circle">2</button>
+                                    class="btn {{ $currentStep != 2 ? 'btn-secondary' : 'btn-primary' }} rounded-circle"
+                                    {{ !in_array($currentStep, [2, 3]) ? 'disabled' : '' }}>2</button>
                                 <p>Step 2</p>
                             </div>
                             <div class="stepwizard-step">
-                                <button type="button" wire:click.prevent='changeStep(3)'
+                                <button type="button"
                                     class="btn {{ $currentStep != 3 ? 'btn-secondary' : 'btn-primary' }} rounded-circle"
-                                    disabled>3</button>
+                                    {{ $currentStep != 3 ? 'disabled' : '' }}>3</button>
                                 <p>Step 3</p>
                             </div>
                         </div>
@@ -111,15 +113,7 @@
                     <div class="card card-primary">
                         <div class="card-header">
                             <h4>
-                                @if ($currentStep == 1)
-                                    Informasi Sekolah
-                                @endif
-                                @if ($currentStep == 2)
-                                    Alamat Sekolah
-                                @endif
-                                @if ($currentStep == 3)
-                                    Kepala Sekolah dan Bendahara 
-                                @endif
+                                {{ $title[$currentStep] }}
                             </h4>
                         </div>
 
@@ -128,129 +122,85 @@
                                 <div class="{{ $currentStep != 1 ? 'displayNone' : '' }}">
                                     <div class="row">
                                         <div class="form-group col-6">
-                                            <x-inputs.text
-                                                required
-                                                name="name"
-                                                label="nama sekolah"
-                                                wire:model.defer='name'
-                                            />
+                                            <x-inputs.text required name="name" label="nama sekolah"
+                                                wire:model.defer='name' />
                                         </div>
                                         <div class="form-group col-6">
-                                            <x-inputs.number
-                                                required
-                                                name="code"
-                                                label="kode sekolah"
-                                                wire:model.defer='code'
-                                            />
+                                            <x-inputs.number required name="code" label="kode sekolah"
+                                                wire:model.defer='code' />
                                         </div>
                                         <div class="form-group col-6">
-                                            <x-inputs.email
-                                                required
-                                                name="email"
-                                                label="email sekolah"
-                                                wire:model.defer='email'
-                                            />
+                                            <x-inputs.email required name="email" label="email sekolah"
+                                                wire:model.defer='email' />
                                         </div>
                                         <div class="form-group col-6">
-                                            <x-inputs.number
-                                                required
-                                                name="phone"
-                                                label="Telpon Sekolah"
-                                                wire:model.defer='phone'
-                                            />
+                                            <x-inputs.number required name="phone" label="Telpon Sekolah"
+                                                wire:model.defer='phone' />
                                         </div>
-                                        
-                                        <div class="form-group col-6 custom-select-icon @error('level') has-error @enderror">
-                                            <label for="level" class="text-capitalize">Tingkatan <small class="required text-danger">*</small></label>
-                                            <div wire:ignore>
-                                                <select wire:model='level' class="custom-select" name="level" id="level">
-                                                    <option></option>
-                                                    @foreach ($levels as $key => $l)
-                                                        <option value="{{$key}}">{{$l}}</option>
-                                                    @endforeach
-                                                </select>
+                                        <div class="form-group col-6">
+                                            <x-inputs.select-constant required name="level" label="tingkatan"
+                                                :items="$levels" />
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <x-inputs.number required name="fax" label="Fax Sekolah"
+                                                wire:model.defer='fax' />
+                                        </div>
+
+                                        <div class="form-group col-12">
+                                            <label for="file">Logo <small class="text-danger">*</small></label>
+                                            <div class="input-group mb-1">
+                                                <input wire:model='logo' accept="image/png, image/jpeg" name="logo"
+                                                    type="file"
+                                                    class="form-control @error('logo') is-invalid @enderror">
+                                                <div class="input-group-append">
+                                                    <button data-toggle="modal" data-target="#preview-logo"
+                                                        class="btn btn-outline-primary" type="button" @if (!$logo) disabled @endif>Lihat</button>
+                                                </div>
                                             </div>
-                                            @error('level')
-                                                <small style="color: #dc3545">{{$message}}</small>
+                                            @error('logo')
+                                                <small class="text-validate-error">{{ $message }}</small>
                                             @enderror
-                                        </div>
-                                        
-                                        <div class="form-group col-6">
-                                            <x-inputs.number
-                                                required
-                                                name="fax"
-                                                label="Fax Sekolah"
-                                                wire:model.defer='fax'
-                                            />
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="{{ $currentStep != 2 ? 'displayNone' : '' }}">
                                     <div class="row">
-                                        <div class="form-group col-6 custom-select-icon @error('province') has-error @enderror">
-                                            <label for="province" class="text-capitalize">Provinsi <small class="required text-danger">*</small></label>
+                                        <div class="form-group col-6 @error('province') has-error @enderror">
                                             <div wire:ignore>
-                                                <select wire:model='province' class="custom-select" name="province" id="province">
-                                                    <option></option>
-                                                    @foreach ($provinces as $province)
-                                                        <option value="{{$province['id']}}">{{$province['name']}}</option>
-                                                    @endforeach
-                                                </select>
+                                                <x-inputs.select-two required name="province" label="provinsi"
+                                                    :items="$provinces" />
                                             </div>
+                                            {{-- beacause livewire re render dom, i need to write bellow again :) --}}
                                             @error('province')
-                                                <small style="color: #dc3545">{{$message}}</small>
+                                                <small class="text-validate-error">{{ $message }}</small>
                                             @enderror
                                         </div>
 
-                                        <div class="form-group col-6 custom-select-icon @error('city') has-error @enderror">
-                                            <label for="city" class="text-capitalize">Kota / Kabupaten <small class="required text-danger">*</small></label>
-                                            <div>
-                                                <select wire:model='city' class="custom-select" name="city" id="city">
-                                                    <option></option>
-                                                    @if (!empty($cities))
-                                                        @foreach ($cities as $city)
-                                                            <option value="{{$city['id']}}">{{$city['name']}}</option>
-                                                        @endforeach
-                                                    @endif
-                                                </select>
-                                            </div>
-                                            @error('city')
-                                                <small style="color: #dc3545">{{$message}}</small>
-                                            @enderror
+                                        <div class="form-group col-6">
+                                            <x-inputs.select-two required name="city" label="kota / kabupaten"
+                                                :items="$cities" />
                                         </div>
 
-                                        <div class="form-group col-6 custom-select-icon @error('district') has-error @enderror">
-                                            <label for="district" class="text-capitalize">Kecamatan <small class="required text-danger">*</small></label>
-                                            <div>
-                                                <select wire:model='district' class="custom-select" name="district" id="district">
-                                                    <option></option>
-                                                    @if (!empty($districts))
-                                                        @foreach ($districts as $district)
-                                                            <option value="{{$district['id']}}">{{$district['name']}}</option>
-                                                        @endforeach
-                                                    @endif
-                                                </select>
-                                            </div>
-                                            @error('district')
-                                                <small style="color: #dc3545">{{$message}}</small>
-                                            @enderror
+                                        <div class="form-group col-6">
+                                            <x-inputs.select-two required name="district" label="kecamatan"
+                                                :items="$districts" />
                                         </div>
 
-                                        <div class="form-group col-6 custom-select-icon @error('subdistrict') has-error @enderror">
-                                            <label for="subdistrict" class="text-capitalize">Kelurahan <small class="required text-danger">*</small></label>
-                                            <div>
-                                                <select wire:model='subdistrict' class="custom-select" name="subdistrict" id="subdistrict">
-                                                    <option></option>
-                                                    @if (!empty($subdistricts))
-                                                        @foreach ($subdistricts as $subdistrict)
-                                                            <option value="{{$subdistrict['id']}}">{{$subdistrict['name']}}</option>
-                                                        @endforeach
-                                                    @endif
-                                                </select>
-                                            </div>
-                                            @error('subdistrict')
-                                                <small style="color: #dc3545">{{$message}}</small>
+                                        <div class="form-group col-6">
+                                            <x-inputs.select-two required name="subdistrict" label="kelurahan"
+                                                :items="$subdistricts" />
+                                        </div>
+
+                                        <div class="form-group col-12">
+                                            <label for="address">Alamat Lengkap
+                                                <small class="text-danger">*</small>
+                                            </label>
+                                            <textarea name="adress" id="adress" cols="30" rows="10" wire:model='address'
+                                                class="form-control @error('address') is-invalid @enderror"
+                                                style="min-height: 110px;"></textarea>
+                                            @error('address')
+                                                <small class="text-validate-error">{{ $message }}</small>
                                             @enderror
                                         </div>
                                     </div>
@@ -259,35 +209,20 @@
                                 <div class="{{ $currentStep != 3 ? 'displayNone' : '' }}">
                                     <div class="row">
                                         <div class="form-group col-6">
-                                            <x-inputs.text
-                                                required
-                                                name="principal"
-                                                label="nama kepala sekolah"
-                                                wire:model.defer='principal'
-                                            />
+                                            <x-inputs.text required name="principal" label="nama kepala sekolah"
+                                                wire:model.defer='principal' />
                                         </div>
                                         <div class="form-group col-6">
-                                            <x-inputs.number
-                                                required
-                                                name="principal_number"
-                                                label="nip kepala sekolah"
-                                                wire:model.defer='principal_number'
-                                            />
+                                            <x-inputs.number required name="principal_number" label="nip kepala sekolah"
+                                                wire:model.defer='principal_number' />
                                         </div>
                                         <div class="form-group col-6">
-                                            <x-inputs.text
-                                                required
-                                                name="treasurer"
-                                                label="nama bendahara sekolah"
-                                                wire:model.defer='treasurer'
-                                            />
+                                            <x-inputs.text required name="treasurer" label="nama bendahara sekolah"
+                                                wire:model.defer='treasurer' />
                                         </div>
                                         <div class="form-group col-6">
-                                            <x-inputs.number
-                                                name="treasurer_number"
-                                                label="nip bendahara sekolah"
-                                                wire:model.defer='treasurer_number'
-                                            />
+                                            <x-inputs.number name="treasurer_number" label="nip bendahara sekolah"
+                                                wire:model.defer='treasurer_number' />
                                         </div>
                                     </div>
                                 </div>
@@ -335,11 +270,19 @@
         </div>
     </section>
 
+    <x-modals.modal id="preview-logo" title="Preview Logo Sekolah">
+        <x-slot name="body">
+            @if ($logo)
+                <img src="{{ $logo->temporaryUrl() }}" alt="Logo Sekolah" style="width: 100%;">
+            @endif
+        </x-slot>
+    </x-modals.modal>
+
     @push('scripts')
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://demo.getstisla.com/assets/modules/select2/dist/js/select2.full.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://demo.getstisla.com/assets/modules/select2/dist/js/select2.full.min.js"></script>
         <script type="text/javascript">
             $(document).ready(function() {
                 $('#level, #province, #city, #district, #subdistrict').select2({
@@ -350,7 +293,7 @@
                 $('#level').on('change', (e) => {
                     @this.set('level', e.target.value);
                 });
-                
+
                 $('#province').on('change', (e) => {
                     @this.set('province', e.target.value);
                 });

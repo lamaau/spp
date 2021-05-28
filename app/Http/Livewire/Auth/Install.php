@@ -4,12 +4,13 @@ namespace App\Http\Livewire\Auth;
 
 use Livewire\Component;
 use App\Constants\SchoolLevel;
-use Modules\Master\Entities\Setting;
 use App\Http\Livewire\Traits\Regional;
+use Livewire\WithFileUploads;
 
 class Install extends Component
 {
-    use Regional;
+    use Regional,
+        WithFileUploads;
 
     /** @var null|string */
     public $name;
@@ -18,19 +19,34 @@ class Install extends Component
     public $phone;
     public $fax;
     public $level;
+    public $logo;
     public $principal;
     public $principal_number;
     public $treasurer;
     public $treasurer_number;
+    public $address;
 
     public int $totalStep = 3;
     public int $currentStep = 1;
 
     public array $validated;
 
+    public array $title = [
+        1 => 'Informasi Sekolah',
+        2 => 'Alamat Sekolah',
+        3 => 'Kepala Sekolah dan Bendahara'
+    ];
+
     public function mount()
     {
         $this->provinces = $this->getRegional('provinces');
+    }
+
+    public function updatedLogo()
+    {
+        $this->validate([
+            'logo' => 'image|max:1024',
+        ]);
     }
 
     public function firstStepSubmit()
@@ -41,7 +57,8 @@ class Install extends Component
             'email' => ['required', 'email', 'unique:settings'],
             'phone' => ['required'],
             'fax' => ['required'],
-            'level' => ['required']
+            'level' => ['required'],
+            'logo' => ['required']
         ]);
 
         $this->validated = array_merge($this->validated, $validated);
@@ -56,6 +73,7 @@ class Install extends Component
             'city' => ['required'],
             'district' => ['required'],
             'subdistrict' => ['required'],
+            'address' => ['required'],
         ]);
 
         $this->validated = array_merge($this->validated, $validated);
@@ -73,8 +91,14 @@ class Install extends Component
         ]);
 
         $validated = array_merge($this->validated, $validated);
+        $logo = $validated['logo']->store('logo');
+        $validated['logo'] = $logo;
 
-        Setting::create($validated);
+        if (resolve(\Modules\Setting\Repository\GeneralRepository::class)->save($validated)) {
+            return redirect()->route('dashboard');
+        }
+
+        return $this->emit('error');
     }
 
     public function prevStep()
