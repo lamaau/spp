@@ -2581,7 +2581,9 @@ a.dropdown-item.active {
     font-weight: 600;
 }
 .dropdown-list .dropdown-list-content {
-    height: 350px;
+    /* height: 350px; */
+    max-height: 350px;
+    /*  */
     overflow: hidden;
 }
 .dropdown-list .dropdown-list-content:not(.is-end):after {

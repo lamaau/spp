@@ -18,7 +18,9 @@
                     @endif
                 </label>
 
-                <input type="file" id="file" class="form-control" name="file" wire:model='file' style="display: none;">
+                <input type="file" id="file"
+                    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                    class="form-control" name="file" {{ $attributes->wire('model') }} style="display: none;">
                 @error('file')
                     <span class="text-danger text-left font-italic">{{ $message }}</span>
                 @enderror
@@ -26,8 +28,9 @@
         </x-slot>
         <x-slot name="footer">
             <button type="button" class="btn btn-danger" {{ is_null($file) ? 'disabled' : '' }}
-                wire:click.prevent='remove'>Hapus</button>
-            <button wire:click.prevent='import' class="btn btn-primary">Upload</button>
+                wire:click.prevent='removeFileImport'>Hapus</button>
+            <button wire:click.prevent='upload' class="btn btn-primary"
+                {{ is_null($file) ? 'disabled' : '' }}>Upload</button>
         </x-slot>
     </form>
 </x-modals.modal>

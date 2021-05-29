@@ -91,7 +91,7 @@ class Install extends Component
         ]);
 
         $validated = array_merge($this->validated, $validated);
-        $logo = $validated['logo']->store('logo');
+        $logo = $validated['logo']->store('uploads/logo');
         $validated['logo'] = $logo;
 
         if (resolve(\Modules\Setting\Repository\GeneralRepository::class)->save($validated)) {

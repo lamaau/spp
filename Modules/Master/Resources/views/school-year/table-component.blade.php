@@ -12,7 +12,7 @@
             Tambah
         </button>
 
-        <x-modal x-state="open">
+        {{-- <x-modal x-state="open">
             <form>
                 <h2 class="mb-4 text-xl font-semibold leading-tight text-center text-gray-800" x-text="title"></h2>
                 <div class="flex flex-col justify-center space-y-2 text-gray-800">
@@ -32,7 +32,7 @@
                     </div>
                 </div>
             </form>
-        </x-modal>
+        </x-modal> --}}
     </div>
     <div x-data="cog" x-init="init">
         <div class="relative">
@@ -68,56 +68,6 @@
                 </a>
             </div>
         </div>
-        <x-modal x-state="importOpen">
-            <form class="flex flex-col space-y-3" enctype="multipart/form-data">
-                <h2 class="text-xl font-semibold leading-tight text-center text-gray-800">Import Tahun Ajaran</h2>
-                <div>
-                    <label
-                        class="flex flex-col items-center w-64 px-4 py-6 text-gray-800 uppercase transition-all duration-300 bg-gray-100 border rounded-md cursor-pointer border-blue hover:bg-blue hover:text-white hover:bg-gray-800">
-                        @if (is_null($file))
-                            <div class="flex flex-col items-center">
-                                <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 20 20">
-                                    <path
-                                        d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
-                                </svg>
-                                <span class="mt-2 font-bold">Pilih file</span>
-                            </div>
-                        @else
-                            <div class="flex flex-col items-center text-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" class="w-8 h-8 feather feather-file-text">
-                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                    <polyline points="14 2 14 8 20 8"></polyline>
-                                    <line x1="16" y1="13" x2="8" y2="13"></line>
-                                    <line x1="16" y1="17" x2="8" y2="17"></line>
-                                    <polyline points="10 9 9 9 8 9"></polyline>
-                                </svg>
-                                <span class="mt-2 font-bold">{{ $file->getClientOriginalName() }}</span>
-                            </div>
-                        @endif
-                        <input type='file' class="hidden" wire:model="file"
-                            accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
-                            x-ref="input" />
-                    </label>
-                    @error('file')
-                        <small class="text-xs text-red-500">{{ $message }}</small>
-                    @enderror
-                </div>
-                <div class="flex flex-row space-x-2 text-xs text-white">
-                    <button type="button" wire:click.prevent="remove"
-                        class="w-full py-2 font-semibold bg-red-500 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 disabled:opacity-50"
-                        {{ is_null($file) ? 'disabled' : '' }}>
-                        Hapus
-                    </button>
-                    <button type="button" wire:click.prevent="import"
-                        class="w-full py-2 font-semibold bg-indigo-600 rounded hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-500">
-                        import
-                    </button>
-                </div>
-            </form>
-        </x-modal>
     </div>
 </div>
 

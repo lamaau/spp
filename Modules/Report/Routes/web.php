@@ -12,5 +12,5 @@
 */
 
 Route::middleware(['auth', 'verified', 'installed'])->group(function () {
-    Route::get('/', 'ReportController@index');
+    // Route::get('/', 'ReportController@index');
 });

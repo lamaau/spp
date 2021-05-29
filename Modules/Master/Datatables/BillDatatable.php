@@ -13,11 +13,11 @@ use Modules\Master\Imports\RoomImport;
 use App\Datatables\Traits\HtmlComponents;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Master\Http\Requests\BillRequest;
-use App\Datatables\Traits\WithUploadAndImport;
+use App\Datatables\Traits\UploadFileImport;
 
 class BillDatatable extends TableComponent
 {
-    use WithUploadAndImport,
+    use UploadFileImport,
         WithFileUploads,
         HtmlComponents,
         Notify;
@@ -36,7 +36,7 @@ class BillDatatable extends TableComponent
     public $description = null;
 
     /** @var string table component */
-    public $rightTableComponent = 'master::bill.component';
+    public $cardHeaderAction = 'master::bill.component';
 
     /** @var string file upload and import */
     protected $importModel = Room::class;

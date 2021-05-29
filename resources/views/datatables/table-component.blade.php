@@ -31,11 +31,11 @@
                         </div>
                     </div>
 
-                    <div class="card-header-action">
-                        @if ($rightTableComponent)
-                            @include($rightTableComponent)
-                        @endif
-                    </div>
+                    @if ($cardHeaderAction)
+                        <div class="card-header-action">
+                            @include($cardHeaderAction)
+                        </div>
+                    @endif
                 </div>
 
                 <div class="p-0 card-body">

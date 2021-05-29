@@ -23,6 +23,8 @@
         "axios": "^0.21.1",
         "bootstrap": "^4.0.0",
         "datatables.net-dt": "^1.10.21",
+        "laravel-echo": "^1.10.0",
+        "pusher-js": "^7.0.3",
         "izitoast": "^1.4.0",
         "jquery": "^3.2",
         "jquery.nicescroll": "^3.7.6",

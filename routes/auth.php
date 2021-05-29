@@ -4,13 +4,13 @@ use App\Http\Livewire\Auth\Login;
 use App\Http\Livewire\Auth\Verify;
 use App\Http\Livewire\Auth\Install;
 use App\Http\Livewire\Auth\Register;
+use App\Http\Middleware\NotInstalled;
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Auth\Passwords\Email;
 use App\Http\Livewire\Auth\Passwords\Reset;
 use App\Http\Livewire\Auth\Passwords\Confirm;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\EmailVerificationController;
-use App\Http\Middleware\NotInstalled;
 
 Route::middleware(['auth', 'verified', NotInstalled::class])->group(function () {
     Route::get('install', Install::class)->name('install');

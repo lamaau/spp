@@ -27,6 +27,7 @@
         </div>
     </div>
 
+    <script src="{{ mix('js/app.js') }}"></script>
     @include('layouts.includes.scripts')
 </body>
 

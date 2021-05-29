@@ -37,10 +37,5 @@ class RepositoryServiceProvider extends ServiceProvider
             \Modules\Master\Repository\StudentRepository::class,
             \Modules\Master\Repository\Eloquent\StudentEloquent::class
         );
-
-        $this->app->bind(
-            \Modules\Master\Repository\FileUploadRepository::class,
-            \Modules\Master\Repository\Eloquent\FileUploadEloquent::class
-        );
     }
 }

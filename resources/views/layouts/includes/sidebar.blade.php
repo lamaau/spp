@@ -65,12 +65,20 @@
 
             <li class="menu-header">Ekstra</li>
 
+            <li class="{{ active('document') }}">
+                <a class="nav-link" href="{{ route('document.index') }}">
+                    <i class="fas fa-fire"></i>
+                    <span>Dokumen</span>
+                </a>
+            </li>
+
             <li class="">
                 <a class="nav-link" href="#">
                     <i class="fas fa-fire"></i>
                     <span>Laporan</span>
                 </a>
             </li>
+
             <li class="{{ active('setting*') }}">
                 <a class="nav-link" href="{{ route('setting.index') }}">
                     <i class="fas fa-cog"></i>

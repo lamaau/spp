@@ -1,19 +1,16 @@
-@props([
-    'name',
-    'label',
-    'value' => null,
-    'required' => null
-])
+<div>
+    <label for="{{ $name }}" class="text-capitalize">
+        {{ $label }}
 
-<label for="{{ $name }}" class="text-capitalize">
-    {{ $label }}
+        @if ($required)
+            <small class="required text-danger">*</small>
+        @endif
+    </label>
+    <textarea {{ $attributes->wire('model') }} name="{{ $name }}" id="{{ $name }}"
+        class="form-control @error($name) is-invalid @enderror"
+        style="min-height: 5em;">{{ old($name, $value) }}</textarea>
 
-    @if ($required)
-        <small class="required text-danger">*</small>
-    @endif
-</label>
-<textarea {{ $attributes->wire('model') }} name="{{ $name }}" id="{{ $name }}" class="form-control @error($name) is-invalid @enderror" style="height: 5em;">{{ old($name, $value) }}</textarea>
-
-@error($name)
-    <small class="invalid-feedback">{{ $message }}</small>
-@enderror
+    @error($name)
+        <small class="invalid-feedback mt-0">{{ $message }}</small>
+    @enderror
+</div>

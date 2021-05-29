@@ -2,6 +2,19 @@
 
 use Illuminate\Support\Carbon;
 
+if (!function_exists('document_filename')) {
+    /**
+     * Get formated documents filename
+     *
+     * @param string $filename
+     * @return string
+     */
+    function document_filename(string $filename): string
+    {
+        return substr($filename, strpos($filename, "__") + 2);
+    }
+}
+
 if (!function_exists('create_date')) {
     /**
      * Create date

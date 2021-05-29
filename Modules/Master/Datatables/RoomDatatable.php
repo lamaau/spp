@@ -8,42 +8,161 @@ use Livewire\WithFileUploads;
 use App\Datatables\Traits\Notify;
 use Modules\Master\Entities\Room;
 use App\Datatables\TableComponent;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use Modules\Master\Imports\RoomImport;
+use Modules\Document\Entities\Document;
 use App\Datatables\Traits\HtmlComponents;
+use App\Jobs\NotifyUserOfCompletedImport;
 use Illuminate\Database\Eloquent\Builder;
+use App\Datatables\Traits\UploadFileImport;
 use Modules\Master\Http\Requests\RoomRequest;
-use App\Datatables\Traits\WithUploadAndImport;
 
 class RoomDatatable extends TableComponent
 {
-    use WithUploadAndImport,
+    use UploadFileImport,
         WithFileUploads,
         HtmlComponents,
         Notify;
 
-    /** @var string */
+    /** @var null|string */
     public $pid;
-    public $query;
-    public $name = null;
-    public $description = null;
+    public $name;
+    public $description;
 
-    /** @var string right table component */
-    public $rightTableComponent = 'master::room.component';
+    /** @var bool|string table component */
+    public $cardHeaderAction = 'master::room.component';
 
-    /** @var string file upload and import */
-    protected $importModel = Room::class;
-    protected $fileUploadDestination = 'rooms';
-    protected $fileFormatName = 'Format_Kelas.xlsx';
+    public string $fileFormatName = 'format-kelas.xlsx';
 
     /** @var RoomRequest */
-    protected $request;
+    protected object $request;
 
     public function __construct(string $id = null)
     {
         parent::__construct($id);
 
         $this->request = new RoomRequest;
+    }
+
+    public function getListeners()
+    {
+        $userId = Auth::user()->id;
+
+        return [
+            "echo-private:Modules.Master.Entities.User.{$userId},.Illuminate\Notifications\Events\BroadcastNotificationCreated" => '$refresh',
+        ];
+    }
+
+    /**
+     * Reset value
+     *
+     * @return void
+     */
+    public function resetValue(): void
+    {
+        $this->pid = null;
+        $this->name = null;
+        $this->description = null;
+    }
+
+    /**
+     * Create modal
+     *
+     * @return Event
+     */
+    public function create(): Event
+    {
+        $this->resetValue();
+        return $this->emit('modal:toggle');
+    }
+
+    /**
+     * Save room
+     *
+     * @return Event
+     */
+    public function save(): Event
+    {
+        $validated = $this->validate($this->request->rules(), [], $this->request->attributes());
+
+        if (resolve(\Modules\Master\Repository\RoomRepository::class)->save($validated)) {
+            $this->resetValue();
+            $this->emit('modal:toggle');
+            return $this->success('Berhasil!', 'Kelas berhasil ditambahkan.');
+        }
+
+        return $this->error('Oopss!', 'Maaf, terjadi kesalahan.');
+    }
+
+    /**
+     * Edit room
+     *
+     * @param string $id
+     * @return Event
+     */
+    public function edit(string $id): Event
+    {
+        $this->pid = $id;
+        $query = $this->query()->where('id', $this->pid)->first();
+        $this->name = $query->name;
+        $this->description = $query->description;
+
+        return $this->emit('modal:toggle');
+    }
+
+    /**
+     * Update room
+     *
+     * @param string $id
+     * @return Event
+     */
+    public function update(): Event
+    {
+        $validated = $this->validate($this->request->rules($this->pid), [], $this->request->attributes());
+        $this->query()->where('id', $this->pid)->first()->update($validated);
+        $this->resetValue();
+        $this->emit('modal:toggle');
+        return $this->success('Berhasil!', 'Kelas berhasil diubah.');
+    }
+
+    /**
+     * Delete room
+     *
+     * @param string $id
+     * @return Event
+     */
+    public function delete(string $id): Event
+    {
+        if (resolve(\Modules\Master\Repository\RoomRepository::class)->delete($id)) {
+            return $this->success('Berhasil!', 'Kelas berhasil dihapus.');
+        }
+
+        return $this->error('Oopss!', 'Maaf, terjadi kesalahan.');
+    }
+
+    public function upload()
+    {
+        $filename = $this->uploadFileImport();
+        $data = [
+            'filename' => $filename,
+            'model' => "\Modules\Master\Entities\Room",
+            'created_by' => auth()->user()->id,
+        ];
+
+        try {
+            $uploaded = Document::create($data);
+
+            (new RoomImport($uploaded))->queue(uploaded_path($uploaded->filename))->chain([
+                new NotifyUserOfCompletedImport($uploaded),
+            ]);
+
+            $this->removeFileImport();
+            $this->emit('import:complete');
+            return $this->success('Berhasil!', 'Dokumen berhasil diupload.');
+        } catch (\Throwable $e) {
+            return $this->error('Oops.', $e->getMessage());
+        }
     }
 
     public function query(): Builder
@@ -72,100 +191,12 @@ class RoomDatatable extends TableComponent
                 ->sortable()
                 ->searchable()
                 ->format(function (Room $model) {
-                    return date('F d, Y', strtotime($model->created_at));
+                    return format_date($model->created_at);
                 }),
             Column::make('aksi')
                 ->format(function (Room $model) {
                     return view('master::room.action', ['model' => $model]);
                 })
         ];
-    }
-
-    /**
-     * Reset value
-     *
-     * @return void
-     */
-    public function resetValue(): void
-    {
-        $this->name = null;
-        $this->description = null;
-    }
-
-    public function create(): Event
-    {
-        $this->resetValue();
-        return $this->emit('create');
-    }
-
-    /**
-     * Save new rooms
-     *
-     * @return Event
-     */
-    public function save(): Event
-    {
-        $validated = $this->validate($this->request->rules(), [], $this->request->attributes());
-
-        if (resolve(\Modules\Master\Repository\RoomRepository::class)->save($validated)) {
-            $this->resetValue();
-            return $this->success('Berhasil!', 'Kelas berhasil ditambahkan.');
-        }
-
-        return $this->error('Oopss!', 'Maaf, terjadi kesalahan.');
-    }
-
-    public function edit(string $id): Event
-    {
-        $this->pid = $id;
-        $this->query = $this->query()->where('id', $id)->first();
-
-        $this->name = $this->query->name;
-        $this->description = $this->query->description;
-
-        return $this->emit('edit', $id);
-    }
-
-    public function update(): Event
-    {
-        $validated = $this->validate($this->request->rules($this->pid), [], $this->request->attributes());
-        $this->query->update($validated);
-        return $this->success('Berhasil!', 'Kelas berhasil diubah.');
-    }
-
-    /**
-     * Delete rooms
-     *
-     * @param string $id
-     * @return Event
-     */
-    public function delete(string $id): Event
-    {
-        if (resolve(\Modules\Master\Repository\RoomRepository::class)->delete($id)) {
-            return $this->success('Berhasil!', 'Kelas berhasil dihapus.');
-        }
-
-        return $this->error('Oopss!', 'Maaf, terjadi kesalahan.');
-    }
-
-    public $test;
-
-    /**
-     * Get import class
-     *
-     * @return Event|\Illuminate\Support\MessageBag
-     */
-    public function import()
-    {
-        $uploaded = $this->upload();
-
-        try {
-            Excel::import(new RoomImport, uploaded_path($uploaded->filename));
-
-            $this->remove();
-            return $this->success('Berhasil!', 'Kelas berhasil diimport.');
-        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
-            return $this->addError('file', $e->failures()[0]->errors()[0]);
-        }
     }
 }

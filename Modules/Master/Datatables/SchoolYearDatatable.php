@@ -12,12 +12,12 @@ use Modules\Master\Entities\SchoolYear;
 use App\Datatables\Traits\HtmlComponents;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Master\Imports\SchoolYearImport;
-use App\Datatables\Traits\WithUploadAndImport;
+use App\Datatables\Traits\UploadFileImport;
 use Modules\Master\Http\Requests\SchoolYearRequest;
 
 class SchoolYearDatatable extends TableComponent
 {
-    use WithUploadAndImport,
+    use UploadFileImport,
         WithFileUploads,
         HtmlComponents,
         Notify;
@@ -26,12 +26,7 @@ class SchoolYearDatatable extends TableComponent
     public $pid;
     public $year = null;
     public $description = null;
-    public $optionComponentView = 'master::school-year.table-component';
-
-    /** @var string file upload and import */
-    protected $importModel = SchoolYear::class;
-    protected $fileUploadDestination = 'school-year';
-    protected $fileFormatName = 'Format_Tahun_Ajaran.xlsx';
+    public $cardHeaderAction = 'master::school-year.table-component';
 
     /** @var object */
     public $query;

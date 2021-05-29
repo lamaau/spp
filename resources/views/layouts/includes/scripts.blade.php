@@ -40,10 +40,10 @@
         <script type="text/javascript">
             @foreach ($values as $value)
                 iziToast.show({
-                    color: "{{ $value['color'] }}",
-                    title: "{{ $value['title'] }}",
-                    message: "{{ $value['message'] }}",
-                    position: "{{ $value['position'] }}",
+                color: "{{ $value['color'] }}",
+                title: "{{ $value['title'] }}",
+                message: "{{ $value['message'] }}",
+                position: "{{ $value['position'] }}",
                 });
             @endforeach
 

@@ -15,7 +15,7 @@ class DashboardController extends Controller
         StudentRepository $student,
         IncomeRepository $income,
         SpendingRepository $spending
-    ) {
+    ) {        
         return view('dashboard::index', [
             'title' => 'Dashboard',
             'bill' => $bill->all()->count(),
