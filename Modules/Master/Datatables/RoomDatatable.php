@@ -8,27 +8,27 @@ use Livewire\WithFileUploads;
 use App\Datatables\Traits\Notify;
 use Modules\Master\Entities\Room;
 use App\Datatables\TableComponent;
+use App\Jobs\ConvertWithImportJob;
 use Illuminate\Support\Facades\Auth;
-use Maatwebsite\Excel\Facades\Excel;
-use Modules\Master\Imports\RoomImport;
 use Modules\Document\Entities\Document;
 use App\Datatables\Traits\HtmlComponents;
-use App\Jobs\NotifyUserOfCompletedImport;
+use App\Datatables\Traits\Listeners;
 use Illuminate\Database\Eloquent\Builder;
-use App\Datatables\Traits\UploadFileImport;
 use Modules\Master\Http\Requests\RoomRequest;
+use Modules\Master\Imports\RoomImport;
 
 class RoomDatatable extends TableComponent
 {
-    use UploadFileImport,
-        WithFileUploads,
+    use WithFileUploads,
         HtmlComponents,
+        Listeners,
         Notify;
 
     /** @var null|string */
     public $pid;
-    public $name;
-    public $description;
+    public $name = null;
+    public $file = null;
+    public $description = null;
 
     /** @var bool|string table component */
     public $cardHeaderAction = 'master::room.component';
@@ -43,15 +43,6 @@ class RoomDatatable extends TableComponent
         parent::__construct($id);
 
         $this->request = new RoomRequest;
-    }
-
-    public function getListeners()
-    {
-        $userId = Auth::user()->id;
-
-        return [
-            "echo-private:Modules.Master.Entities.User.{$userId},.Illuminate\Notifications\Events\BroadcastNotificationCreated" => '$refresh',
-        ];
     }
 
     /**
@@ -141,23 +132,34 @@ class RoomDatatable extends TableComponent
         return $this->error('Oopss!', 'Maaf, terjadi kesalahan.');
     }
 
-    public function upload()
+    /**
+     * Upload and import
+     *
+     * @return Event
+     */
+    public function upload(): Event
     {
-        $filename = $this->uploadFileImport();
+        $this->validate([
+            'file' => ['required', 'max:1024', 'mimes:ods,xls,xlsx'],
+        ]);
+
+        $filename = $this->file->storeAs(
+            'uploads/imports',
+            generate_document_name($this->file->getClientOriginalExtension(), 'document_original', 'uploads/imports')
+        );
+
         $data = [
             'filename' => $filename,
             'model' => "\Modules\Master\Entities\Room",
-            'created_by' => auth()->user()->id,
+            'created_by' => Auth::id(),
         ];
 
         try {
-            $uploaded = Document::create($data);
+            $document = Document::create($data);
 
-            (new RoomImport($uploaded))->queue(uploaded_path($uploaded->filename))->chain([
-                new NotifyUserOfCompletedImport($uploaded),
-            ]);
+            /** convert and import */
+            ConvertWithImportJob::dispatch($document, new RoomImport($document));
 
-            $this->removeFileImport();
             $this->emit('import:complete');
             return $this->success('Berhasil!', 'Dokumen berhasil diupload.');
         } catch (\Throwable $e) {

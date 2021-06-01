@@ -7,11 +7,12 @@ use App\Datatables\Column;
 use Livewire\WithFileUploads;
 use App\Datatables\Traits\Notify;
 use App\Datatables\TableComponent;
-use Maatwebsite\Excel\Facades\Excel;
+use App\Jobs\ConvertWithImportJob;
+use Illuminate\Support\Facades\Auth;
 use Modules\Document\Entities\Document;
 use Modules\Master\Entities\SchoolYear;
 use App\Datatables\Traits\HtmlComponents;
-use App\Jobs\NotifyUserOfCompletedImport;
+use App\Datatables\Traits\Listeners;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Master\Imports\SchoolYearImport;
 use Modules\Master\Http\Requests\SchoolYearRequest;
@@ -20,6 +21,7 @@ class SchoolYearDatatable extends TableComponent
 {
     use WithFileUploads,
         HtmlComponents,
+        Listeners,
         Notify;
 
     /** @var string */
@@ -130,34 +132,37 @@ class SchoolYearDatatable extends TableComponent
         return $this->error('Oopss!', 'Maaf, terjadi kesalahan.');
     }
 
-    public function upload()
+    /**
+     * Upload and import
+     *
+     * @return Event
+     */
+    public function upload(): Event
     {
         $this->validate([
-            'file' => ['required', 'max:1024', 'mimetypes:application/excel,application/vnd.ms-excel,application/x-excel,application/x-msexcel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'],
-        ], ['mimetypes' => ':attribute harus berupa file excel yang valid.']);
+            'file' => ['required', 'max:1024', 'mimes:ods,xls,xlsx'],
+        ]);
 
         $filename = $this->file->storeAs(
             'uploads/imports',
-            date('YmdHis') . '__' . $this->file->getClientOriginalName()
+            generate_document_name($this->file->getClientOriginalExtension(), 'document_original', 'uploads/imports')
         );
 
         $data = [
             'filename' => $filename,
             'model' => "\Modules\Master\Entities\SchoolYear",
-            'created_by' => auth()->user()->id,
+            'created_by' => Auth::id(),
         ];
 
         try {
-            $uploaded = Document::create($data);
+            $document = Document::create($data);
 
-            (new SchoolYearImport($uploaded))->queue(uploaded_path($uploaded->filename))->chain([
-                new NotifyUserOfCompletedImport($uploaded),
-            ]);
+            /** convert and import */
+            ConvertWithImportJob::dispatch($document, new SchoolYearImport($document));
 
             $this->emit('import:complete');
             return $this->success('Berhasil!', 'Dokumen berhasil diupload.');
         } catch (\Throwable $e) {
-            dd($e->getMessage());
             return $this->error('Oops.', $e->getMessage());
         }
     }

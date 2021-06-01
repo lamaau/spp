@@ -1,6 +1,34 @@
 <?php
 
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
+
+if (!function_exists('generate_document_name')) {
+    /**
+     * Generate file name
+     *
+     * @param object $file
+     * @param string $name
+     * @param string $location
+     * @return string
+     */
+    function generate_document_name(string $ext, string $name, string $location = 'uploads'): string
+    {
+        $path = $location . '/' . date('Ymd') . '_' . $name . '.' . $ext;
+        $exists = Storage::disk(config('filesystem.default'))->exists($path);
+
+        if (!$exists) {
+            return date('Ymd') . '_' . $name . '.' . $ext;
+        } else {
+            $i = 1;
+            while (Storage::disk(config('filesystem.default'))->exists(
+                $location . '/' . date('Ymd') . '_' . $name . '_' . $i . '.' . $ext
+            )) $i++;
+
+            return date('Ymd') . '_' . $name . '_' . $i . '.' . $ext;
+        }
+    }
+}
 
 if (!function_exists('document_filename')) {
     /**

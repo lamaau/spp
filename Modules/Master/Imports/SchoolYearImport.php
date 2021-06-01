@@ -19,11 +19,11 @@ class SchoolYearImport implements ToModel, WithStartRow, WithValidation, ShouldQ
 {
     use Importable;
 
-    protected $uploaded;
+    protected $document;
 
-    public function __construct($uploaded)
+    public function __construct($document)
     {
-        $this->uploaded = $uploaded;
+        $this->document = $document;
     }
 
     public function model(array $row)
@@ -34,7 +34,7 @@ class SchoolYearImport implements ToModel, WithStartRow, WithValidation, ShouldQ
                 'year' => $row[0],
                 'description' => $row[1],
                 'created_at' => now(),
-                'created_by' => $this->uploaded->author->id,
+                'created_by' => $this->document->author->id,
             ]);
         });
     }
@@ -43,7 +43,7 @@ class SchoolYearImport implements ToModel, WithStartRow, WithValidation, ShouldQ
     {
         return [
             ImportFailed::class => function (ImportFailed $event) {
-                $this->uploaded->author->notify(new ImportFailedNotification($event->getException()->failures()));
+                $this->document->author->notify(new ImportFailedNotification($event->getException()->failures()));
             },
         ];
     }

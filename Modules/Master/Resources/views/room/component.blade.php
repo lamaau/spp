@@ -20,8 +20,8 @@
     <x-modals.import
         id="import-modal"
         title="Import Kelas"
-        :file="$fileImport"
-        wire:model='fileImport'
+        :file="$file"
+        wire:model='file'
     />
 
     @php

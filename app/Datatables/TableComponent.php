@@ -2,8 +2,6 @@
 
 namespace App\Datatables;
 
-use App\Datatables\Traits\Checkbox;
-use App\Datatables\Traits\Options;
 use Livewire\Component;
 use Illuminate\View\View;
 use Illuminate\Support\Str;
@@ -11,7 +9,9 @@ use Livewire\WithPagination;
 use App\Datatables\Traits\Table;
 use App\Datatables\Traits\Yajra;
 use App\Datatables\Traits\Search;
+use App\Datatables\Traits\Options;
 use App\Datatables\Traits\Sorting;
+use App\Datatables\Traits\Checkbox;
 use App\Datatables\Traits\Pagination;
 use Illuminate\Database\Eloquent\Builder;
 
