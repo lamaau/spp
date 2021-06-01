@@ -3,13 +3,12 @@
         <i class="fas fa-plus-circle"></i> Tambah
     </button>
     <div class="dropdown d-inline">
-        <button class="btn btn-dark dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false">
+        <button class="btn btn-dark dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fas fa-cog"></i> Lainnya
         </button>
         <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-start">
             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#import-modal">
-                Import Kelas
+                Import Tahun ajaran
             </a>
             <a wire:click.prevent='downloadFormat' class="dropdown-item" href="#">
                 Download Format
@@ -19,13 +18,13 @@
 
     <x-modals.import
         id="import-modal"
-        title="Import Kelas"
-        :file="$fileImport"
-        wire:model='fileImport'
+        title="Import Tahun ajaran"
+        :file="$file"
+        wire:model.defer='file'
     />
-
+    
     @php
-        $title = is_null($pid) ? 'Tambah Kelas' : 'Ubah Kelas';
+        $title = is_null($pid) ? 'Tambah Tahun ajaran' : 'Ubah Tahun ajaran';
     @endphp
 
     <x-modals.modal id="createOrUpdate" :title="$title">
@@ -34,9 +33,9 @@
                 <div class="form-group">
                     <x-inputs.text
                         required
-                        label="nama"
-                        name="name"
-                        wire:model.defer='name'
+                        label="tahun ajaran"
+                        name="year"
+                        wire:model.defer='year'
                     />
                 </div>
                 <div class="form-group">

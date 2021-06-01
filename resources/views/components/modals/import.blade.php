@@ -19,10 +19,10 @@
                 </label>
 
                 <input type="file" id="file"
-                    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                    accept="application/excel, application/vnd.ms-excel, application/x-excel, application/x-msexcel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                     class="form-control" name="file" {{ $attributes->wire('model') }} style="display: none;">
                 @error('file')
-                    <span class="text-danger text-left font-italic">{{ $message }}</span>
+                    <span class="text-danger text-left font-italic">{{ ucfirst($message) }}</span>
                 @enderror
             </div>
         </x-slot>

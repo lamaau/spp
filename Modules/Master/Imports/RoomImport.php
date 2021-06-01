@@ -18,7 +18,7 @@ use Maatwebsite\Excel\Concerns\WithChunkReading;
 class RoomImport implements ToModel, WithStartRow, WithValidation, ShouldQueue, WithChunkReading, WithEvents
 {
     use Importable;
-    
+
     protected $uploaded;
 
     public function __construct($uploaded)
@@ -33,8 +33,8 @@ class RoomImport implements ToModel, WithStartRow, WithValidation, ShouldQueue, 
                 'id' => Str::uuid()->toString(),
                 'name' => $row[0],
                 'description' => $row[1],
-                'created_at'  => now(),
-                'created_by'  => $this->uploaded->author->id,
+                'created_at' => now(),
+                'created_by' => $this->uploaded->author->id,
             ]);
         });
     }
@@ -51,7 +51,8 @@ class RoomImport implements ToModel, WithStartRow, WithValidation, ShouldQueue, 
     public function rules(): array
     {
         return [
-            '0' => Rule::unique('rooms', 'name')->whereNull('deleted_at'),
+            '*.0' => ['required', Rule::unique('rooms', 'name')->whereNull('deleted_at')],
+            '*.1' => ['nullable', 'min:3'],
         ];
     }
 

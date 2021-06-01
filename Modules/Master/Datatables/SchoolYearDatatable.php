@@ -8,28 +8,32 @@ use Livewire\WithFileUploads;
 use App\Datatables\Traits\Notify;
 use App\Datatables\TableComponent;
 use Maatwebsite\Excel\Facades\Excel;
+use Modules\Document\Entities\Document;
 use Modules\Master\Entities\SchoolYear;
 use App\Datatables\Traits\HtmlComponents;
+use App\Jobs\NotifyUserOfCompletedImport;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Master\Imports\SchoolYearImport;
-use App\Datatables\Traits\UploadFileImport;
 use Modules\Master\Http\Requests\SchoolYearRequest;
 
 class SchoolYearDatatable extends TableComponent
 {
-    use UploadFileImport,
-        WithFileUploads,
+    use WithFileUploads,
         HtmlComponents,
         Notify;
 
     /** @var string */
     public $pid;
     public $year = null;
+    public $file = null;
     public $description = null;
-    public $cardHeaderAction = 'master::school-year.table-component';
+
+    /** @var bool|string table component */
+    public $cardHeaderAction = 'master::school-year.component';
+
+    public string $fileFormatName = 'format-tahun-ajaran.xlsx';
 
     /** @var object */
-    public $query;
     protected $request;
 
     public function __construct(string $id = null)
@@ -37,6 +41,125 @@ class SchoolYearDatatable extends TableComponent
         parent::__construct($id);
 
         $this->request = new SchoolYearRequest;
+    }
+
+    /**
+     * Reset value
+     *
+     * @return void
+     */
+    public function resetValue(): void
+    {
+        $this->pid = null;
+        $this->year = null;
+        $this->description = null;
+    }
+
+    /**
+     * Create modal
+     *
+     * @return Event
+     */
+    public function create(): Event
+    {
+        $this->resetValue();
+        return $this->emit('modal:toggle');
+    }
+
+    /**
+     * Save room
+     *
+     * @return Event
+     */
+    public function save(): Event
+    {
+        $validated = $this->validate($this->request->rules(), [], $this->request->attributes());
+
+        if (resolve(\Modules\Master\Repository\SchoolYearRepository::class)->save($validated)) {
+            $this->resetValue();
+            $this->emit('modal:toggle');
+            return $this->success('Berhasil!', 'Tahun ajaran berhasil ditambahkan.');
+        }
+
+        return $this->error('Oopss!', 'Maaf, terjadi kesalahan.');
+    }
+
+    /**
+     * Edit room
+     *
+     * @param string $id
+     * @return Event
+     */
+    public function edit(string $id): Event
+    {
+        $this->pid = $id;
+        $query = $this->query()->where('id', $this->pid)->first();
+        $this->year = $query->year;
+        $this->description = $query->description;
+
+        return $this->emit('modal:toggle');
+    }
+
+    /**
+     * Update room
+     *
+     * @param string $id
+     * @return Event
+     */
+    public function update(): Event
+    {
+        $validated = $this->validate($this->request->rules($this->pid), [], $this->request->attributes());
+        $this->query()->where('id', $this->pid)->first()->update($validated);
+        $this->resetValue();
+        $this->emit('modal:toggle');
+        return $this->success('Berhasil!', 'Tahun ajaran berhasil diubah.');
+    }
+
+    /**
+     * Delete room
+     *
+     * @param string $id
+     * @return Event
+     */
+    public function delete(string $id): Event
+    {
+        if (resolve(\Modules\Master\Repository\SchoolYearRepository::class)->delete($id)) {
+            return $this->success('Berhasil!', 'Tahun ajaran berhasil dihapus.');
+        }
+
+        return $this->error('Oopss!', 'Maaf, terjadi kesalahan.');
+    }
+
+    public function upload()
+    {
+        $this->validate([
+            'file' => ['required', 'max:1024', 'mimetypes:application/excel,application/vnd.ms-excel,application/x-excel,application/x-msexcel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'],
+        ], ['mimetypes' => ':attribute harus berupa file excel yang valid.']);
+
+        $filename = $this->file->storeAs(
+            'uploads/imports',
+            date('YmdHis') . '__' . $this->file->getClientOriginalName()
+        );
+
+        $data = [
+            'filename' => $filename,
+            'model' => "\Modules\Master\Entities\SchoolYear",
+            'created_by' => auth()->user()->id,
+        ];
+
+        try {
+            $uploaded = Document::create($data);
+
+            (new SchoolYearImport($uploaded))->queue(uploaded_path($uploaded->filename))->chain([
+                new NotifyUserOfCompletedImport($uploaded),
+            ]);
+
+            $this->emit('import:complete');
+            return $this->success('Berhasil!', 'Dokumen berhasil diupload.');
+        } catch (\Throwable $e) {
+            dd($e->getMessage());
+            return $this->error('Oops.', $e->getMessage());
+        }
     }
 
     public function query(): Builder
@@ -62,108 +185,10 @@ class SchoolYearDatatable extends TableComponent
                 ->format(function (SchoolYear $model) {
                     return date('F d, Y', strtotime($model->created_at));
                 }),
+            Column::make('aksi')
+                ->format(function (SchoolYear $model) {
+                    return view('master::school-year.action', ['model' => $model]);
+                })
         ];
-    }
-
-    /**
-     * Reset value
-     *
-     * @return void
-     */
-    public function resetValue(): void
-    {
-        $this->year = null;
-        $this->description = null;
-    }
-
-    public function create(): Event
-    {
-        $this->resetValue();
-        return $this->emit('create');
-    }
-
-    /**
-     * Save new rooms
-     *
-     * @return Event
-     */
-    public function save(): Event
-    {
-        $validated = $this->validate($this->request->rules(), [], $this->request->attributes());
-
-        if (resolve(\Modules\Master\Repository\SchoolYearRepository::class)->save($validated)) {
-            $this->resetValue();
-            return $this->success('Yosh..', 'Kelas berhasil ditambahkan.');
-        }
-
-        return $this->error('Oopss..', 'Maaf, terjadi kesalahan.');
-    }
-
-    public function edit(string $id): Event
-    {
-        $this->pid = $id;
-        $this->query = $this->query()->where('id', $id)->first();
-
-        $this->year = $this->query->year;
-        $this->description = $this->query->description;
-
-        return $this->emit('edit', $id);
-    }
-
-    public function update(): Event
-    {
-        $validated = $this->validate($this->request->rules($this->pid), [], $this->request->attributes());
-
-        $this->query->update($validated);
-        return $this->success('Yosh..', 'Kelas berhasil diubah.');
-    }
-
-    /**
-     * Want to delete
-     *
-     * @param string $id
-     * @return Event
-     */
-    public function destroy(string $id)
-    {
-        $this->dispatchBrowserEvent('delete-alert', [
-            'id' => $id,
-            'title' => 'Hapus Tahun Ajaran?',
-            'message' => 'Menghapus data master membuat semua data yang berhubungan akan terhapus, data yang telah dihapus tidak dapat dikembalikan.'
-        ]);
-    }
-
-    /**
-     * Delete rooms
-     *
-     * @param string $id
-     * @return Event
-     */
-    public function delete(string $id): Event
-    {
-        if (resolve(\Modules\Master\Repository\SchoolYearRepository::class)->delete($id)) {
-            return $this->success('Yosh..', 'Kelas berhasil dihapus.');
-        }
-
-        return $this->error('Oopss..', 'Maaf, terjadi kesalahan.');
-    }
-
-    /**
-     * Upload and import
-     *
-     * @return Event|\Illuminate\Support\MessageBag
-     */
-    public function import()
-    {
-        $uploaded = $this->upload();
-
-        try {
-            Excel::import(new SchoolYearImport, uploaded_path($uploaded->filename));
-
-            $this->remove();
-            return $this->success('Yosh..', 'Kelas berhasil diimport.');
-        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
-            return $this->addError('file', $e->failures()[0]->errors()[0]);
-        }
     }
 }
