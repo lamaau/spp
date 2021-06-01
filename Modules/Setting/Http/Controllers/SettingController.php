@@ -2,11 +2,11 @@
 
 namespace Modules\Setting\Http\Controllers;
 
-use App\Constants\SchoolLevel;
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
+use App\Constants\SchoolLevel;
 use Illuminate\Routing\Controller;
-use Modules\Setting\Repository\GeneralRepository;
+use Illuminate\Contracts\Support\Renderable;
+use Modules\Setting\Repository\SettingRepository;
 
 class SettingController extends Controller
 {
@@ -21,11 +21,11 @@ class SettingController extends Controller
         ]);
     }
 
-    public function general(GeneralRepository $setting)
+    public function general(SettingRepository $setting)
     {
         return view('setting::general.index', [
             'title' => 'Umum',
-            'setting' => $setting->first(),
+            'setting' => $setting->general(),
             'levels' => SchoolLevel::labels(),
         ]);
     }

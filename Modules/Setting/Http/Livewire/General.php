@@ -1,11 +1,11 @@
 <?php
 
-namespace Modules\Setting\Livewire;
+namespace Modules\Setting\Http\Livewire;
 
 use Livewire\Component;
 use Modules\Setting\Http\Requests\SettingRequest;
 
-class GeneralSetting extends Component
+class General extends Component
 {
     public array $levels;
     public object $setting;
@@ -50,6 +50,6 @@ class GeneralSetting extends Component
 
     public function render()
     {
-        return view('setting::livewire.general-setting');
+        return view('setting::general.livewire.index');
     }
 }

@@ -8,14 +8,18 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 
-class StudentImport implements ToModel, WithChunkReading, ShouldQueue, WithStartRow
+class StudentImport implements
+    ToModel,
+    ShouldQueue,
+    WithStartRow,
+    WithChunkReading
 {
     public function model(array $row)
     {
         return new Student([
-            'name'  => $row[0],
+            'name' => $row[0],
             'email' => $row[1],
-            'nisn'  => $row[2],
+            'nisn' => $row[2],
         ]);
     }
 

@@ -4,7 +4,6 @@ namespace Modules\Setting\Providers;
 
 use Livewire\Livewire;
 use Illuminate\Support\ServiceProvider;
-use Modules\Setting\Livewire\GeneralSetting;
 
 class LivewireServiceProvider extends ServiceProvider
 {
@@ -15,6 +14,8 @@ class LivewireServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        Livewire::component('general-setting', GeneralSetting::class);
+        Livewire::component('mail-setting', \Modules\Setting\Http\Livewire\Mail::class);
+        Livewire::component('pusher-setting', \Modules\Setting\Http\Livewire\Pusher::class);
+        Livewire::component('general-setting', \Modules\Setting\Http\Livewire\General::class);
     }
 }

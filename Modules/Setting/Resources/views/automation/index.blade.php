@@ -12,4 +12,14 @@
             </div>
         </div>
     </section>
+
+    <div class="row">
+        <div class="col-6">
+            <livewire:mail-setting />
+        </div>
+        <div class="col-6">
+            <livewire:pusher-setting />
+            <!-- database is here -->
+        </div>
+    </div>
 </x-app-layout>
