@@ -19,9 +19,9 @@ class RoomImport implements ToModel, WithStartRow, WithValidation, ShouldQueue, 
 {
     use Importable;
 
-    protected $uploaded;
+    protected object $uploaded;
 
-    public function __construct($uploaded)
+    public function __construct(object $uploaded)
     {
         $this->uploaded = $uploaded;
     }

@@ -24,7 +24,7 @@ class RoomDatatable extends TableComponent
         Listeners,
         Notify;
 
-    /** @var null|string */
+    /** @var null|string|object */
     public $pid;
     public $name = null;
     public $file = null;

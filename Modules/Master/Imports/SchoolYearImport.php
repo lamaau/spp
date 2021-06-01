@@ -19,9 +19,9 @@ class SchoolYearImport implements ToModel, WithStartRow, WithValidation, ShouldQ
 {
     use Importable;
 
-    protected $document;
+    protected object $document;
 
-    public function __construct($document)
+    public function __construct(object $document)
     {
         $this->document = $document;
     }

@@ -24,7 +24,7 @@ class SchoolYearDatatable extends TableComponent
         Listeners,
         Notify;
 
-    /** @var string */
+    /** @var null|string|object */
     public $pid;
     public $year = null;
     public $file = null;
@@ -188,7 +188,7 @@ class SchoolYearDatatable extends TableComponent
                 ->sortable()
                 ->searchable()
                 ->format(function (SchoolYear $model) {
-                    return date('F d, Y', strtotime($model->created_at));
+                    return format_date($model->created_at);
                 }),
             Column::make('aksi')
                 ->format(function (SchoolYear $model) {
