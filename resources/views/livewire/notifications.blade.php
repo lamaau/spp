@@ -13,10 +13,11 @@
                                 <div class="text-truncate">{{ $notification->data['title'] }}</div>
                                 @if ($notification->type === 'App\Notifications\ImportFailedNotification')
                                     @php
-                                        $collection = collect($notification->data['message'])->first();
+                                        $collection = $notification->data['message'];
+                                        // dd($collection);
                                     @endphp
-                                    <span class="small">{{ $collection['errors'][0] }}</span>
-                                    <span class="small d-block">Value: {{ $collection['values'][0] }}</span>
+                                    {{-- <span class="small">{{ $collection['errors'][0] }}</span>
+                                    <span class="small d-block">Value: {{ $collection['values'][0] }}</span> --}}
                                 @endif
 
                                 @if ($notification->type === 'App\Notifications\ImportSuccessNotification')

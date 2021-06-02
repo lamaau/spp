@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Utils;
+namespace App\Services;
 
 class XlsxConverter
 {
@@ -86,10 +86,10 @@ class XlsxConverter
     {
         $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
 
-        $filename = generate_document_name('xlsx', 'document_converted', 'uploads/imports');
-        $fullname = uploaded_path("uploads/imports/{$filename}");
+        $filename = "uploads/imports/" . generate_document_name('xlsx', 'document_converted', 'uploads/imports');
+        $fullname = uploaded_path($filename);
         $writer->save($fullname);
 
-        return $fullname;
+        return $filename;
     }
 }

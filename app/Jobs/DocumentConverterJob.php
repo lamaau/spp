@@ -2,28 +2,29 @@
 
 namespace App\Jobs;
 
+use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
-use Modules\Utils\XlsxConverter;
+use App\Services\XlsxConverter;
 use Illuminate\Queue\SerializesModels;
+use App\Events\DocumentConvertedToXlsx;
+use Modules\Document\Entities\Document;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
-class ConvertWithImportJob implements ShouldQueue
+class DocumentConverterJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected object $import;
-    protected object $document;
+    private Document $document;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(object $document, $import)
+    public function __construct(Document $document)
     {
-        $this->import = $import;
         $this->document = $document;
     }
 
@@ -36,10 +37,10 @@ class ConvertWithImportJob implements ShouldQueue
     {
         $filename = (new XlsxConverter(uploaded_path($this->document->filename)))->convert();
 
-        if (!is_null($filename)) {
-            $this->import->queue($filename)->chain([
-                new NotifyUserOfCompletedImport($this->document),
-            ]);
-        }
+        $this->document->update([
+            'converted_filename' => $filename,
+        ]);
+
+        DocumentConvertedToXlsx::dispatch($this->document);
     }
 }

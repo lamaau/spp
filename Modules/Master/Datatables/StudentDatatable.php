@@ -7,16 +7,15 @@ use App\Datatables\Column;
 use Livewire\WithFileUploads;
 use App\Datatables\Traits\Notify;
 use App\Datatables\TableComponent;
-use App\Jobs\ConvertWithImportJob;
 use App\Datatables\Traits\Listeners;
 use Illuminate\Support\Facades\Auth;
 use Modules\Master\Entities\Student;
 use Modules\Document\Entities\Document;
 use App\Datatables\Traits\HtmlComponents;
+use App\Events\DocumentCreated;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Master\Constants\SexConstant;
 use Modules\Master\Constants\ReligionConstant;
-use Modules\Master\Imports\StudentImport;
 
 class StudentDatatable extends TableComponent
 {
@@ -56,8 +55,7 @@ class StudentDatatable extends TableComponent
         try {
             $document = Document::create($data);
 
-            /** convert and import */
-            ConvertWithImportJob::dispatch($document, new StudentImport($document));
+            DocumentCreated::dispatch($document);
 
             $this->emit('import:complete');
             return $this->success('Berhasil!', 'Dokumen berhasil diupload.');
@@ -120,7 +118,7 @@ class StudentDatatable extends TableComponent
                 ->searchable()
                 ->sortable()
                 ->format(function (Student $model) {
-                    return 'process import beb!';
+                    return $model->room->name;
                 }),
             Column::make('aksi')->format(function (Student $model) {
                 return view('master::student.action', ['model' => $model]);

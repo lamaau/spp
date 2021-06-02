@@ -5,16 +5,15 @@ namespace Modules\Master\Datatables;
 use Livewire\Event;
 use App\Datatables\Column;
 use Livewire\WithFileUploads;
+use App\Events\DocumentCreated;
 use App\Datatables\Traits\Notify;
 use App\Datatables\TableComponent;
-use App\Jobs\ConvertWithImportJob;
+use App\Datatables\Traits\Listeners;
 use Illuminate\Support\Facades\Auth;
 use Modules\Document\Entities\Document;
 use Modules\Master\Entities\SchoolYear;
 use App\Datatables\Traits\HtmlComponents;
-use App\Datatables\Traits\Listeners;
 use Illuminate\Database\Eloquent\Builder;
-use Modules\Master\Imports\SchoolYearImport;
 use Modules\Master\Http\Requests\SchoolYearRequest;
 
 class SchoolYearDatatable extends TableComponent
@@ -157,8 +156,7 @@ class SchoolYearDatatable extends TableComponent
         try {
             $document = Document::create($data);
 
-            /** convert and import */
-            ConvertWithImportJob::dispatch($document, new SchoolYearImport($document));
+            DocumentCreated::dispatch($document);
 
             $this->emit('import:complete');
             return $this->success('Berhasil!', 'Dokumen berhasil diupload.');

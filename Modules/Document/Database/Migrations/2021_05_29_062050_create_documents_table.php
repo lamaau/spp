@@ -17,6 +17,7 @@ class CreateDocumentsTable extends Migration
             $table->uuid('id')->primary();
             $table->string('model');
             $table->string('filename');
+            $table->string('converted_filename')->nullable();
             $table->uuid('created_by')->index();
             $table->uuid('updated_by')->nullable()->index();
             $table->uuid('deleted_by')->nullable()->index();
