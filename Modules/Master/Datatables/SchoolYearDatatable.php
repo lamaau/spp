@@ -5,22 +5,21 @@ namespace Modules\Master\Datatables;
 use Livewire\Event;
 use App\Datatables\Column;
 use Livewire\WithFileUploads;
-use App\Events\DocumentCreated;
 use App\Datatables\Traits\Notify;
 use App\Datatables\TableComponent;
-use App\Datatables\Traits\Listeners;
-use Illuminate\Support\Facades\Auth;
-use Modules\Document\Entities\Document;
 use Modules\Master\Entities\SchoolYear;
+use App\Datatables\Traits\DocumentImport;
 use App\Datatables\Traits\HtmlComponents;
 use Illuminate\Database\Eloquent\Builder;
+use App\Datatables\Traits\DocumentListeners;
 use Modules\Master\Http\Requests\SchoolYearRequest;
 
 class SchoolYearDatatable extends TableComponent
 {
-    use WithFileUploads,
+    use DocumentListeners,
+        WithFileUploads,
         HtmlComponents,
-        Listeners,
+        DocumentImport,
         Notify;
 
     /** @var null|string|object */
@@ -31,8 +30,7 @@ class SchoolYearDatatable extends TableComponent
 
     /** @var bool|string table component */
     public $cardHeaderAction = 'master::school-year.component';
-
-    public string $fileFormatName = 'format-tahun-ajaran.xlsx';
+    public string $formatFile = 'format-tahun-ajaran.ods';
 
     /** @var object */
     protected $request;
@@ -42,6 +40,16 @@ class SchoolYearDatatable extends TableComponent
         parent::__construct($id);
 
         $this->request = new SchoolYearRequest;
+    }
+
+    /**
+     * Get model
+     *
+     * @return string
+     */
+    public function getModel(): string
+    {
+        return '\Modules\Master\Entities\SchoolYear';
     }
 
     /**
@@ -129,40 +137,6 @@ class SchoolYearDatatable extends TableComponent
         }
 
         return $this->error('Oopss!', 'Maaf, terjadi kesalahan.');
-    }
-
-    /**
-     * Upload and import
-     *
-     * @return Event
-     */
-    public function upload(): Event
-    {
-        $this->validate([
-            'file' => ['required', 'max:1024', 'mimes:ods,xls,xlsx'],
-        ]);
-
-        $filename = $this->file->storeAs(
-            'uploads/imports',
-            generate_document_name($this->file->getClientOriginalExtension(), 'document_original', 'uploads/imports')
-        );
-
-        $data = [
-            'filename' => $filename,
-            'model' => "\Modules\Master\Entities\SchoolYear",
-            'created_by' => Auth::id(),
-        ];
-
-        try {
-            $document = Document::create($data);
-
-            DocumentCreated::dispatch($document);
-
-            $this->emit('import:complete');
-            return $this->success('Berhasil!', 'Dokumen berhasil diupload.');
-        } catch (\Throwable $e) {
-            return $this->error('Oops.', $e->getMessage());
-        }
     }
 
     public function query(): Builder

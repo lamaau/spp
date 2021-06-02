@@ -5,23 +5,25 @@ namespace Modules\Master\Datatables;
 use Livewire\Event;
 use App\Datatables\Column;
 use Livewire\WithFileUploads;
+use App\Events\DocumentCreated;
 use App\Datatables\Traits\Notify;
 use App\Datatables\TableComponent;
-use App\Datatables\Traits\Listeners;
+use App\Datatables\Traits\DocumentImport;
 use Illuminate\Support\Facades\Auth;
 use Modules\Master\Entities\Student;
 use Modules\Document\Entities\Document;
 use App\Datatables\Traits\HtmlComponents;
-use App\Events\DocumentCreated;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Master\Constants\SexConstant;
+use App\Datatables\Traits\DocumentListeners;
 use Modules\Master\Constants\ReligionConstant;
 
 class StudentDatatable extends TableComponent
 {
-    use WithFileUploads,
+    use DocumentListeners,
+        WithFileUploads,
         HtmlComponents,
-        Listeners,
+        DocumentImport,
         Notify;
 
     /** @var null|object */
@@ -29,6 +31,16 @@ class StudentDatatable extends TableComponent
 
     /** @var bool|string right table component */
     public $cardHeaderAction = 'master::student.component';
+
+    /**
+     * Get model
+     *
+     * @return string
+     */
+    public function getModel(): string
+    {
+        return '\Modules\Master\Entities\Student';
+    }
 
     /**
      * Upload and import

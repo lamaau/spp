@@ -4,14 +4,14 @@ namespace App\Datatables\Traits;
 
 use Illuminate\Support\Facades\Auth;
 
-trait Listeners
+trait DocumentListeners
 {
     public function getListeners()
     {
         $userId = Auth::user()->id;
 
         return [
-            "echo-private:Modules.Master.Entities.User.{$userId},.Illuminate\Notifications\Events\BroadcastNotificationCreated" => '$refresh',
+            "echo-private:notifications.{$userId},DocumentImportedComplete" => '$refresh',
         ];
     }
 }

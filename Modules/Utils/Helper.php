@@ -14,18 +14,18 @@ if (!function_exists('generate_document_name')) {
      */
     function generate_document_name(string $ext, string $name, string $location = 'uploads'): string
     {
-        $path = $location . '/' . date('Ymd') . '_' . $name . '.' . $ext;
+        $path = $location . '/' . $name . '.' . $ext;
         $exists = Storage::disk(config('filesystem.default'))->exists($path);
 
         if (!$exists) {
-            return date('Ymd') . '_' . $name . '.' . $ext;
+            return $name . '.' . $ext;
         } else {
             $i = 1;
             while (Storage::disk(config('filesystem.default'))->exists(
-                $location . '/' . date('Ymd') . '_' . $name . '_' . $i . '.' . $ext
+                $location . '/' . $name . '_' . $i . '.' . $ext
             )) $i++;
 
-            return date('Ymd') . '_' . $name . '_' . $i . '.' . $ext;
+            return $name . '_' . $i . '.' . $ext;
         }
     }
 }

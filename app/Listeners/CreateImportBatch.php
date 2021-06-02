@@ -2,7 +2,6 @@
 
 namespace App\Listeners;
 
-use Illuminate\Bus\Batch;
 use App\Events\DocumentCreated;
 use App\Events\DocumentImportedComplete;
 use App\Jobs\DocumentConverterJob;
@@ -20,12 +19,14 @@ class CreateImportBatch implements ShouldQueue
      */
     public function handle(DocumentCreated $event)
     {
+        $document = $event->getDocument();
+        
         Bus::batch([
-            new DocumentConverterJob($event->getDocument()),
-            new DocumentImporterJob($event->getDocument()),
+            new DocumentConverterJob($document),
+            new DocumentImporterJob($document),
         ])
-        ->finally(function (Batch $batch) use ($event) {
-            DocumentImportedComplete::dispatch($event->getDocument());
+        ->finally(function () use ($document) {
+            DocumentImportedComplete::dispatch($document);
         })
         ->dispatch();
     }

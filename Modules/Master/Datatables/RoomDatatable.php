@@ -5,34 +5,31 @@ namespace Modules\Master\Datatables;
 use Livewire\Event;
 use App\Datatables\Column;
 use Livewire\WithFileUploads;
-use App\Events\DocumentCreated;
 use App\Datatables\Traits\Notify;
 use Modules\Master\Entities\Room;
 use App\Datatables\TableComponent;
-use App\Datatables\Traits\Listeners;
-use Illuminate\Support\Facades\Auth;
-use Modules\Document\Entities\Document;
+use App\Datatables\Traits\DocumentListeners;
+use App\Datatables\Traits\DocumentImport;
 use App\Datatables\Traits\HtmlComponents;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Master\Http\Requests\RoomRequest;
 
 class RoomDatatable extends TableComponent
 {
-    use WithFileUploads,
+    use DocumentListeners,
+        WithFileUploads,
         HtmlComponents,
-        Listeners,
+        DocumentImport,
         Notify;
 
     /** @var null|string|object */
     public $pid;
     public $name = null;
-    public $file = null;
     public $description = null;
 
     /** @var bool|string table component */
     public $cardHeaderAction = 'master::room.component';
-
-    public string $fileFormatName = 'format-kelas.xlsx';
+    public string $formatFile = 'format-kelas.ods';
 
     /** @var RoomRequest */
     protected object $request;
@@ -44,6 +41,16 @@ class RoomDatatable extends TableComponent
         $this->request = new RoomRequest;
     }
 
+    /**
+     * Get model
+     *
+     * @return string
+     */
+    public function getModel(): string
+    {
+        return '\Modules\Master\Entities\Room';
+    }
+    
     /**
      * Reset value
      *
@@ -130,41 +137,7 @@ class RoomDatatable extends TableComponent
 
         return $this->error('Oopss!', 'Maaf, terjadi kesalahan.');
     }
-
-    /**
-     * Upload and import
-     *
-     * @return Event
-     */
-    public function upload(): Event
-    {
-        $this->validate([
-            'file' => ['required', 'max:1024', 'mimes:ods,xls,xlsx'],
-        ]);
-
-        $filename = $this->file->storeAs(
-            'uploads/imports',
-            generate_document_name($this->file->getClientOriginalExtension(), 'document_original', 'uploads/imports')
-        );
-
-        $data = [
-            'filename' => $filename,
-            'model' => "\Modules\Master\Entities\Room",
-            'created_by' => Auth::id(),
-        ];
-
-        try {
-            $document = Document::create($data);
-
-            DocumentCreated::dispatch($document);
-
-            $this->emit('import:complete');
-            return $this->success('Berhasil!', 'Dokumen berhasil diupload.');
-        } catch (\Throwable $e) {
-            return $this->error('Oops.', $e->getMessage());
-        }
-    }
-
+    
     public function query(): Builder
     {
         return Room::query()->withCount('students');

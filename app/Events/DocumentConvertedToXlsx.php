@@ -7,8 +7,9 @@ use Modules\Document\Entities\Document;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 
-class DocumentConvertedToXlsx
+class DocumentConvertedToXlsx implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -29,8 +30,8 @@ class DocumentConvertedToXlsx
      *
      * @return \Illuminate\Broadcasting\Channel|array
      */
-    public function broadcastOn()
+    public function broadcastOn(): PrivateChannel
     {
-        return new PrivateChannel('channel-name');
+        return new PrivateChannel("notifications.{$this->document->author->id}");
     }
 }
