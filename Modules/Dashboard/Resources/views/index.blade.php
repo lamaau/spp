@@ -8,33 +8,41 @@
         </div>
 
         <div class="row">
-            <x-widget
-                type="success"
-                title="Pemasukan"
-                :value="idr($income)"
-                icon="fas fa-dollar-sign"
-            />
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <x-widget
+                    type="success"
+                    title="Pemasukan"
+                    :value="idr($income)"
+                    icon="fas fa-dollar-sign"
+                />
+            </div>
 
-            <x-widget
-                type="danger"
-                title="Pengeluaran"
-                :value="idr($spending)"
-                icon="fas fa-dollar-sign"
-            />
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <x-widget
+                    type="danger"
+                    title="Pengeluaran"
+                    :value="idr($spending)"
+                    icon="fas fa-dollar-sign"
+                />
+            </div>
 
-            <x-widget
-                type="primary"
-                title="Siswa"
-                :value="$student"
-                icon="fas fa-users"
-            />
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <x-widget
+                    type="primary"
+                    title="Siswa"
+                    :value="$student"
+                    icon="fas fa-users"
+                />
+            </div>
 
-            <x-widget
-                type="warning"
-                title="Tagihan"
-                :value="$bill"
-                icon="far fa-money-bill-alt"
-            />
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <x-widget
+                    type="warning"
+                    title="Tagihan"
+                    :value="$bill"
+                    icon="far fa-money-bill-alt"
+                />
+            </div>
         </div>
 
         <div class="row">

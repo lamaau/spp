@@ -1,11 +1,11 @@
-<label for="{{ $name }}" class="text-capitalize">{{ $label }}
-    @if ($required)
-        <small class="required text-danger">*</small>
-    @endif
-</label>
-<div class="custom-select-icon @error($name) has-error @enderror">
-    <div>
-        <select id="{{ $name }}" wire:model='{{ $name }}' class="custom-select"
+<div class="@error($name) has-error @enderror">
+    <label for="{{ $name }}" class="text-capitalize">{{ $label }}
+        @if ($required)
+            <small class="required text-danger">*</small>
+        @endif
+    </label>
+    <div class="custom-select-icon" wire:ignore>
+        <select id="{{ $name }}" {{ $attributes->wire('model') }} class="custom-select"
             name="{{ $name }}">
             <option></option>
             @if (!empty($items))
@@ -17,5 +17,5 @@
     </div>
 </div>
 @error($name)
-    <small class="text-validate-error">{{ $message }}</small>
+    <small style="color: #dc3545">{{ $message }}</small>
 @enderror

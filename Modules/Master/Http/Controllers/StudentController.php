@@ -45,7 +45,7 @@ class StudentController extends Controller
     {
         return view('master::student.create', [
             'title' => 'Tambah Siswa',
-            'rooms' => $this->room->all(),
+            'rooms' => $this->room->all()->toArray(),
             'sexuals' => SexConstant::labels(),
             'religions' => ReligionConstant::labels(),
         ]);

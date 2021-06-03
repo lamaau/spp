@@ -5,13 +5,10 @@ namespace Modules\Master\Datatables;
 use Livewire\Event;
 use App\Datatables\Column;
 use Livewire\WithFileUploads;
-use App\Events\DocumentCreated;
 use App\Datatables\Traits\Notify;
 use App\Datatables\TableComponent;
 use App\Datatables\Traits\DocumentImport;
-use Illuminate\Support\Facades\Auth;
 use Modules\Master\Entities\Student;
-use Modules\Document\Entities\Document;
 use App\Datatables\Traits\HtmlComponents;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Master\Constants\SexConstant;
@@ -31,6 +28,7 @@ class StudentDatatable extends TableComponent
 
     /** @var bool|string right table component */
     public $cardHeaderAction = 'master::student.component';
+    public string $formatFile = 'format-siswa.ods';
 
     /**
      * Get model
@@ -40,40 +38,6 @@ class StudentDatatable extends TableComponent
     public function getModel(): string
     {
         return '\Modules\Master\Entities\Student';
-    }
-
-    /**
-     * Upload and import
-     *
-     * @return Event
-     */
-    public function upload(): Event
-    {
-        $this->validate([
-            'file' => ['required', 'max:1024', 'mimes:ods,xls,xlsx'],
-        ]);
-
-        $filename = $this->file->storeAs(
-            'uploads/imports',
-            generate_document_name($this->file->getClientOriginalExtension(), 'document_original', 'uploads/imports')
-        );
-
-        $data = [
-            'filename' => $filename,
-            'model' => "\Modules\Master\Entities\Student",
-            'created_by' => Auth::id(),
-        ];
-
-        try {
-            $document = Document::create($data);
-
-            DocumentCreated::dispatch($document);
-
-            $this->emit('import:complete');
-            return $this->success('Berhasil!', 'Dokumen berhasil diupload.');
-        } catch (\Throwable $e) {
-            return $this->error('Oops.', $e->getMessage());
-        }
     }
 
     /**

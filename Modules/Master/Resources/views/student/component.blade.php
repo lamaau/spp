@@ -10,7 +10,7 @@
         <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-start">
             <a class="dropdown-item" data-toggle="modal" data-target="#import-modal" href="#">Import</a>
             <a class="dropdown-item" href="{{ route('master.student.setting-room') }}">Atur Kelas</a>
-            <a class="dropdown-item" href="#">Download Format</a>
+            <a class="dropdown-item" href="#" wire:click.prevent="downloadFormat">Download Format</a>
         </div>
     </div>
 

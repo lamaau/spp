@@ -4,8 +4,8 @@
     @endif
 </label>
 <div class="custom-select-icon @error($name) has-error @enderror">
-    <div>
-        <select id="{{ $name }}" wire:model='{{ $name }}' class="custom-select"
+    <div wire:ignore>
+        <select id="{{ $name }}" {{ $attributes->wire('model') }} class="custom-select"
             name="{{ $name }}">
             <option></option>
             @foreach ($items as $key => $item)
@@ -19,17 +19,3 @@
 @error($name)
     <small style="color: #dc3545">{{ $message }}</small>
 @enderror
-@push('scripts')
-    <script type="text/javascript">
-        $(document).ready(function() {
-            if (jQuery().select2) {
-                $(".select2").select2({
-                    placeholder: "",
-                });
-            } else {
-                console.warn("select2 is not loaded");
-            }
-        });
-
-    </script>
-@endpush
