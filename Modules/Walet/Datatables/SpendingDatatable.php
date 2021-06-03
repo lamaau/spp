@@ -24,7 +24,7 @@ class SpendingDatatable extends TableComponent
     public $description;
 
     /** @var string table component */
-    public $rightTableComponent = 'walet::spending.component';
+    public $cardHeaderAction = 'walet::spending.component';
 
     /** @var BillRequest */
     protected $request;

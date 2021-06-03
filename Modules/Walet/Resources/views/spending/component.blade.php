@@ -1,6 +1,6 @@
 <div>
     <button type="button" data-target="add" class="btn btn-primary">
-        <i class="fas fa-plus-circle"></i>
+        <i class="fas fa-plus-circle"></i> Tambah
     </button>
 
     <x-modals.modal id="addOrEdit" title="Tambah Pengeluaran">

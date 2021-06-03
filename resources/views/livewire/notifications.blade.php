@@ -1,9 +1,12 @@
 <div>
     <div class="row">
         <div class="col-12">
+            <div class="mb-2 text-right">
+                <a href="#" wire:click.prevent="markAsReadAll">Tandai Semua Telah Dibaca</a>
+            </div>
             <div class="box shadow-sm rounded bg-white mb-3">
                 <div class="box-body p-0">
-                    @foreach ($notifications as $notification)
+                    @forelse ($notifications as $notification)
                         <div
                             class="p-3 d-flex align-items-center border-bottom osahan-post-header {{ is_null($notification->read_at) ? 'bg-light' : '' }}">
                             <div class="dropdown-list-icon mr-3 text-white {{ $notification->data['background'] }}">
@@ -12,12 +15,7 @@
                             <div class="font-weight-bold mr-3">
                                 <div class="text-truncate">{{ $notification->data['title'] }}</div>
                                 @if ($notification->type === 'App\Notifications\ImportFailedNotification')
-                                    @php
-                                        $collection = $notification->data['message'];
-                                        // dd($collection);
-                                    @endphp
-                                    {{-- <span class="small">{{ $collection['errors'][0] }}</span>
-                                    <span class="small d-block">Value: {{ $collection['values'][0] }}</span> --}}
+                                    <span class="small">{{ $notification->data['subtitle'] }}</span>
                                 @endif
 
                                 @if ($notification->type === 'App\Notifications\ImportSuccessNotification')
@@ -49,9 +47,27 @@
                                 <br />
                             </span>
                         </div>
-                    @endforeach
+                    @empty
+                        <div class="p-3 text-center">
+                            Saat ini belum ada notifikasi
+                        </div>
+                    @endforelse
                 </div>
+            </div>
+            <div wire:loading.flex style="align-items: center;justify-content: center;">
+                <h6>Loading...</h6>
             </div>
         </div>
     </div>
+
+    @push('scripts')
+        <script type="text/javascript">
+            window.onscroll = function(ev) {
+                if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                    Livewire.emit('load-more');
+                }
+            };
+
+        </script>
+    @endpush
 </div>

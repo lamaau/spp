@@ -12,15 +12,17 @@ class ImportFailedNotification extends Notification implements ShouldQueue
     use Queueable;
 
     protected $message;
+    protected $subtitle;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($message)
+    public function __construct($message, $subtitle)
     {
         $this->message = $message;
+        $this->subtitle = $subtitle;
     }
 
     /**
@@ -45,7 +47,8 @@ class ImportFailedNotification extends Notification implements ShouldQueue
         return [
             'icon' => 'fas fa-times',
             'background' => 'bg-danger',
-            'title' => "Dokumn gagal diimport.",
+            'title' => "Dokumen tidak dapat diproses",
+            'subtitle' => $this->subtitle,
             'message' => $this->message,
         ];
     }

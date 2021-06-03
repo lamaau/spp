@@ -7,22 +7,22 @@ use Illuminate\Validation\Rule;
 use Modules\Master\Entities\Room;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithEvents;
-use Maatwebsite\Excel\Events\ImportFailed;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Imports\Traits\DocumentEventHandler;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
-use App\Notifications\ImportFailedNotification;
-use App\Notifications\ImportSuccessNotification;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
-use Maatwebsite\Excel\Events\AfterImport;
 
 class RoomImport implements ToModel, WithStartRow, WithValidation, ShouldQueue, WithChunkReading, WithEvents
 {
-    protected object $uploaded;
+    use DocumentEventHandler;
+    
+    protected object $document;
+    protected string $module = 'Kelas';
 
-    public function __construct(object $uploaded)
+    public function __construct(object $document)
     {
-        $this->uploaded = $uploaded;
+        $this->document = $document;
     }
 
     public function model(array $row)
@@ -33,21 +33,9 @@ class RoomImport implements ToModel, WithStartRow, WithValidation, ShouldQueue, 
                 'name' => $row[0],
                 'description' => $row[1],
                 'created_at' => now(),
-                'created_by' => $this->uploaded->author->id,
+                'created_by' => $this->document->author->id,
             ]);
         });
-    }
-
-    public function registerEvents(): array
-    {
-        return [
-            AfterImport::class => function (AfterImport $event) {
-                $this->uploaded->author->notify(new ImportSuccessNotification($this->uploaded));
-            },
-            ImportFailed::class => function (ImportFailed $event) {
-                $this->uploaded->author->notify(new ImportFailedNotification($event->getException()->failures()));
-            }
-        ];
     }
 
     public function rules(): array
@@ -64,15 +52,5 @@ class RoomImport implements ToModel, WithStartRow, WithValidation, ShouldQueue, 
             '0' => 'Nama kelas',
             '1' => 'Keterangan',
         ];
-    }
-
-    public function startRow(): int
-    {
-        return 2;
-    }
-
-    public function chunkSize(): int
-    {
-        return 100;
     }
 }

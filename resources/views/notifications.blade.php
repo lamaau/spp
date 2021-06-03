@@ -9,6 +9,7 @@
                 line-height: 42px;
                 text-align: center;
             }
+
         </style>
     @endpush
 
@@ -19,7 +20,7 @@
                 <div class="breadcrumb-item">Notifikasi</div>
             </div>
         </div>
-    </section>
 
-    <livewire:notifications />
+        <livewire:notifications />
+    </section>
 </x-app-layout>

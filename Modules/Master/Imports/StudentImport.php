@@ -6,28 +6,23 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Modules\Master\Entities\Room;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use Modules\Master\Entities\Student;
-use Illuminate\Support\Facades\Validator;
-use Maatwebsite\Excel\Events\AfterImport;
 use Modules\Master\Constants\SexConstant;
-use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithEvents;
-use Maatwebsite\Excel\Events\ImportFailed;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Imports\Traits\DocumentEventHandler;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Modules\Master\Constants\ReligionConstant;
-use App\Notifications\ImportFailedNotification;
-use App\Notifications\ImportSuccessNotification;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 
 class StudentImport implements ToCollection, ShouldQueue, WithValidation, WithStartRow, WithChunkReading, WithEvents
 {
-    use Importable;
-
+    use DocumentEventHandler;
+    
     protected object $document;
+    protected string $module = 'Siswa';
 
     public function __construct(object $document)
     {
@@ -102,27 +97,5 @@ class StudentImport implements ToCollection, ShouldQueue, WithValidation, WithSt
             '6' => 'Agama',
             '7' => 'Jenis Kelamin',
         ];
-    }
-
-    public function registerEvents(): array
-    {
-        return [
-            AfterImport::class => function (AfterImport $event) {
-                $this->document->author->notify(new ImportSuccessNotification($this->document));
-            },
-            ImportFailed::class => function (ImportFailed $event) {
-                $this->document->author->notify(new ImportFailedNotification($event->getException()->failures()));
-            }
-        ];
-    }
-
-    public function chunkSize(): int
-    {
-        return 1000;
-    }
-
-    public function startRow(): int
-    {
-        return 2;
     }
 }

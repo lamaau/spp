@@ -4,7 +4,6 @@ namespace Modules\Master\Entities;
 
 use Modules\Utils\Uuid;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Bill extends Model
@@ -40,6 +39,11 @@ class Bill extends Model
      */
     protected $table = 'bills';
 
+    /**
+     * Casting
+     *
+     * @var array
+     */
     protected $casts = [
         'monthly' => 'boolean',
     ];

@@ -4,8 +4,8 @@ namespace Modules\Master\Imports;
 
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Modules\Master\Entities\Bill;
 use Maatwebsite\Excel\Concerns\ToModel;
-use Modules\Master\Entities\SchoolYear;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Imports\Traits\DocumentEventHandler;
@@ -13,12 +13,12 @@ use Maatwebsite\Excel\Concerns\WithStartRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 
-class SchoolYearImport implements ToModel, WithStartRow, WithValidation, ShouldQueue, WithChunkReading, WithEvents
+class BillImport implements ToModel, WithStartRow, WithValidation, ShouldQueue, WithChunkReading, WithEvents
 {
     use DocumentEventHandler;
     
     protected object $document;
-    protected string $module = 'Tahun Ajaran';
+    protected string $module = 'Tagihan';
 
     public function __construct(object $document)
     {
@@ -27,11 +27,13 @@ class SchoolYearImport implements ToModel, WithStartRow, WithValidation, ShouldQ
 
     public function model(array $row)
     {
-        return SchoolYear::withoutEvents(function () use ($row) {
-            SchoolYear::create([
+        return Bill::withoutEvents(function () use ($row) {
+            Bill::create([
                 'id' => Str::uuid()->toString(),
-                'year' => $row[0],
-                'description' => $row[1],
+                'name' => $row[0],
+                'nominal' => $row[1],
+                'monthly' => $row[2] === 'Ya' ? true : false,
+                'description' => $row[3],
                 'created_at' => now(),
                 'created_by' => $this->document->author->id,
             ]);
@@ -41,16 +43,20 @@ class SchoolYearImport implements ToModel, WithStartRow, WithValidation, ShouldQ
     public function rules(): array
     {
         return [
-            '*.0' => ['required', Rule::unique('school_years', 'year')->whereNull('deleted_at')],
-            '*.1' => ['nullable', 'min:3'],
+            '*.0' => ['required', Rule::unique('bills', 'name')->whereNull('deleted_at')],
+            '*.1' => ['required', 'integer'],
+            '*.2' => ['required'],
+            '*.3' => ['nullable', 'min:3'],
         ];
     }
 
     public function customValidationAttributes()
     {
         return [
-            '0' => 'Tahun ajaran',
-            '1' => 'Keterangan',
+            '0' => 'Nama',
+            '1' => 'Bulanan',
+            // '2' => 'Nominal',
+            '3' => 'Keterangan'
         ];
     }
 }

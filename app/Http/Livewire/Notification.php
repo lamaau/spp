@@ -25,17 +25,13 @@ class Notification extends Component
 
     public function notified()
     {
-        $this->notifications = Auth::user()->unreadNotifications()->take(5)->orderBy('created_at', 'desc')->get();
-    }
-
-    public function markAsRead()
-    {
-        Auth::user()->unreadNotifications->markAsRead();
-        $this->notified();
+        $this->notifications = Auth::user()->notifications()->take(10)->orderBy('created_at', 'desc')->get();
     }
 
     public function render()
     {
-        return view('livewire.notification');
+        return view('livewire.notification', [
+            'unreadCount' => Auth::user()->unreadNotifications()->count(),
+        ]);
     }
 }

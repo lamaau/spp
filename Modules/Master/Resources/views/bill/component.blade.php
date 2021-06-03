@@ -8,11 +8,18 @@
             <i class="fas fa-cog"></i> Lainnya
         </button>
         <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-start">
-            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#import">Import Tagihan</a>
+            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#import-modal">Import Tagihan</a>
             <a class="dropdown-item" href="#" wire:click.prevent="downloadFormat">Download Format</a>
         </div>
     </div>
 
+    <x-modals.import class="import"
+        id="import-modal"
+        title="Import Tagihan"
+        :file="$file"
+        wire:model='file'
+    />
+    
     @php
         $title = is_null($pid) ? 'Tambah Tagihan' : 'Ubah tagihan';
     @endphp
