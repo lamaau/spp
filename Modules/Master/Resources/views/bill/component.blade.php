@@ -1,20 +1,22 @@
 <div>
-    <button type="button" data-target="create" class="btn btn-primary">
-        <i class="fas fa-plus-circle"></i>
+    <button type="button" wire:click.prevent="create" class="btn btn-primary">
+        <i class="fas fa-plus-circle"></i> Tambah
     </button>
     <div class="dropdown d-inline mr-2">
         <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-cog"></i>
+            <i class="fas fa-cog"></i> Lainnya
         </button>
         <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-start">
-            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#import">Import</a>
-            <a class="dropdown-item" href="#">Download PDF</a>
-            <a class="dropdown-item" href="#">Download Excel</a>
-            <a class="dropdown-item" href="#">Download Format</a>
+            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#import">Import Tagihan</a>
+            <a class="dropdown-item" href="#" wire:click.prevent="downloadFormat">Download Format</a>
         </div>
     </div>
 
+    @php
+        $title = is_null($pid) ? 'Tambah Tagihan' : 'Ubah tagihan';
+    @endphp
+    
     <x-modals.modal id="createOrUpdate" :title="$title">
         <form>
             <x-slot name="body">
@@ -23,7 +25,7 @@
                         required
                         name="name"
                         label="nama"
-                        wire:model.lazy='name'
+                        wire:model.defer='name'
                     />
                 </div>
                 <div class="form-group">
@@ -31,7 +33,7 @@
                         required
                         name="nominal"
                         label="nominal"
-                        wire:model.lazy='nominal'
+                        wire:model.defer='nominal'
                     />
                 </div>
                 <div class="form-group">
@@ -46,16 +48,20 @@
                     <x-inputs.textarea
                         name="description"
                         label="keterangan"
-                        wire:model.lazy='description'
+                        wire:model.defer='description'
                     />
                 </div>
             </x-slot>
             <x-slot name="footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
-                @if ($state)
-                    <button type="button" wire:click.prevent='save' class="btn btn-primary">Simpan</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                @if (is_null($pid))
+                    <button wire:click.prevent='save' class="btn btn-primary">
+                        Simpan
+                    </button>
                 @else
-                    <button type="button" wire:click.prevent='update' class="btn btn-primary">Ubah</button>
+                    <button wire:click.prevent="update" class="btn btn-primary">
+                        Ubah
+                    </button>
                 @endif
             </x-slot>
         </form>
@@ -64,20 +70,16 @@
 
 @push('scripts')
     <script type="text/javascript">
-        $(document).ready(() => {
-            $('button[data-target="create"]').on('click', () => {
-                @this.call('create');
+        document.addEventListener("DOMContentLoaded", () => {
+            Livewire.on('import:complete', () => {
+                $('#import-modal').modal('hide');
             });
 
-            $('button[data-target="edit"]').on('click', (e) => {
-                @this.call('edit', e.currentTarget.getAttribute('data-id'));
+            Livewire.on('modal:toggle', () => {
+                $('#createOrUpdate').modal('toggle');
             });
 
-            $(".select2").on("change", (e) => {
-                @this.set('school_year_id', e.target.value);
-            });
-            
-            $('.btn-delete').on('click', (e) => {
+            Livewire.on('delete', (id) => {
                 swal({
                     title: 'Hapus data master?',
                     text: 'Semua data yang berhubungan dengan data ini akan dihapus!',
@@ -87,17 +89,9 @@
                 })
                 .then((willDelete) => {
                     if (willDelete) {
-                        @this.call('delete', e.currentTarget.getAttribute('data-id'));
+                        @this.call('delete', id);
                     }
                 });
-            });
-
-            Livewire.on('notify', () => {
-                $('#createOrUpdate').modal('hide');
-            });
-
-            Livewire.on("modal-toggle", () => {
-                $('#createOrUpdate').modal('toggle');
             });
         });
 

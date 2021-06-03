@@ -63,6 +63,7 @@ trait DocumentImport
             DocumentCreated::dispatch($document);
 
             $this->emit('import:complete');
+            $this->removeFileImport();
             return $this->success('Berhasil!', 'Dokumen berhasil diupload.');
         } catch (\Throwable $e) {
             return $this->error('Oops!', $e->getMessage());

@@ -69,10 +69,6 @@
                 Livewire.on('import:complete', () => {
                     $('#import-modal').modal('hide');
                 });
-                
-                Livewire.on('notice', () => {
-                    $('#createOrUpdate').modal('hide');
-                });
 
                 Livewire.on('modal:toggle', () => {
                     $('#createOrUpdate').modal('toggle');

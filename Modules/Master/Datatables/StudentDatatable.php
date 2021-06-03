@@ -63,6 +63,7 @@ class StudentDatatable extends TableComponent
     public function columns(): array
     {
         return [
+            Column::make('no')->rowIndex(),
             Column::make('nama', 'name')
                 ->sortable()
                 ->searchable(),

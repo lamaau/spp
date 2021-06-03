@@ -8,34 +8,39 @@
             <i class="fas fa-cog"></i> Lainnya
         </button>
         <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-start">
-            <a class="dropdown-item" data-toggle="modal" data-target="#import-modal" href="#">Import</a>
+            <a class="dropdown-item" data-toggle="modal" data-target="#import-modal" href="#">Import Siswa</a>
             <a class="dropdown-item" href="{{ route('master.student.setting-room') }}">Atur Kelas</a>
             <a class="dropdown-item" href="#" wire:click.prevent="downloadFormat">Download Format</a>
         </div>
     </div>
 
-    <x-modals.import id="import-modal" title="Import Siswa" :file="$file" wire:model.defer='file' />
+    <x-modals.import
+        id="import-modal"
+        title="Import Siswa"
+        :file="$file"
+        wire:model.defer='file'
+    />
 
     @push('scripts')
         <script type="text/javascript">
             document.addEventListener('DOMContentLoaded', () => {
-                Livewire.on('edit', (id) => {
-                    alert(id);
+                Livewire.on('import:complete', (id) => {
+                    $('#import-modal').modal('toggle');
                 });
 
                 $('.btn-delete').on('click', (e) => {
                     swal({
-                            title: 'Hapus data master?',
-                            text: 'Semua data yang berhubungan dengan data ini akan dihapus!',
-                            icon: 'warning',
-                            buttons: true,
-                            dangerMode: true,
-                        })
-                        .then((willDelete) => {
-                            if (willDelete) {
-                                @this.call('delete', e.currentTarget.getAttribute('data-id'));
-                            }
-                        });
+                        title: 'Hapus data master?',
+                        text: 'Semua data yang berhubungan dengan data ini akan dihapus!',
+                        icon: 'warning',
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            @this.call('delete', e.currentTarget.getAttribute('data-id'));
+                        }
+                    });
                 });
             });
 
