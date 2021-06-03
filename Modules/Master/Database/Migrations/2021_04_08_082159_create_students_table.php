@@ -16,8 +16,8 @@ class CreateStudentsTable extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
-            $table->string('nis')->nullable();
-            $table->string('nisn')->nullable();
+            $table->string('nis')->unique()->nullable();
+            $table->string('nisn')->unique()->nullable();
             $table->string('email')->unique()->nullable();
             $table->string('phone')->nullable();
             $table->integer('religion');
@@ -26,6 +26,7 @@ class CreateStudentsTable extends Migration
             $table->uuid('room_id')->index();
             $table->uuid('created_by')->index();
             $table->uuid('updated_by')->nullable()->index();
+            $table->uuid('deleted_by')->nullable()->index();
             $table->softDeletes();
             $table->timestamps();
         });

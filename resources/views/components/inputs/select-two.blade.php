@@ -4,7 +4,7 @@
             <small class="required text-danger">*</small>
         @endif
     </label>
-    <div class="custom-select-icon" wire:ignore>
+    <div class="custom-select-icon">
         <select id="{{ $name }}" {{ $attributes->wire('model') }} class="custom-select"
             name="{{ $name }}">
             <option></option>

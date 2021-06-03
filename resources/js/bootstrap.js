@@ -1,10 +1,29 @@
 window._ = require('lodash');
 
+import moment from 'moment';
 import Echo from "laravel-echo";
-import Swal from 'sweetalert2'
 
 window.Pusher = require("pusher-js");
-window.Swal = require("sweetalert2");
+
+/**
+ * We'll load jQuery and the Bootstrap jQuery plugin which provides support
+ * for JavaScript based Bootstrap features such as modals and tabs. This
+ * code may be modified to fit the specific needs of your application.
+ */
+
+try {
+    window.Popper = require('popper.js').default;
+    window.$ = window.jQuery = require('jquery');
+
+    require('bootstrap');
+    require('jquery.nicescroll');
+
+    window.select2 = require('select2');
+    window.moment = moment;
+
+    window.iziToast = require('izitoast');
+    window.Swal = require('sweetalert2');
+} catch (e) { }
 
 window.Echo = new Echo({
     broadcaster: "pusher",
@@ -13,39 +32,3 @@ window.Echo = new Echo({
     encrypted: true,
 });
 
-
-window.CustomDeleteSwall = ({ title, message }, callable = null) => Swal.fire({
-    title: title,
-    text: message,
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#394eea',
-    cancelButtonColor: '#bfc6cd',
-    confirmButtonText: 'Ya, saya yakin',
-    cancelButtonText: 'Batal'
-}).then((result) => {
-    if (result.isConfirmed) {
-        Swal.fire({
-            title: 'Konfirmasi Password',
-            input: 'password',
-            icon: 'warning',
-            inputPlaceholder: 'Masukan password',
-            showCancelButton: true,
-            confirmButtonColor: '#394eea',
-            cancelButtonColor: '#bfc6cd',
-            cancelButtonText: 'Batal',
-            inputAttributes: {
-                autocapitalize: 'off',
-                autocorrect: 'off',
-                required: true,
-            }
-        })
-            .then((result) => {
-                if (result.isConfirmed) {
-                    if (callable) {
-                        callable(result);
-                    }
-                }
-            })
-    }
-});

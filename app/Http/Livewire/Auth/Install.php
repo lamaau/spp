@@ -94,7 +94,7 @@ class Install extends Component
         $logo = $validated['logo']->store('uploads/logo');
         $validated['logo'] = $logo;
 
-        if (resolve(\Modules\Setting\Repository\GeneralRepository::class)->save($validated)) {
+        if (resolve(\Modules\Setting\Repository\SettingRepository::class)->saveOrUpdate('settings', $validated)) {
             return redirect()->route('dashboard');
         }
 

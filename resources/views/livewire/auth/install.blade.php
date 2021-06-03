@@ -166,30 +166,24 @@
 
                                 <div class="{{ $currentStep != 2 ? 'displayNone' : '' }}">
                                     <div class="row">
-                                        <div class="form-group col-6 @error('province') has-error @enderror">
-                                            <div wire:ignore>
-                                                <x-inputs.select-two required name="province" label="provinsi"
-                                                    :items="$provinces" />
-                                            </div>
-                                            {{-- beacause livewire re render dom, i need to write bellow again :) --}}
-                                            @error('province')
-                                                <small class="text-validate-error">{{ $message }}</small>
-                                            @enderror
+                                        <div class="form-group col-6">
+                                            <x-inputs.select-two required name="province" label="provinsi"
+                                                :items="$provinces" wire:model="province" />
                                         </div>
 
                                         <div class="form-group col-6">
                                             <x-inputs.select-two required name="city" label="kota / kabupaten"
-                                                :items="$cities" />
+                                                :items="$cities" wire:model="city" />
                                         </div>
 
                                         <div class="form-group col-6">
                                             <x-inputs.select-two required name="district" label="kecamatan"
-                                                :items="$districts" />
+                                                :items="$districts" wire:model="district" />
                                         </div>
 
                                         <div class="form-group col-6">
                                             <x-inputs.select-two required name="subdistrict" label="kelurahan"
-                                                :items="$subdistricts" />
+                                                :items="$subdistricts" wire:model="subdistrict" />
                                         </div>
 
                                         <div class="form-group col-12">

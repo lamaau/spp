@@ -7,10 +7,12 @@ use Modules\Master\Entities\Room;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Student extends Model
 {
-    use HasFactory,
+    use SoftDeletes,
+        HasFactory,
         Uuid;
 
     /**
@@ -19,6 +21,15 @@ class Student extends Model
      * @var boolean
      */
     public $incrementing = false;
+
+    /**
+     * Column unique
+     *
+     * @var array
+     */
+    public $unique = [
+        'nis', 'nisn', 'email'
+    ];
 
     /**
      * Mass Assignment

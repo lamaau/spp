@@ -34,5 +34,10 @@ class RoomObserver
 
             $model->update($result);
         }
+
+        /** delete all related student */
+        $model->students()->each(function ($query) {
+            $query->delete();
+        });
     }
 }
