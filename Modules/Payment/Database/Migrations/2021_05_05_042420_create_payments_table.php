@@ -17,7 +17,7 @@ class CreatePaymentsTable extends Migration
             $table->uuid('id')->primary();
             $table->string('code')->comment('kode transaksi');
             $table->date('pay_date')->comment('tanggal pembayaran');
-            $table->date('month')->comment('bulan yang dibayar');
+            $table->date('month')->nullable()->comment('bulan yang dibayar');
             $table->bigInteger('pay')->comment('pembayaran');
             $table->bigInteger('change')->nullable()->comment('kembalian');
             $table->bigInteger('mines')->nullable()->comment('kekurangan');

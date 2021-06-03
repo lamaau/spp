@@ -8,10 +8,12 @@ use Livewire\WithFileUploads;
 use App\Datatables\Traits\Notify;
 use Modules\Master\Entities\Room;
 use App\Datatables\TableComponent;
-use App\Datatables\Traits\DocumentListeners;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Datatables\Traits\DocumentImport;
 use App\Datatables\Traits\HtmlComponents;
 use Illuminate\Database\Eloquent\Builder;
+use App\Datatables\Traits\DocumentListeners;
 use Modules\Master\Http\Requests\RoomRequest;
 
 class RoomDatatable extends TableComponent
@@ -21,6 +23,8 @@ class RoomDatatable extends TableComponent
         HtmlComponents,
         DocumentImport,
         Notify;
+
+    public $password;
 
     /** @var null|string|object */
     public $pid;
@@ -50,7 +54,7 @@ class RoomDatatable extends TableComponent
     {
         return '\Modules\Master\Entities\Room';
     }
-    
+
     /**
      * Reset value
      *
@@ -127,17 +131,22 @@ class RoomDatatable extends TableComponent
      * Delete room
      *
      * @param string $id
+     * @param string $password
      * @return Event
      */
-    public function delete(string $id): Event
+    public function delete(string $id, string $password): Event
     {
-        if (resolve(\Modules\Master\Repository\RoomRepository::class)->delete($id)) {
-            return $this->success('Berhasil!', 'Kelas berhasil dihapus.');
+        if (Hash::check($password, Auth::user()->password)) {
+            if (resolve(\Modules\Master\Repository\RoomRepository::class)->delete($id)) {
+                return $this->success('Berhasil!', 'Kelas berhasil dihapus.');
+            }
+
+            return $this->error('Oopss!', 'Maaf, terjadi kesalahan.');
         }
 
-        return $this->error('Oopss!', 'Maaf, terjadi kesalahan.');
+        return $this->error('Oops!', 'Password yang anda masukan salah.');
     }
-    
+
     public function query(): Builder
     {
         return Room::query()->withCount('students');

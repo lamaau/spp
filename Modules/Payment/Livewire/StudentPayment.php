@@ -155,7 +155,7 @@ class StudentPayment extends Component
             return $this->success('Berhasil!', 'Pembayaran telah dilakukan.');
         } catch (\Throwable $th) {
             DB::rollBack();
-            return $this->error('Oops..', 'Terjadi kesalahan.');
+            return $this->error('Oops!', 'Terjadi kesalahan.');
         }
     }
 

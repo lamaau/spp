@@ -2,10 +2,7 @@
 
 namespace Modules\Master\Providers;
 
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\Eloquent\Factory;
-use Modules\Master\View\Composer\SettingComposer;
 
 class MasterServiceProvider extends ServiceProvider
 {

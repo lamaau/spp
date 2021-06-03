@@ -7,8 +7,7 @@ use Modules\Master\Repository\RoomRepository;
 
 class RoomEloquent implements RoomRepository
 {
-    /** @var Room */
-    protected $room;
+    protected Room $room;
 
     public function __construct(Room $room)
     {

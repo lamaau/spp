@@ -25,7 +25,7 @@ class RoomObserver
     {
         if (property_exists(Room::class, 'unique') && is_array($model->unique)) {
             foreach ($model->unique as $key) {
-                $tmp[$key] = uniqid() . "-" . $model->{$key};
+                $tmp[$key] = uniqid() . "::" . $model->{$key};
             }
 
             $result = array_merge($tmp, [

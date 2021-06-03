@@ -2,15 +2,7 @@
 
 namespace Modules\Master\Providers;
 
-use Modules\Master\Entities\Bill;
-use Modules\Master\Entities\Room;
-use Modules\Master\Entities\Setting;
 use Illuminate\Support\ServiceProvider;
-use Modules\Master\Entities\SchoolYear;
-use Modules\Master\Observer\BillObserver;
-use Modules\Master\Observer\RoomObserver;
-use Modules\Master\Observer\InstallObserver;
-use Modules\Master\Observer\SchoolYearObserver;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -21,9 +13,10 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Room::observe(RoomObserver::class);
-        Bill::observe(BillObserver::class);
-        Setting::observe(InstallObserver::class);
-        SchoolYear::observe(SchoolYearObserver::class);
+        \Modules\Master\Entities\Room::observe(\Modules\Master\Observer\RoomObserver::class);
+        \Modules\Master\Entities\Bill::observe(\Modules\Master\Observer\BillObserver::class);
+        \Modules\Master\Entities\Setting::observe(\Modules\Master\Observer\InstallObserver::class);
+        \Modules\Master\Entities\Student::observe(\Modules\Master\Observer\StudentObserver::class);
+        \Modules\Master\Entities\SchoolYear::observe(\Modules\Master\Observer\SchoolYearObserver::class);
     }
 }

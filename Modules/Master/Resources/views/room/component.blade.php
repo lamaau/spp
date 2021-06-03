@@ -67,6 +67,7 @@
     @push('scripts')
         <script type="text/javascript">
             document.addEventListener("DOMContentLoaded", () => {
+                
                 Livewire.on('import:complete', () => {
                     $('#import-modal').modal('hide');
                 });
@@ -74,7 +75,7 @@
                 Livewire.on('modal:toggle', () => {
                     $('#createOrUpdate').modal('toggle');
                 });
-
+                
                 Livewire.on('delete', (id) => {
                     swal({
                             title: 'Hapus data master?',
@@ -84,8 +85,14 @@
                             dangerMode: true,
                         })
                         .then((willDelete) => {
-                            if (willDelete) {
-                                @this.call('delete', id);
+                            if(willDelete) {
+                                swal({
+                                    title: "Masukan password untuk konfirmasi",
+                                    html: '<input type="password" />',
+                                })
+                                .then((password) => {
+                                    @this.call('delete', id, password)
+                                });
                             }
                         });
                 });
