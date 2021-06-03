@@ -22,7 +22,7 @@ class BillEloquent implements BillRepository
      */
     public function all()
     {
-        return $this->bill->get();
+        return $this->bill->withSum('payments', 'pay')->get();
     }
 
     /**

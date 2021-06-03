@@ -49,10 +49,10 @@
 
             <li class="menu-header">Keuangan</li>
 
-            <li class="{{ active('payment*') }}">
-                <a class="nav-link" href="{{ route('payment.index') }}">
+            <li class="{{ active('walet/income*') }}">
+                <a class="nav-link" href="{{ route('walet.income') }}">
                     <i class="fas fa-fire"></i>
-                    <span>Pembayaran</span>
+                    <span>Pemasukan</span>
                 </a>
             </li>
 
@@ -60,6 +60,13 @@
                 <a class="nav-link" href="{{ route('walet.spending') }}">
                     <i class="fas fa-fire"></i>
                     <span>Pengeluaran</span>
+                </a>
+            </li>
+
+            <li class="{{ active('payment*') }}">
+                <a class="nav-link" href="{{ route('payment.index') }}">
+                    <i class="fas fa-fire"></i>
+                    <span>Pembayaran</span>
                 </a>
             </li>
 

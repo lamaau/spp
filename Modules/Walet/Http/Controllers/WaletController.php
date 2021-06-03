@@ -2,9 +2,10 @@
 
 namespace Modules\Walet\Http\Controllers;
 
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
+use Modules\Master\Entities\Bill;
 use Illuminate\Routing\Controller;
+use Illuminate\Contracts\Support\Renderable;
 use Modules\Master\Repository\BillRepository;
 
 class WaletController extends Controller
