@@ -82,7 +82,7 @@ class BillDatatable extends TableComponent
      */
     public function save(): Event
     {
-        $this->nominal = str_replace('.', '', $this->nominal);
+        $this->nominal = clean_currency_format($this->nominal);
 
         $validated = $this->validate($this->request->rules(), [], $this->request->attributes());
 

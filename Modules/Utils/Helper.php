@@ -3,6 +3,19 @@
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 
+if (!function_exists('clean_currency_format')) {
+    /**
+     * Clean currency from number format
+     *
+     * @param integer|string $currency
+     * @return integer
+     */
+    function clean_currency_format($currency): int
+    {
+        return (int)str_replace('.', '', $currency);
+    }
+}
+
 if (!function_exists('generate_document_name')) {
     /**
      * Generate file name

@@ -112,7 +112,9 @@ class StudentPayment extends Component
 
     public function updatedPay()
     {
-        if (!is_null($this->pay) && is_numeric($this->pay)) {
+        $pay = clean_currency_format($this->pay);
+
+        if (!is_null($pay) && is_numeric($pay)) {
             if ($this->billResult->monthly) {
                 $totalPayments = array_sum($this->totalPayment);
             } else {
@@ -120,8 +122,8 @@ class StudentPayment extends Component
             }
 
             $payed = $this->billResult->nominal - $totalPayments;
-            if ($payed != 0 && $this->pay > $payed) {
-                $this->change = $this->pay - $payed;
+            if ($payed != 0 && $pay > $payed) {
+                $this->change = idr($pay - $payed);
             } else {
                 $this->change = 0;
             }
@@ -138,6 +140,19 @@ class StudentPayment extends Component
         DB::beginTransaction();
 
         try {
+            $pay = clean_currency_format($validated['pay']);
+            $changed = clean_currency_format(
+                trim(
+                    substr(
+                        $this->change,
+                        strpos(
+                            $this->change,
+                            "Rp"
+                        ) + 2
+                    )
+                )
+            );
+
             $payment = array_merge($validated, [
                 'month' => $this->month,
                 'bill_id' => $this->bill,
@@ -145,7 +160,7 @@ class StudentPayment extends Component
                 'change' => $this->change,
                 'student_id' => $this->student,
                 'code' => Trx::generate(Payment::class),
-                'pay' => abs($validated['pay'] - $this->change),
+                'pay' => abs($pay - $changed),
             ]);
 
             Payment::create($payment);
@@ -154,6 +169,7 @@ class StudentPayment extends Component
             $this->search();
             return $this->success('Berhasil!', 'Pembayaran telah dilakukan.');
         } catch (\Throwable $th) {
+            dd($th->getMessage());
             DB::rollBack();
             return $this->error('Oops!', 'Terjadi kesalahan.');
         }
