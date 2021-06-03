@@ -20,14 +20,12 @@ class CreateImportBatch implements ShouldQueue
     public function handle(DocumentCreated $event)
     {
         $document = $event->getDocument();
-        
+
         Bus::batch([
             new DocumentConverterJob($document),
             new DocumentImporterJob($document),
-        ])
-        ->finally(function () use ($document) {
+        ])->finally(function () use ($document) {
             DocumentImportedComplete::dispatch($document);
-        })
-        ->dispatch();
+        })->dispatch();
     }
 }

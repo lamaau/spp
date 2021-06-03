@@ -11,8 +11,6 @@ class ImportFailedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    protected string $title = "Gagal melakukan import.";
-
     protected $message;
 
     /**
@@ -47,15 +45,8 @@ class ImportFailedNotification extends Notification implements ShouldQueue
         return [
             'icon' => 'fas fa-times',
             'background' => 'bg-danger',
-            'title' => $this->title,
+            'title' => "Dokumn gagal diimport.",
             'message' => $this->message,
         ];
-    }
-
-    public function toBroadcast($notifiable)
-    {
-        return new BroadcastMessage([
-            'title' => $this->title,
-        ]);
     }
 }

@@ -9,16 +9,21 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Modules\Master\Entities\Student;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Events\AfterImport;
 use Modules\Master\Constants\SexConstant;
 use Maatwebsite\Excel\Concerns\Importable;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Events\ImportFailed;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithStartRow;
+use Maatwebsite\Excel\Concerns\WithValidation;
 use Modules\Master\Constants\ReligionConstant;
 use App\Notifications\ImportFailedNotification;
+use App\Notifications\ImportSuccessNotification;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 
-class StudentImport implements ToCollection, ShouldQueue, WithStartRow, WithChunkReading
+class StudentImport implements ToCollection, ShouldQueue, WithValidation, WithStartRow, WithChunkReading, WithEvents
 {
     use Importable;
 
@@ -37,21 +42,6 @@ class StudentImport implements ToCollection, ShouldQueue, WithStartRow, WithChun
      */
     public function collection(Collection $rows)
     {
-        $validator = Validator::make($rows->toArray(), [
-            '*.0' => ['required'],
-            '*.1' => ['required'],
-            '*.2' => ['nullable', Rule::unique('students', 'nis')->whereNull('deleted_at')],
-            '*.3' => ['nullable', Rule::unique('students', 'nisn')->whereNull('deleted_at')],
-            '*.4' => ['nullable'],
-            '*.5' => ['nullable'],
-            '*.6' => ['required'],
-            '*.7' => ['required'],
-        ]);
-
-        if ($validator->fails()) {
-            return $this->document->author->notify(new ImportFailedNotification($validator->errors()));
-        }
-
         $tmp = [];
         foreach ($rows as $key => $row) {
             $tmp[] = strtolower($row[1]);
@@ -84,6 +74,46 @@ class StudentImport implements ToCollection, ShouldQueue, WithStartRow, WithChun
                 });
             }
         }
+    }
+
+    public function rules(): array
+    {
+        return [
+            '*.0' => ['required'],
+            '*.1' => ['required'],
+            '*.2' => ['nullable', Rule::unique('students', 'nis')->whereNull('deleted_at')],
+            '*.3' => ['nullable', Rule::unique('students', 'nisn')->whereNull('deleted_at')],
+            '*.4' => ['nullable'],
+            '*.5' => ['nullable'],
+            '*.6' => ['required'],
+            '*.7' => ['required'],
+        ];
+    }
+
+    public function customValidationAttributes()
+    {
+        return [
+            '0' => 'Nama siswa',
+            '1' => 'Kelas',
+            '2' => 'Nis',
+            '3' => 'Nisn',
+            '4' => 'Email',
+            '5' => 'Hp',
+            '6' => 'Agama',
+            '7' => 'Jenis Kelamin',
+        ];
+    }
+
+    public function registerEvents(): array
+    {
+        return [
+            AfterImport::class => function (AfterImport $event) {
+                $this->document->author->notify(new ImportSuccessNotification($this->document));
+            },
+            ImportFailed::class => function (ImportFailed $event) {
+                $this->document->author->notify(new ImportFailedNotification($event->getException()->failures()));
+            }
+        ];
     }
 
     public function chunkSize(): int

@@ -6,19 +6,18 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Modules\Master\Entities\Room;
 use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\ImportFailed;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use App\Notifications\ImportFailedNotification;
+use App\Notifications\ImportSuccessNotification;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
+use Maatwebsite\Excel\Events\AfterImport;
 
 class RoomImport implements ToModel, WithStartRow, WithValidation, ShouldQueue, WithChunkReading, WithEvents
 {
-    use Importable;
-
     protected object $uploaded;
 
     public function __construct(object $uploaded)
@@ -42,9 +41,12 @@ class RoomImport implements ToModel, WithStartRow, WithValidation, ShouldQueue, 
     public function registerEvents(): array
     {
         return [
+            AfterImport::class => function (AfterImport $event) {
+                $this->uploaded->author->notify(new ImportSuccessNotification($this->uploaded));
+            },
             ImportFailed::class => function (ImportFailed $event) {
                 $this->uploaded->author->notify(new ImportFailedNotification($event->getException()->failures()));
-            },
+            }
         ];
     }
 

@@ -5,13 +5,10 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\BroadcastMessage;
 
 class ImportSuccessNotification extends Notification implements ShouldQueue
 {
     use Queueable;
-
-    protected string $title = "Berhasil melakukan import.";
 
     protected $message;
 
@@ -47,15 +44,8 @@ class ImportSuccessNotification extends Notification implements ShouldQueue
         return [
             'icon' => 'fas fa-check',
             'background' => 'bg-success',
-            'title' => $this->title,
+            'title' => "Dokumen berhasil diimport.",
             'message' => $this->message,
         ];
-    }
-
-    public function toBroadcast($notifiable)
-    {
-        return new BroadcastMessage([
-            'title' => $this->title,
-        ]);
     }
 }

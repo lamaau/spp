@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Modules\Master\Entities\SchoolYear;
+use Maatwebsite\Excel\Events\AfterImport;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\ImportFailed;
@@ -13,6 +14,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use App\Notifications\ImportFailedNotification;
+use App\Notifications\ImportSuccessNotification;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 
 class SchoolYearImport implements ToModel, WithStartRow, WithValidation, ShouldQueue, WithChunkReading, WithEvents
@@ -42,9 +44,12 @@ class SchoolYearImport implements ToModel, WithStartRow, WithValidation, ShouldQ
     public function registerEvents(): array
     {
         return [
+            AfterImport::class => function (AfterImport $event) {
+                $this->document->author->notify(new ImportSuccessNotification($this->document));
+            },
             ImportFailed::class => function (ImportFailed $event) {
                 $this->document->author->notify(new ImportFailedNotification($event->getException()->failures()));
-            },
+            }
         ];
     }
 

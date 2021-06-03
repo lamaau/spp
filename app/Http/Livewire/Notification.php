@@ -9,13 +9,18 @@ class Notification extends Component
 {
     public $notifications = [];
 
-    protected $listeners = [
-        'broadcaster' => 'notified'
-    ];
-
     public function mount()
     {
         $this->notified();
+    }
+
+    public function getListeners()
+    {
+        $userId = Auth::user()->id;
+
+        return [
+            "echo-private:Modules.Master.Entities.User.{$userId},.Illuminate\Notifications\Events\BroadcastNotificationCreated" => 'notified',
+        ];
     }
 
     public function notified()

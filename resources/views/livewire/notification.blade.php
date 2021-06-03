@@ -41,7 +41,7 @@
             </div>
         </div>
     </li>
-    @push('scripts')
+    {{-- @push('scripts')
         <script>
             document.addEventListener('DOMContentLoaded', () => {
                 Pusher.logToConsole = true;
@@ -52,5 +52,5 @@
             });
 
         </script>
-    @endpush
+    @endpush --}}
 </div>
