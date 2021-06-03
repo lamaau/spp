@@ -28,17 +28,13 @@
                     $('#import-modal').modal('toggle');
                 });
 
-                $('.btn-delete').on('click', (e) => {
-                    swal({
-                        title: 'Hapus data master?',
-                        text: 'Semua data yang berhubungan dengan data ini akan dihapus!',
-                        icon: 'warning',
-                        buttons: true,
-                        dangerMode: true,
-                    })
-                    .then((willDelete) => {
-                        if (willDelete) {
-                            @this.call('delete', e.currentTarget.getAttribute('data-id'));
+                Livewire.on('delete', (id) => {
+                    CustomDeleteSwall({
+                        title: "Apakah anda yakin?",
+                        message: "Semua data yang berhubungan dengan data ini akan dihapus",
+                    }, (event) => {
+                        if (event.isConfirmed) {
+                            @this.call('delete', id, event.value);
                         }
                     });
                 });

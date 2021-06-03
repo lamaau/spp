@@ -144,7 +144,7 @@ class RoomDatatable extends TableComponent
             return $this->error('Oopss!', 'Maaf, terjadi kesalahan.');
         }
 
-        return $this->error('Oops!', 'Password yang anda masukan salah.');
+        return $this->error('', 'Password yang anda masukan salah.');
     }
 
     public function query(): Builder

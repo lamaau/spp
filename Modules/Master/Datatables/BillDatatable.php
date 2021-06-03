@@ -8,6 +8,8 @@ use Livewire\WithFileUploads;
 use App\Datatables\Traits\Notify;
 use Modules\Master\Entities\Bill;
 use App\Datatables\TableComponent;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Datatables\Traits\DocumentImport;
 use App\Datatables\Traits\HtmlComponents;
 use Illuminate\Database\Eloquent\Builder;
@@ -120,18 +122,22 @@ class BillDatatable extends TableComponent
     }
 
     /**
-     * Delete rooms
+     * Delete bill
      *
      * @param string $id
      * @return Event
      */
-    public function delete(string $id): Event
+    public function delete(string $id, string $password): Event
     {
-        if (resolve(\Modules\Master\Repository\BillRepository::class)->delete($id)) {
-            return $this->success('Berhasil!', 'Tagihan telah dihapus.');
+        if (Hash::check($password, Auth::user()->password)) {
+            if (resolve(\Modules\Master\Repository\BillRepository::class)->delete($id)) {
+                return $this->success('Berhasil!', 'Tagihan berhasil dihapus.');
+            }
+
+            return $this->error('Oopss!', 'Maaf, terjadi kesalahan.');
         }
 
-        return $this->error('Oopss!', 'Maaf, terjadi kesalahan.');
+        return $this->error('', 'Password yang anda masukan salah.');
     }
 
     public function query(): Builder

@@ -7,8 +7,10 @@ use App\Datatables\Column;
 use Livewire\WithFileUploads;
 use App\Datatables\Traits\Notify;
 use App\Datatables\TableComponent;
-use App\Datatables\Traits\DocumentImport;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Modules\Master\Entities\Student;
+use App\Datatables\Traits\DocumentImport;
 use App\Datatables\Traits\HtmlComponents;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Master\Constants\SexConstant;
@@ -46,13 +48,17 @@ class StudentDatatable extends TableComponent
      * @param string $id
      * @return Event
      */
-    public function delete(string $id): Event
+    public function delete(string $id, string $password): Event
     {
-        if (resolve(\Modules\Master\Repository\StudentRepository::class)->delete($id)) {
-            return $this->success('Berhasil!', 'Siswa telah dihapus.');
+        if (Hash::check($password, Auth::user()->password)) {
+            if (resolve(\Modules\Master\Repository\StudentRepository::class)->delete($id)) {
+                return $this->success('Berhasil!', 'Siswa berhasil dihapus.');
+            }
+
+            return $this->error('Oopss!', 'Maaf, terjadi kesalahan.');
         }
 
-        return $this->error('Oopss!', 'Maaf, terjadi kesalahan.');
+        return $this->error('', 'Password yang anda masukan salah.');
     }
 
     public function query(): Builder

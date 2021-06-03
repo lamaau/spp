@@ -7,6 +7,8 @@ use App\Datatables\Column;
 use Livewire\WithFileUploads;
 use App\Datatables\Traits\Notify;
 use App\Datatables\TableComponent;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Modules\Master\Entities\SchoolYear;
 use App\Datatables\Traits\DocumentImport;
 use App\Datatables\Traits\HtmlComponents;
@@ -130,13 +132,17 @@ class SchoolYearDatatable extends TableComponent
      * @param string $id
      * @return Event
      */
-    public function delete(string $id): Event
+    public function delete(string $id, string $password): Event
     {
-        if (resolve(\Modules\Master\Repository\SchoolYearRepository::class)->delete($id)) {
-            return $this->success('Berhasil!', 'Tahun ajaran berhasil dihapus.');
+        if (Hash::check($password, Auth::user()->password)) {
+            if (resolve(\Modules\Master\Repository\SchoolYearRepository::class)->delete($id)) {
+                return $this->success('Berhasil!', 'Tahun Ajaran berhasil dihapus.');
+            }
+
+            return $this->error('Oopss!', 'Maaf, terjadi kesalahan.');
         }
 
-        return $this->error('Oopss!', 'Maaf, terjadi kesalahan.');
+        return $this->error('', 'Password yang anda masukan salah.');
     }
 
     public function query(): Builder

@@ -17,6 +17,11 @@
 <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
 
 <style type="text/css">
+    /* remove swall alert icon */
+    #swal2-validation-message {
+        display: none !important;
+    }
+
     .daterangepicker td.active,
     .daterangepicker td.active:hover {
         color: #fff;

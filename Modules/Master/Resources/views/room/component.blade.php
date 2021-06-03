@@ -63,7 +63,7 @@
             </x-slot>
         </form>
     </x-modals.modal>
-
+    
     @push('scripts')
         <script type="text/javascript">
             document.addEventListener("DOMContentLoaded", () => {
@@ -77,24 +77,14 @@
                 });
                 
                 Livewire.on('delete', (id) => {
-                    swal({
-                            title: 'Hapus data master?',
-                            text: 'Semua data yang berhubungan dengan data ini akan dihapus!',
-                            icon: 'warning',
-                            buttons: true,
-                            dangerMode: true,
-                        })
-                        .then((willDelete) => {
-                            if(willDelete) {
-                                swal({
-                                    title: "Masukan password untuk konfirmasi",
-                                    html: '<input type="password" />',
-                                })
-                                .then((password) => {
-                                    @this.call('delete', id, password)
-                                });
-                            }
-                        });
+                    CustomDeleteSwall({
+                        title: "Apakah anda yakin?",
+                        message: "Semua data yang berhubungan dengan data ini akan dihapus",
+                    }, (event) => {
+                        if (event.isConfirmed) {
+                            @this.call('delete', id, event.value);
+                        }
+                    });
                 });
             });
 
