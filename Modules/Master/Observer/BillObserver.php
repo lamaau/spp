@@ -23,8 +23,15 @@ class BillObserver
 
     public function deleting(Bill $model)
     {
-        $model->fill([
+        $model->update([
             'deleted_by' => Auth::id(),
         ]);
+
+        /** delete all related payments  */
+        if ($model->payments->isNotEmpty()) {
+            $model->payments()->each(function ($query) {
+                $query->delete();
+            });
+        }
     }
 }

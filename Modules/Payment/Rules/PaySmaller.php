@@ -43,7 +43,8 @@ class PaySmaller implements Rule
             ->leftJoin('bills', 'bills.id', '=', 'payments.bill_id')
             ->where('year_id', $this->year)
             ->where('bill_id', $this->bill)
-            ->where('student_id', $this->student);
+            ->where('student_id', $this->student)
+            ->whereNull('payments.deleted_at');
 
         if (!is_null($this->month)) {
             $payments = $query->whereMonth('month', explode('-', $this->month)[1])->get();

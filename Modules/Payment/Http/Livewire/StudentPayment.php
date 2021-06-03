@@ -1,12 +1,15 @@
 <?php
 
-namespace Modules\Payment\Livewire;
+namespace Modules\Payment\Http\Livewire;
 
+use Livewire\Event;
 use Livewire\Component;
 use Modules\Payment\Utils\Trx;
 use App\Datatables\Traits\Notify;
+use Illuminate\Support\Facades\Auth;
 use Modules\Master\Entities\Bill;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Modules\Payment\Entities\Payment;
 use Modules\Payment\Http\Requests\PaymentRequest;
 
@@ -67,6 +70,7 @@ class StudentPayment extends Component
                 ->leftJoin('users', 'payments.created_by', '=', 'users.id')
                 ->groupBy('payments.id')
                 ->orderBy('payments.month', 'asc')
+                ->whereNull('deleted_at')
                 ->get()
                 ->toArray();
 
@@ -141,17 +145,7 @@ class StudentPayment extends Component
 
         try {
             $pay = clean_currency_format($validated['pay']);
-            $changed = clean_currency_format(
-                trim(
-                    substr(
-                        $this->change,
-                        strpos(
-                            $this->change,
-                            "Rp"
-                        ) + 2
-                    )
-                )
-            );
+            $changed = clean_currency_format(trim(substr($this->change, strpos($this->change, "Rp") + 2)));
 
             $payment = array_merge($validated, [
                 'month' => $this->month,
@@ -173,6 +167,27 @@ class StudentPayment extends Component
             DB::rollBack();
             return $this->error('Oops!', 'Terjadi kesalahan.');
         }
+    }
+
+    /**
+     * Delete payment
+     *
+     * @param string $id
+     * @param string $password
+     * @return Event
+     */
+    public function delete(string $id, string $password): Event
+    {
+        if (Hash::check($password, Auth::user()->password)) {
+            if (resolve(\Modules\Payment\Repository\PaymentRepository::class)->delete($id)) {
+                $this->search();
+                return $this->success('Berhasil!', 'Data pembayaran berhasil dihapus');
+            }
+
+            return $this->error('Oopss!', 'Terjadi kesalahan');
+        }
+
+        return $this->error('', 'Password yang anda masukan salah.');
     }
 
     public function render()

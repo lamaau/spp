@@ -3,8 +3,10 @@
 namespace Modules\Master\Entities;
 
 use Modules\Utils\Uuid;
+use Modules\Payment\Entities\Payment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Bill extends Model
 {
@@ -66,5 +68,15 @@ class Bill extends Model
     public function getBillMonthlyAttribute()
     {
         return $this->monthly ? 'Ya' : 'Tidak';
+    }
+
+    /**
+     * Get payments
+     *
+     * @return HasMany
+     */
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
     }
 }

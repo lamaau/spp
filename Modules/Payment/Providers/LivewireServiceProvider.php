@@ -2,9 +2,7 @@
 
 namespace Modules\Payment\Providers;
 
-use Livewire\Livewire;
 use Illuminate\Support\ServiceProvider;
-use Modules\Payment\Livewire\StudentPayment;
 
 class LivewireServiceProvider extends ServiceProvider
 {
@@ -15,6 +13,6 @@ class LivewireServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        Livewire::component('payment', StudentPayment::class);
+        \Livewire\Livewire::component('payment', \Modules\Payment\Http\Livewire\StudentPayment::class);
     }
 }

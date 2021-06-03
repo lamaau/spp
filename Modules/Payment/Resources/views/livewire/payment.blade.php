@@ -100,7 +100,10 @@
                             <div class="card-header">
                                 <h4>Detail Pembayaran</h4>
                             </div>
-                            <x-payments.table-not-monthly :bill="$billResult" :payments="$payments" />
+                            <x-payments.table-not-monthly
+                                :bill="$billResult"
+                                :payments="$payments"
+                            />
                         </div>
                     @endif
                 </div>
@@ -154,7 +157,7 @@
     @push('scripts')
         <script src="https://demo.getstisla.com/assets/modules/bootstrap-daterangepicker/daterangepicker.js"></script>
         <script type="text/javascript">
-            document.addEventListener("DOMContentLoaded", () => {
+            $(document).ready(function() {
                 Livewire.on("notify", () => {
                     $('#pay').modal('hide');
                 });
@@ -163,24 +166,17 @@
                     $('#pay').modal('toggle');
                 });
 
-                Livewire.on("remove", (id) => {
-                    swal({
-                            title: 'Hapus data pembayaran?',
-                            text: 'Data pembayaran yang dihapus tidak dapat dikembalikan!',
-                            icon: 'warning',
-                            buttons: true,
-                            dangerMode: true,
-                            buttons: ['Batal', 'Hapus']
-                        })
-                        .then((willDelete) => {
-                            if (willDelete) {
-                                @this.call('remove', id);
-                            }
-                        });
+                Livewire.on('delete', (id) => {
+                    CustomDeleteSwall({
+                        title: "Apakah anda yakin?",
+                        message: "Data Pembayaran yang telah dihapus tidak dapat dikembalikan."
+                    }, (event) => {
+                        if (event.isConfirmed) {
+                            @this.call('delete', id, event.value);
+                        }
+                    });
                 });
-            });
-
-            $(document).ready(function() {
+                
                 if ($(".datepicker").length) {
                     $('.datepicker').daterangepicker({
                         locale: {

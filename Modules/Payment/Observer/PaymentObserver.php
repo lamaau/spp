@@ -23,7 +23,7 @@ class PaymentObserver
 
     public function deleting(Payment $model)
     {
-        $model->fill([
+        $model->update([
             'deleted_by' => Auth::id(),
         ]);
     }

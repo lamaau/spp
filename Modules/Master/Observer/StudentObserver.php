@@ -23,8 +23,16 @@ class StudentObserver
 
     public function deleting(Student $model)
     {
-        $model->fill([
-            'deleted_by' => Auth::id(),
-        ]);
+        if (property_exists($model, 'unique') && is_array($model->unique)) {
+            foreach ($model->unique as $key) {
+                $tmp[$key] = uniqid() . "::" . $model->{$key};
+            }
+
+            $result = array_merge($tmp, [
+                'deleted_by' => Auth::id(),
+            ]);
+
+            $model->update($result);
+        }
     }
 }

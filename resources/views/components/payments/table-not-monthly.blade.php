@@ -24,10 +24,10 @@
                         data-target="#table-detail">
                         <i class="fa fa-eye"></i>
                     </button>
-                    {{-- <a href="#" target="_blank" class="btn btn-dark btn-sm {{array_sum($payments->pluck('pay')->toArray()) > 0 ? '' : 'disabled' }}"
+                    <a href="#" target="_blank" class="btn btn-dark btn-sm {{array_sum($payments->pluck('pay')->toArray()) > 0 ? '' : 'disabled' }}"
                     >
                         <i class="fa fa-print"></i>
-                    </a> --}}
+                    </a>
                     <button wire:click.prevent='pay' class="btn btn-sm btn-success"
                         {{$bill->nominal == array_sum($payments->pluck('pay')->toArray()) ? 'disabled' : ''}}
                     >
@@ -45,6 +45,7 @@
                                     <th>Dibayar</th>
                                     <th>Tanggal Pembayaran</th>
                                     <th>Operator</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -54,6 +55,11 @@
                                         <td>{{ idr($payment->pay) }}</td>
                                         <td>{{ format_date($payment->pay_date) }}</td>
                                         <td>{{ $payment->author->name }}</td>
+                                        <td>
+                                            <button wire:click.prevent="$emit('delete', '{{ $payment->id }}')" type="button" class="btn btn-sm btn-danger">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
                                     </tr>
                                 @empty
                                     <tr>
@@ -62,11 +68,19 @@
                                 @endforelse
                             </tbody>
                             @if ($payments->isNotEmpty())
-                                <tfoot>
+                                @php
+                                    $resultOfPayment = array_sum($payments->pluck('pay')->toArray());
+                                @endphp
+                                <tfoot class="table-inner">
                                     <tr>
-                                        <th>Total</th>
-                                        <th>{{ idr(array_sum($payments->pluck('pay')->toArray())) }}</th>
-                                        <th></th>
+                                        <th>Total Dibayar</th>
+                                        <th>{{ idr($resultOfPayment) }}</th>
+                                        <th colspan="3" class="text-center">-</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Sisa Pembayaran</th>
+                                        <th>{{ idr(abs($bill->nominal - $resultOfPayment)) }}</th>
+                                        <th colspan="3" class="text-center">-</th>
                                     </tr>
                                 </tfoot>
                             @endif

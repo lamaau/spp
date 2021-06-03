@@ -19,4 +19,14 @@ class PaymentEloquent implements PaymentRepository
     {
         return $this->payment->all();
     }
+
+    /**
+     * Delete payment
+     *
+     * @return boolean
+     */
+    public function delete(string $id): bool
+    {
+        return $this->payment->whereId($id)->first()->delete() ? true : false;
+    }
 }

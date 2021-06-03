@@ -3,10 +3,12 @@
 namespace Modules\Master\Entities;
 
 use Modules\Utils\Uuid;
+use Modules\Payment\Entities\Payment;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Master\Database\Factories\RoomFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Room extends Model
 {
@@ -49,11 +51,22 @@ class Room extends Model
      */
     protected $table = 'rooms';
 
-    protected static function newFactory()
+    /**
+     * Faker factory
+     *
+     * @return RoomFactory
+     */
+    protected static function newFactory(): RoomFactory
     {
-        return \Modules\Master\Database\Factories\RoomFactory::new();
+        return RoomFactory::new();
     }
 
+    /**
+     * Get name
+     *
+     * @param null|string $value
+     * @return string
+     */
     public function getNameAttribute($value): string
     {
         return explode('-', $value)[1] ?? $value;
@@ -67,5 +80,15 @@ class Room extends Model
     public function students(): HasMany
     {
         return $this->hasMany(Student::class);
+    }
+
+    /**
+     * Get payments
+     *
+     * @return HasMany
+     */
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
     }
 }

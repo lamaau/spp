@@ -47,11 +47,11 @@
                             data-target="#table-detail-{{ $i }}">
                             <i class="fa fa-eye"></i>
                         </button>
-                        {{-- <a href="{{ route('payment.pdf-monthly', ['user' => $student, 'bill' => $bill, 'year' => $year, 'month' => $i]) }}" target="_blank"
+                        <a href="#" target="_blank"
                             class="btn btn-dark btn-sm {{ !$any && empty($payments[$i]) ? 'disabled' : '' }}"
                             {{ !$any && empty($payments[$i]) ? 'disabled' : '' }}>
                             <i class="fa fa-print"></i>
-                        </a> --}}
+                        </a>
                         <button wire:click.prevent='pay("{{ $i }}")' class="btn btn-sm btn-success"
                             {{ array_sum($totalForStatus) === $billResult['nominal'] ? 'disabled' : '' }}>
                             <i class="far fa-money-bill-alt"></i>
@@ -69,6 +69,7 @@
                                             <th>Dibayar</th>
                                             <th>Tanggal Pembayaran</th>
                                             <th>Operator</th>
+                                            <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     @if (!empty($payments[$i]))
@@ -83,6 +84,9 @@
                                                     <td>{{ idr($item['pay']) }}</td>
                                                     <td> {{ format_date($item['pay_date']) }}</td>
                                                     <td>{{ $item['author_name'] }}</td>
+                                                    <td>
+                                                        <button class="btn btn-danger btn-sm" wire:click.prevent="$emit('delete', '{{$item['id']}}')"><i class="fas fa-trash"></i></button>
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -92,12 +96,18 @@
                                                 $resultOfTotalChange = array_sum($totalChange[$i]);
                                             @endphp
                                             <tr>
-                                                <th>Total</th>
+                                                <th>Total Dibayar</th>
                                                 <th>
                                                     <strong>{{ idr($resultOfTotalPayment) }}</strong>
                                                 </th>
-                                                <th></th>
-                                                <th></th>
+                                                <th colspan="3" class="text-center">-</th>
+                                            </tr>
+                                            <tr>
+                                                <th>Sisa Pembayaran</th>
+                                                <th>
+                                                    <strong>{{ idr($billResult->nominal - $resultOfTotalPayment) }}</strong>
+                                                </th>
+                                                <th colspan="3" class="text-center">-</th>
                                             </tr>
                                         </tfoot>
                                     @endif

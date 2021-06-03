@@ -23,7 +23,7 @@ class RoomObserver
 
     public function deleting(Room $model)
     {
-        if (property_exists(Room::class, 'unique') && is_array($model->unique)) {
+        if (property_exists($model, 'unique') && is_array($model->unique)) {
             foreach ($model->unique as $key) {
                 $tmp[$key] = uniqid() . "::" . $model->{$key};
             }
@@ -36,8 +36,10 @@ class RoomObserver
         }
 
         /** delete all related student */
-        $model->students()->each(function ($query) {
-            $query->delete();
-        });
+        if ($model->students->isNotEmpty()) {
+            $model->students()->each(function ($query) {
+                $query->delete();
+            });
+        }
     }
 }

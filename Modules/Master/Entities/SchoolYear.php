@@ -2,10 +2,12 @@
 
 namespace Modules\Master\Entities;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Utils\Uuid;
+use Modules\Payment\Entities\Payment;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class SchoolYear extends Model
 {
@@ -41,4 +43,14 @@ class SchoolYear extends Model
      * @var string
      */
     protected $table = 'school_years';
+
+    /**
+     * Get payments
+     *
+     * @return HasMany
+     */
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class, 'year_id');
+    }
 }

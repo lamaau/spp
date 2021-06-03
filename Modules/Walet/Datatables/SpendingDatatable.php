@@ -26,8 +26,7 @@ class SpendingDatatable extends TableComponent
     /** @var string table component */
     public $cardHeaderAction = 'walet::spending.component';
 
-    /** @var BillRequest */
-    protected $request;
+    protected SpendingRequest $request;
 
     public function __construct(string $id = null)
     {
@@ -56,6 +55,8 @@ class SpendingDatatable extends TableComponent
 
     public function add(): Event
     {
+        dd($this->nominal);
+        
         $validated = $this->validate($this->request->rules(), [], $this->request->attributes());
 
         if ($this->query()->create($validated)) {

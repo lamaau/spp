@@ -61,4 +61,14 @@ class Student extends Model
     {
         return $this->belongsTo(Room::class, 'room_id')->withTrashed();
     }
+
+    /**
+     * Get bill
+     *
+     * @return BelongsTo
+     */
+    public function bill(): BelongsTo
+    {
+        return $this->belongsTo(Bill::class, 'bill_id')->withTrashed();
+    }
 }

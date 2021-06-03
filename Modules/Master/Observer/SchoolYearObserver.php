@@ -34,5 +34,12 @@ class SchoolYearObserver
 
             $model->update($result);
         }
+
+        /** delete all related payment */
+        if ($model->payments->isNotEmpty()) {
+            $model->payments()->each(function ($query) {
+                $query->delete();
+            });
+        }
     }
 }
