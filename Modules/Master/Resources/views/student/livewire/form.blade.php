@@ -2,7 +2,13 @@
     <div class="section-body">
         <div class="row">
             <div class="col-8">
-                <form wire:submit.prevent="save">
+                <form
+                    @if (is_null($pid))
+                        wire:submit.prevent="save"
+                    @else
+                        wire:submit.prevent="update"
+                    @endif
+                >
                     <div class="card">
                         <div class="card-body">
                             <div class="form-group">
@@ -57,7 +63,13 @@
                         </div>
                         <div class="card-footer bg-whitesmoke text-right">
                             <button type="button" class="btn btn-secondary">Reset</button>
-                            <button type="submit" class="btn btn-primary">Simpan</button>
+                            <button type="submit" class="btn btn-primary">
+                                @if (is_null($pid))
+                                    Tambah
+                                @else
+                                    Ubah
+                                @endif
+                            </button>
                         </div>
                     </div>
                 </form>

@@ -33,17 +33,17 @@ class StudentRequest extends FormRequest
      *
      * @return array
      */
-    public function rules(): array
+    public function rules($id = null): array
     {
         return [
             'name' => ['required', 'string', 'min:3'],
-            'nis' => ['nullable', 'min:11', Rule::unique('students')->ignore(request()->route('id'))],
-            'nisn' => ['nullable', 'min:11', Rule::unique('students')->ignore(request()->route('id'))],
+            'nis' => ['nullable', 'min:11', Rule::unique('students')->ignore($id)],
+            'nisn' => ['nullable', 'min:11', Rule::unique('students')->ignore($id)],
             'sex' => ['required'],
-            'email' => ['nullable', 'email', Rule::unique('students')->ignore(request()->route('id'))],
+            'email' => ['nullable', 'email', Rule::unique('students')->ignore($id)],
             'phone' => ['nullable', 'min:11'],
-            'religion' => ['required', 'string'],
-            'room_id' => ['required', 'string'],
+            'religion' => ['required'],
+            'room_id' => ['required'],
         ];
     }
 

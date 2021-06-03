@@ -51,27 +51,13 @@ class StudentController extends Controller
         ]);
     }
 
-    public function store(StudentRequest $request)
-    {
-        try {
-            if ($this->student->save($request->data())) {
-                notify('green', 'Berhasil!', 'Siswa telah ditambahkan.');
-                return redirect()->route('master.student.index');
-            }
-
-            return redirect()->back();
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-        }
-    }
-
     public function edit(string $id): Renderable
     {
         return view('master::student.edit', [
             'title' => 'Tambah Siswa',
-            'rooms' => $this->room->all(),
+            'rooms' => $this->room->all()->toArray(),
             'sexuals' => SexConstant::labels(),
-            'row' => $this->student->findOrFail($id),
+            'student' => $this->student->findOrFail($id),
             'religions' => ReligionConstant::labels(),
         ]);
     }

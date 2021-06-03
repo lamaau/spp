@@ -11,6 +11,7 @@ class Form extends Component
     use Notify;
 
     /** @var null|string */
+    public $pid;
     public $name;
     public $nis;
     public $nisn;
@@ -32,6 +33,21 @@ class Form extends Component
         parent::__construct($id);
 
         $this->request = new StudentRequest;
+    }
+
+    public function mount($student = null)
+    {
+        if (!is_null($student)) {
+            $this->pid = $student->id;
+            $this->name = $student->name;
+            $this->nis = $student->nis;
+            $this->nisn = $student->nisn;
+            $this->sex = $student->sex;
+            $this->email = $student->email;
+            $this->phone = $student->phone;
+            $this->religion = $student->religion;
+            $this->room_id = $student->room_id;
+        }
     }
 
     public function resetValue(): void
@@ -56,6 +72,16 @@ class Form extends Component
         }
 
         return $this->error('Oops!', 'Terjadi kesalahan saat menambah siswa.');
+    }
+
+    public function update()
+    {
+        $validated = $this->validate($this->request->rules($this->pid), [], $this->request->attributes());
+        if (resolve(\Modules\Master\Repository\StudentRepository::class)->update($this->pid, $validated)) {
+            return $this->success('Berhasil!', 'Siswa berhasil diubah.');
+        }
+
+        return $this->error('Oops!', 'Terjadi kesalahan saat mengubah siswa.');
     }
 
     public function render()
