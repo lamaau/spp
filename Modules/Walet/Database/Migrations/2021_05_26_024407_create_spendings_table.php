@@ -17,8 +17,8 @@ class CreateSpendingsTable extends Migration
             $table->uuid('id')->primary();
             $table->string('name');
             $table->bigInteger('nominal');
-            $table->longText('description');
-            $table->datetime('spending_date')->nullable();
+            $table->longText('description')->nullable();
+            $table->datetime('spending_date');
             $table->uuid('created_by')->index();
             $table->uuid('updated_by')->index()->nullable();
             $table->uuid('deleted_by')->index()->nullable();

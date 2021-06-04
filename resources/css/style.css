@@ -53,7 +53,27 @@
 /* 2. Mixin */
 /* 3. Bootstrap Override */
 /* 3.1 Misc */
-@import url("//fonts.googleapis.com/css?family=Nunito:400,600,700,800");
+
+/** MY CUSTOM */
+/* @import url("//fonts.googleapis.com/css?family=Nunito:400,600,700,800"); */
+
+@font-face {
+    font-family: 'stisla';
+    src: url('./fonts/nunito-v9-latin-400.eot'); /* IE9 Compat Modes */
+    src: url('./fonts/nunito-v9-latin-400.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('./fonts/nunito-v9-latin-400.woff') format('woff2'), /* Super Modern Browsers */
+         url('./fonts/nunito-v9-latin-400.woff') format('woff'), /* Pretty Modern Browsers */
+         url('./fonts/nunito-v9-latin-400.ttf')  format('truetype'), /* Safari, Android, iOS */
+         url('./fonts/nunito-v9-latin-400.svg#svgFontName') format('svg'); /* Legacy iOS */
+    src: url('./fonts/nunito-v9-latin-600.eot'); /* IE9 Compat Modes */
+    src: url('./fonts/nunito-v9-latin-600.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+        url('./fonts/nunito-v9-latin-600.woff') format('woff2'), /* Super Modern Browsers */
+        url('./fonts/nunito-v9-latin-600.woff') format('woff'), /* Pretty Modern Browsers */
+        url('./fonts/nunito-v9-latin-600.ttf')  format('truetype'), /* Safari, Android, iOS */
+        url('./fonts/nunito-v9-latin-600.svg#svgFontName') format('svg'); /* Legacy iOS */
+  }
+
+
 .btn:focus,
 .btn:active,
 .btn:active:focus,
@@ -2710,7 +2730,7 @@ body {
     background-color: #f4f6f9;
     font-size: 14px;
     font-weight: 400;
-    font-family: "Nunito", "Segoe UI", arial;
+    font-family: "stisla", "Segoe UI", arial;
     color: #6c757d;
 }
 

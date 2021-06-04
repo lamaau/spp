@@ -1,7 +1,4 @@
 <!-- Template CSS -->
-<link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
-
 <style type="text/css">
     /* remove swall alert icon */
     #swal2-validation-message {

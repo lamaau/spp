@@ -54,7 +54,8 @@
     </x-modals.modal>
 
     @push('styles')
-        <link rel="stylesheet" href="https://demo.getstisla.com/assets/modules/summernote/summernote-bs4.css">
+        {{-- <link rel="stylesheet" href="{{ asset('assets/css/codemirror.css') }}"> --}}
+        {{-- <link rel="stylesheet" href="https://demo.getstisla.com/assets/modules/summernote/summernote-bs4.css"> --}}
         <style type="text/css">
             .note-editor.note-frame {
                 border: 1px solid #e4e6fc;
@@ -63,7 +64,7 @@
     @endpush
 
     @push('scripts')
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>
+        {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script> --}}
         <script type="text/javascript">
             Livewire.on("modal:toggle", (txt) => {
                 if (txt !== undefined) {
@@ -78,21 +79,6 @@
             Livewire.on('notify', () => {
                 $('#createOrEdit').modal('hide');
                 $('.summernote-simple').summernote('reset');
-            });
-            
-            $(".summernote-simple").summernote({
-                dialogsInBody: true,
-                minHeight: 150,
-                toolbar: [
-                    ['style', ['bold', 'italic', 'underline', 'clear']],
-                    ['font', ['strikethrough']],
-                    ['para', ['paragraph']]
-                ],
-                callbacks: {
-                    onChange: function(description, $editable) {
-                        @this.set('description', description);
-                    }
-                }
             });
 
             $('#spending_date').on('change', (e) => {

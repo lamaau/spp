@@ -19,6 +19,10 @@ try {
     require('jquery.nicescroll');
     require('daterangepicker');
 
+    // Summernote
+    require('codemirror');
+    require('bs4-summernote');
+
     window.select2 = require('select2');
     window.moment = moment;
 

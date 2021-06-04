@@ -7,6 +7,7 @@
     <title>{{ $title }} &mdash; Stisla</title>
 
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    <link rel="stylesheet" href="{{ mix('css/template.css') }}">
     {!! Livewire::styles() !!}
     @include('layouts.includes.styles')
     @stack('styles')
