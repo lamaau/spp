@@ -17,6 +17,7 @@ class SpendingRequest extends FormRequest
         return [
             'name' => ['required', 'string'],
             'nominal' => ['required', new AboveIncome()],
+            'spending_date' => ['required'],
             'description' => ['nullable', 'min:5']
         ];
     }
@@ -30,6 +31,8 @@ class SpendingRequest extends FormRequest
     {
         return [
             'name' => 'Nama',
+            'nominal' => 'Nominal',
+            'spending_date' => 'Tanggal Pengeluaran',
             'description' => 'Keterangan'
         ];
     }

@@ -24,7 +24,7 @@ class IncomeEloquent implements IncomeRepository
      */
     public function income(): int
     {
-        return $this->income->query()->select('pay')->sum('pay');
+        return $this->income->query()->select('pay')->whereNull('deleted_at')->sum('pay');
     }
 
     /**

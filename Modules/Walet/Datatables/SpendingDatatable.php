@@ -2,13 +2,15 @@
 
 namespace Modules\Walet\Datatables;
 
+use Livewire\Event;
 use App\Datatables\Column;
 use App\Datatables\Traits\Notify;
 use App\Datatables\TableComponent;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Modules\Walet\Entities\Spending;
 use App\Datatables\Traits\HtmlComponents;
 use Illuminate\Database\Eloquent\Builder;
-use Livewire\Event;
 use Modules\Master\Http\Requests\BillRequest;
 use Modules\Walet\Http\Requests\SpendingRequest;
 
@@ -18,10 +20,11 @@ class SpendingDatatable extends TableComponent
         Notify;
 
     /** @var null|string */
-    public $pid;
-    public $name;
-    public $nominal;
-    public $description;
+    public $pid = null;
+    public $name = null;
+    public $nominal = null;
+    public $description = null;
+    public $spending_date;
 
     /** @var string table component */
     public $cardHeaderAction = 'walet::spending.component';
@@ -32,6 +35,11 @@ class SpendingDatatable extends TableComponent
     {
         parent::__construct($id);
         $this->request = new SpendingRequest;
+    }
+
+    public function mount()
+    {
+        $this->spending_date = date('Y-m-d');
     }
 
     /**
@@ -50,21 +58,20 @@ class SpendingDatatable extends TableComponent
     public function create()
     {
         $this->resetValue();
-        return $this->emit('modal-toggle');
+        return $this->emit('modal:toggle');
     }
 
-    public function add(): Event
+    public function save(): Event
     {
-        dd($this->nominal);
-        
         $validated = $this->validate($this->request->rules(), [], $this->request->attributes());
+        $result = array_merge($validated, ['nominal' => clean_currency_format($validated['nominal'])]);
 
-        if ($this->query()->create($validated)) {
+        if ($this->query()->create($result)) {
             $this->resetValue();
             return $this->success('Berhasil!', 'Pengeluaran berhasil ditambahkan.');
         }
 
-        return $this->error('Oops..', 'Terjadi kesalahan saat menambah pengeluaran.');
+        return $this->error('Oopss!', 'Terjadi kesalahan saat menambah pengeluaran.');
     }
 
     public function edit(string $id): Event
@@ -73,14 +80,15 @@ class SpendingDatatable extends TableComponent
         $query = $this->query()->whereId($id)->first();
 
         if (!$query) {
-            return $this->error('Oops..', 'Pengeluaran tidak ditemukan.');
+            return $this->error('Oopss!', 'Pengeluaran tidak ditemukan.');
         }
 
         $this->name = $query->name;
         $this->nominal = $query->nominal;
+        $this->spending_date = \Carbon\Carbon::parse($query->spending_date)->format('Y-m-d');
         $this->description = $query->description;
 
-        return $this->emit('modal-toggle', $query->description);
+        return $this->emit('modal:toggle', $query->description);
     }
 
     public function update(): Event
@@ -88,25 +96,30 @@ class SpendingDatatable extends TableComponent
         $spending = $this->query()->whereId($this->pid)->first();
 
         if (!$spending) {
-            return $this->error('Oops..', 'Pengeluaran tidak ditemukan.');
+            return $this->error('Oopss!', 'Pengeluaran tidak ditemukan.');
         }
 
         $validated = $this->validate($this->request->rules(), [], $this->request->attributes());
+        $result = array_merge($validated, ['nominal' => clean_currency_format($validated['nominal'])]);
 
-        if ($spending->update($validated)) {
+        if ($spending->update($result)) {
             return $this->success('Berhasil!', 'Pengeluaran berhasil diubah.');
         }
 
-        return $this->error('Oops..', 'Terjadi kesalahan saat mengubah pengeluaran.');
+        return $this->error('Oopss!', 'Terjadi kesalahan saat mengubah pengeluaran.');
     }
 
-    public function delete(string $id)
+    public function delete(string $id, string $password)
     {
-        if ($this->query()->whereId($id)->delete()) {
-            return $this->success('Berhasil!', 'Pengeluaran berhasil dihapus.');
+        if (Hash::check($password, Auth::user()->password)) {
+            if ($this->query()->whereId($id)->delete()) {
+                return $this->success('Berhasil!', 'Pengeluaran berhasil dihapus.');
+            }
+
+            return $this->error('Oopss!', 'Terjadi kesalahan saat menghapus pengeluaran.');
         }
 
-        return $this->error('Oops..', 'Terjadi kesalahan saat menghapus pengeluaran.');
+        return $this->error('', 'Password yang anda masukan salah.');
     }
 
     public function query(): Builder
@@ -130,13 +143,13 @@ class SpendingDatatable extends TableComponent
             Column::make('keterangan', 'description')
                 ->searchable()
                 ->format(function (Spending $model) {
-                    return $this->html($model->description);
+                    return $model->description === '' || is_null($model->description) ? '-' : $this->html($model->description);
                 }),
-            Column::make('tanggal', 'created_at')
+            Column::make('tanggal', 'spending_date')
                 ->sortable()
                 ->searchable()
                 ->format(function (Spending $model) {
-                    return format_date($model->created_at);
+                    return format_date($model->spending_date);
                 }),
             Column::make('aksi')
                 ->format(function (Spending $model) {

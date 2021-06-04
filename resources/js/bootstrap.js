@@ -17,6 +17,7 @@ try {
 
     require('bootstrap');
     require('jquery.nicescroll');
+    require('daterangepicker');
 
     window.select2 = require('select2');
     window.moment = moment;

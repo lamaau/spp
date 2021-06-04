@@ -16,7 +16,7 @@ class CreatePaymentsTable extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('code')->comment('kode transaksi');
-            $table->date('pay_date')->comment('tanggal pembayaran');
+            $table->datetime('pay_date')->comment('tanggal pembayaran');
             $table->date('month')->nullable()->comment('bulan yang dibayar');
             $table->bigInteger('pay')->comment('pembayaran');
             $table->bigInteger('change')->nullable()->comment('kembalian');

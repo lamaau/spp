@@ -43,7 +43,7 @@ class PaymentRequest extends FormRequest
     {
         return [
             'pay' => 'Nominal',
-            'pay_date' => 'Tanggal bayar',
+            'pay_date' => 'Tanggal pembayaran',
         ];
     }
 

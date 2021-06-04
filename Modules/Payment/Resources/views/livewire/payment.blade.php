@@ -149,13 +149,7 @@
         </div>
     </div>
 
-    @push('styles')
-        <link rel="stylesheet"
-            href="https://demo.getstisla.com/assets/modules/bootstrap-daterangepicker/daterangepicker.css">
-    @endpush
-
     @push('scripts')
-        <script src="https://demo.getstisla.com/assets/modules/bootstrap-daterangepicker/daterangepicker.js"></script>
         <script type="text/javascript">
             $(document).ready(function() {
                 Livewire.on("notify", () => {
@@ -176,15 +170,6 @@
                         }
                     });
                 });
-                
-                if ($(".datepicker").length) {
-                    $('.datepicker').daterangepicker({
-                        locale: {
-                            format: 'YYYY-MM-DD'
-                        },
-                        singleDatePicker: true,
-                    });
-                }
 
                 $('#pay_date').on('change', (e) => {
                     @this.set('pay_date', e.target.value);

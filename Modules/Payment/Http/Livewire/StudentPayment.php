@@ -145,6 +145,9 @@ class StudentPayment extends Component
 
         try {
             $pay = clean_currency_format($validated['pay']);
+
+            // default change from form is `Rp xxx.xxx`
+            // bellow is remove Rp and dot
             $changed = clean_currency_format(trim(substr($this->change, strpos($this->change, "Rp") + 2)));
 
             $payment = array_merge($validated, [

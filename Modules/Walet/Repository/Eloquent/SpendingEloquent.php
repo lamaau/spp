@@ -22,7 +22,7 @@ class SpendingEloquent implements SpendingRepository
 
     public function spending(): int
     {
-        return $this->spending->query()->select('nominal')->sum('nominal');
+        return $this->spending->query()->select('nominal')->whereNull('deleted_at')->sum('nominal');
     }
 
     public function save(array $request): bool

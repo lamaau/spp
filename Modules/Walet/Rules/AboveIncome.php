@@ -8,6 +8,8 @@ use Modules\Walet\Repository\SpendingRepository;
 
 class AboveIncome implements Rule
 {
+    private IncomeRepository $income;
+    
     /**
      * Create a new rule instance.
      *
@@ -15,7 +17,7 @@ class AboveIncome implements Rule
      */
     public function __construct()
     {
-        // 
+        $this->income = resolve(IncomeRepository::class);
     }
 
     /**
@@ -27,10 +29,9 @@ class AboveIncome implements Rule
      */
     public function passes($attribute, $value)
     {
-        $income = resolve(IncomeRepository::class)->income();
         $spending = resolve(SpendingRepository::class)->spending();
 
-        return $income < $spending;
+        return (int)abs($spending + clean_currency_format($value)) <= (int)$this->income->income();
     }
 
     /**
@@ -40,6 +41,6 @@ class AboveIncome implements Rule
      */
     public function message()
     {
-        return 'Pemasukan kurang dari pengeluaran';
+        return ":attribute lebih besar dari pemasukan, total pemasukan saat ini adalah: " . idr($this->income->income());
     }
 }
