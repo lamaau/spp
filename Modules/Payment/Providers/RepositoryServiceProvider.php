@@ -17,5 +17,10 @@ class RepositoryServiceProvider extends ServiceProvider
             \Modules\Payment\Repository\PaymentRepository::class,
             \Modules\Payment\Repository\Eloquent\PaymentEloquent::class
         );
+
+        $this->app->bind(
+            \Modules\Payment\Repository\SpendingRepository::class,
+            \Modules\Payment\Repository\Eloquent\SpendingEloquent::class
+        );
     }
 }

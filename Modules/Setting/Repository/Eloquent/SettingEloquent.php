@@ -16,7 +16,7 @@ class SettingEloquent implements SettingRepository
      */
     public function general(): ?object
     {
-        return \Modules\Setting\Entiti\Setting::first();
+        return \Modules\Setting\Entities\Setting::first();
     }
 
     public function saveOrUpdate(string $table, array $request): bool

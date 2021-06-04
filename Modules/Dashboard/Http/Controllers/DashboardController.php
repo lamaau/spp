@@ -4,9 +4,9 @@ namespace Modules\Dashboard\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Modules\Master\Repository\BillRepository;
-use Modules\Walet\Repository\IncomeRepository;
+use Modules\Report\Repository\IncomeRepository;
 use Modules\Master\Repository\StudentRepository;
-use Modules\Walet\Repository\SpendingRepository;
+use Modules\Payment\Repository\SpendingRepository;
 
 class DashboardController extends Controller
 {

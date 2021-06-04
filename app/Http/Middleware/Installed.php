@@ -7,7 +7,7 @@ use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
-use Modules\Master\Entities\Setting;
+use Modules\Setting\Entities\Setting;
 
 class Installed
 {

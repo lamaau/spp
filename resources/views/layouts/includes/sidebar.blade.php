@@ -49,15 +49,8 @@
 
             <li class="menu-header">Keuangan</li>
 
-            <li class="{{ active('walet/income*') }}">
-                <a class="nav-link" href="{{ route('walet.income') }}">
-                    <i class="fas fa-fire"></i>
-                    <span>Pemasukan</span>
-                </a>
-            </li>
-
-            <li class="{{ active('walet/spending*') }}">
-                <a class="nav-link" href="{{ route('walet.spending') }}">
+            <li class="{{ active('spending*') }}">
+                <a class="nav-link" href="{{ route('spending.index') }}">
                     <i class="fas fa-fire"></i>
                     <span>Pengeluaran</span>
                 </a>
@@ -79,8 +72,8 @@
                 </a>
             </li>
 
-            <li class="">
-                <a class="nav-link" href="#">
+            <li class="{{ active('report*') }}">
+                <a class="nav-link" href="{{ route('report.index') }}">
                     <i class="fas fa-fire"></i>
                     <span>Laporan</span>
                 </a>

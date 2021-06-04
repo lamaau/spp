@@ -26,7 +26,7 @@ class SecondMoveRoomDatatable extends TableComponent
 
     /** @var string */
     public $room;
-    public $rightTableComponent = "master::student.room.second";
+    public $cardHeaderAction = "master::student.room.second";
 
     /**
      * Move student

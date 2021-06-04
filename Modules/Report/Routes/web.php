@@ -1,16 +1,10 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+use Illuminate\Support\Facades\Route;
+use Modules\Report\Http\Controllers\ReportController;
 
-Route::middleware(['auth', 'verified', 'installed'])->group(function () {
-    // Route::get('/', 'ReportController@index');
+Route::prefix('report')->as('report.')->middleware(['auth', 'verified', 'installed'])->group(function () {
+    Route::get('/', [ReportController::class, 'index'])->name('index');
+    Route::get('/master', [ReportController::class, 'master'])->name('master');
+    Route::get('/finance', [ReportController::class, 'finance'])->name('finance');
 });

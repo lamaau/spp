@@ -10,7 +10,7 @@
         <div class="section-body">
             <h2 class="section-title">Gambaran</h2>
             <p class="section-lead">
-                Atur dan sesuaikan semua pengaturan tentang situs ini.
+                Atur dan sesuaikan semua pengaturan tentang aplikasi ini.
             </p>
 
             <div class="row">

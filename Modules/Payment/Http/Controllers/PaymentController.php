@@ -20,7 +20,7 @@ class PaymentController extends Controller
      */
     public function index(): Renderable
     {
-        return view('payment::index', [
+        return view('payment::payment.index', [
             'title' => 'Pembayaran',
             'bills' => Bill::query()->select(['id', 'name'])->get(),
             'years' => SchoolYear::query()->select(['id', 'year'])->get(),

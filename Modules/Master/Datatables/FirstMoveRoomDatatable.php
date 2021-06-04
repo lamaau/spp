@@ -28,7 +28,7 @@ class FirstMoveRoomDatatable extends TableComponent
     public $room;
     public $sortField = 'name';
     public $sortDirection = 'asc';
-    public $rightTableComponent = "master::student.room.first";
+    public $cardHeaderAction = "master::student.room.first";
 
     /**
      * Reload table
