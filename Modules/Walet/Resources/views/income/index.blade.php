@@ -8,14 +8,22 @@
             </div>
         </div>
         <div class="row">
+            @foreach ($stats as $key => $stat)
+                <x-percentage :result="$stats[$key]" />
+            @endforeach
+        </div>
+
+        <div class="row">
             @foreach ($bills as $item)
                 <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <x-widget
-                        type="success"
-                        :title="$item->name"
-                        :value="idr($item->payments_sum_pay)"
-                        icon="fas fa-dollar-sign"
-                    />
+                    <a href="#">
+                        <x-widget
+                            type="success"
+                            :title="$item->name"
+                            icon="fas fa-dollar-sign"
+                            :value="idr($item->payments_sum_pay)"
+                        />
+                    </a>
                 </div>
             @endforeach
         </div>

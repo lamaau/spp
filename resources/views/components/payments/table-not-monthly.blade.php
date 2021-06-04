@@ -63,7 +63,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="4" align="center">Tidak ada transaksi</td>
+                                        <td colspan="5" align="center">Tidak ada transaksi</td>
                                     </tr>
                                 @endforelse
                             </tbody>
