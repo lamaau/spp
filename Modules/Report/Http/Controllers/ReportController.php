@@ -33,7 +33,7 @@ class ReportController extends Controller
     }
 
     public function finance(): Renderable
-    {
+    {        
         return view('report::finance.index', [
             'title' => 'Keuangan',
             'bills' => $this->bill->all()->orderBy('payments_sum_pay', 'desc')->get(),

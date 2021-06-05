@@ -1923,6 +1923,10 @@ a:not(.btn-social-icon):not(.btn-social):not(.page-link) .fab {
     color: #191d21 !important;
 }
 
+.text-title {
+    color: #6c757d !important;
+}
+
 .font-weight-normal {
     font-weight: 500 !important;
 }

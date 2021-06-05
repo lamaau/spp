@@ -63,6 +63,12 @@
                 <div class="col-12 text-center" wire:loading wire:target='search'>
                     Loading...
                 </div>
+                
+                @if (is_null($billResult))
+                    <div class="col-12 text-center" wire:target="search" wire:loading.remove>
+                        <img src="{{ asset('css/img/empty.png') }}" width="500">
+                    </div>
+                @endif
 
                 <div class="col-12" wire:target='search' wire:loading.remove>
                     @if ($billResult && $billResult->monthly)

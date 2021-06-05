@@ -8,21 +8,21 @@ use Illuminate\Support\Facades\DB;
 
 class SpendingChart extends Component
 {
-    public int $filter = 1;
+    public int $filterSpending = 1;
     public string $series;
     public string $categories;
     public string $chartId = "spending-chart";
 
     protected function query()
     {
-        $sqlRaw = 'SUM(`payments`.`pay`) as total';
-        $sqlRaw .= ', `bills`.`name`, `payments`.`pay_date`';
+        $sqlRaw = 'SUM(`spendings`.`nominal`) as total';
+        $sqlRaw .= ', `bills`.`name`, `spendings`.`spending_date`';
 
         return DB::table('bills')
             ->select(DB::raw($sqlRaw))
-            ->leftJoin('payments', 'bills.id', '=', 'payments.bill_id')
+            ->leftJoin('spendings', 'bills.id', '=', 'spendings.bill_id')
             ->whereNull('bills.deleted_at')
-            ->whereNull('payments.deleted_at')
+            ->whereNull('spendings.deleted_at')
             ->groupBy('bills.id')
             ->orderBy('total');
     }
@@ -31,13 +31,13 @@ class SpendingChart extends Component
     {
         $query = $this->query();
 
-        if ($this->filter) {
-            $query->whereBetween('payments.pay_date', [
+        if ($this->filterSpending) {
+            $query->whereBetween('spendings.spending_date', [
                 Carbon::today()->subDay(7)->toDateString(),
                 Carbon::today()->toDateString()
             ]);
         } else {
-            $query->whereMonth('payments.pay_date', Carbon::today()->subMonth()->month);
+            $query->whereMonth('spendings.spending_date', Carbon::today()->subMonth()->month);
         }
 
         $series = [];
@@ -55,6 +55,6 @@ class SpendingChart extends Component
             'categories' => $categories,
         ]);
 
-        return view('report::livewire.spending-chart');
+        return view('report::finance.livewire.spending-chart');
     }
 }

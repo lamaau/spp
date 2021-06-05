@@ -4,6 +4,7 @@ namespace Modules\Master\Entities;
 
 use Modules\Utils\Uuid;
 use Modules\Payment\Entities\Payment;
+use Modules\Payment\Entities\Spending;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -78,5 +79,15 @@ class Bill extends Model
     public function payments(): HasMany
     {
         return $this->hasMany(Payment::class);
+    }
+
+    /**
+     * Get spendings
+     *
+     * @return HasMany
+     */
+    public function spendings(): HasMany
+    {
+        return $this->hasMany(Spending::class);
     }
 }

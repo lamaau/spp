@@ -2,15 +2,13 @@
 
 namespace Modules\Report\Http\Livewire\Finance;
 
-use Illuminate\Support\Arr;
 use Livewire\Component;
 use Illuminate\Support\Carbon;
-use Modules\Master\Entities\Bill;
 use Illuminate\Support\Facades\DB;
 
 class IncomeChart extends Component
 {
-    public int $filter = 1;
+    public int $filterIncome = 1;
     public string $series;
     public string $categories;
     public string $chartId = "income-chart";
@@ -33,7 +31,7 @@ class IncomeChart extends Component
     {
         $query = $this->query();
 
-        if ($this->filter) {
+        if ($this->filterIncome) {
             $query->whereBetween('payments.pay_date', [
                 Carbon::today()->subDay(7)->toDateString(),
                 Carbon::today()->toDateString()
@@ -57,6 +55,6 @@ class IncomeChart extends Component
             'categories' => $categories,
         ]);
 
-        return view('report::livewire.income-chart');
+        return view('report::finance.livewire.income-chart');
     }
 }

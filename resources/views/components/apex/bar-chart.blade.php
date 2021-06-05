@@ -7,7 +7,7 @@
                     data: {!! $chartData !!}
                 }],
                 fill: {
-                    colors: ['#6777ef']
+                    colors: ['{{ $chartFill }}']
                 },
                 chart: {
                     height: 430,
@@ -15,11 +15,6 @@
                     toolbar: {
                         show: false
                     },
-                    events: {
-                        click: function(chart, w, e) {
-                            // console.log(chart, w, e)
-                        }
-                    }
                 },
                 // colors: colors,
                 plotOptions: {
@@ -38,7 +33,6 @@
                     categories: {!! $chartCategory !!},
                     labels: {
                         style: {
-                            // colors: colors,
                             fontSize: '12px'
                         }
                     },

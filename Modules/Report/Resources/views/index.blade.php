@@ -36,7 +36,7 @@
                         </div>
                         <div class="card-body">
                             <h4>Keuangan</h4>
-                            <p>Berisi semua laporan keuangan, terdiri dari pemasukan dan pengeluaran.</p>
+                            <p>Berisi semua laporan keuangan, terdiri dari pemasukan dan pengeluaran lengkap dengan statistik bulanan dan mingguan.</p>
                             <a href="{{ route('report.finance') }}" class="card-cta">
                                 Lihat
                                 <i class="fas fa-chevron-right"></i>
