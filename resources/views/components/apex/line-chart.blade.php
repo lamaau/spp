@@ -1,13 +1,16 @@
-<div>    
+<div>
     <div id="{!! $chartId !!}"></div>
     @push('scripts')
         <script type="text/javascript">
             (function() {
                 var options = {
-                    colors : ['#6777ef', '#dc3545'],
+                    colors: ['#6777ef', '#dc3545'],
                     chart: {
                         height: 400,
                         type: 'area',
+                        toolbar: {
+                            show: false
+                        },
                         zoom: {
                             enabled: false
                         }
