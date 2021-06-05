@@ -6,14 +6,15 @@ use Illuminate\View\Component;
 
 class BarChart extends Component
 {
-    public $chartId;
+    public string $chartId;
+    public string $chartData;
+    public string $chartCategory;
 
-    public $chartData;
-
-    public $chartCategory;
-
-    public function __construct($chartId, $chartData, $chartCategory)
-    {
+    public function __construct(
+        string $chartId,
+        string $chartData,
+        string $chartCategory
+    ) {
         $this->chartId = $chartId;
         $this->chartData = $chartData;
         $this->chartCategory = $chartCategory;

@@ -25,7 +25,7 @@
 
             <div class="row">
                 <div class="col-lg-8 col-md-12 col-12 col-sm-12">
-                    <livewire:finance-income />
+                    <livewire:finance-income-chart key="income-chart-{{ time() }}" />
                 </div>
                 <div class="col-lg-4 col-md-12 col-12 col-sm-12">
                     <div class="card">
@@ -48,6 +48,11 @@
         <div class="section-body">
             <h2 class="section-title">Pengeluaran</h2>
             <p class="section-lead">Semua data pengeluaran.</p>
+            <div class="row">
+                <div class="col-lg-8 col-md-12 col-12 col-sm-12">
+                    <livewire:finance-spending-chart key="spending-chart-{{ time() }}" />
+                </div>
+            </div>
         </div>
     </section>
 </x-app-layout>

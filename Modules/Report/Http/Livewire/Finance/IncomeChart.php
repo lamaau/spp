@@ -8,13 +8,12 @@ use Illuminate\Support\Carbon;
 use Modules\Master\Entities\Bill;
 use Illuminate\Support\Facades\DB;
 
-class Income extends Component
+class IncomeChart extends Component
 {
-    // 0 => last week
-    // 1 => last month
-    // 2 => last year
     public int $filter = 1;
-    public string $chartId = "finance-chart";
+    public string $series;
+    public string $categories;
+    public string $chartId = "income-chart";
 
     protected function query()
     {
@@ -50,14 +49,14 @@ class Income extends Component
             $series[] = is_null($item->total) ? 0 : (int)$item->total;
         }
 
+        $this->series = json_encode($series);
+        $this->categories = json_encode($categories);
+
         $this->emit("refreshChart-{$this->chartId}", [
             'series' => $series,
             'categories' => $categories,
         ]);
 
-        return view('report::livewire.income', [
-            'series' => json_encode($series),
-            'categories' => json_encode($categories),
-        ]);
+        return view('report::livewire.income-chart');
     }
 }
