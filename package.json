@@ -20,6 +20,7 @@
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.13.1",
         "@popperjs/core": "^2.9.2",
+        "apexcharts": "^3.26.3",
         "axios": "^0.21.1",
         "bootstrap": "^4.0.0",
         "bs4-summernote": "^0.8.9",

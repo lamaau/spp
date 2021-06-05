@@ -1,4 +1,4 @@
-<div class="card card-statistic-1">
+<div {{ $attributes->merge(['class' => 'card card-statistic-1']) }}>
     <div class="card-icon bg-{{ $type }}">
         <i class="{{ $icon }}"></i>
     </div>

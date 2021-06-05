@@ -10,7 +10,9 @@
             <option></option>
             @if (!empty($items))
                 @foreach ($items as $item)
-                    <option value="{{ $item[$key] }}">{{ $item[$text] }}</option>
+                    <option value="{{ $item[$key] }}">
+                        {{ $item[$text] }}
+                    </option>
                 @endforeach
             @endif
         </select>

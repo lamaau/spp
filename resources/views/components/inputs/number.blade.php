@@ -9,5 +9,5 @@
     class="form-control number @error($name) is-invalid @enderror" name="{{ $name }}">
 
 @error($name)
-    <small class="invalid-feedback">{{ $message }}</small>
+    <small class="invalid-feedback">{!! $message !!}</small>
 @enderror

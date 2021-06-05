@@ -18,11 +18,22 @@ class BillEloquent implements BillRepository
     /**
      * Get all bill
      *
-     * @return void
+     * @return null|object
      */
     public function all()
     {
-        return $this->bill->withSum('payments', 'pay')->get();
+        return $this->bill->withSum('payments', 'pay');
+    }
+
+    /**
+     * Get bill where id
+     *
+     * @param string $id
+     * @return object
+     */
+    public function whereId(string $id): object
+    {
+        return $this->bill->whereId($id);
     }
 
     /**

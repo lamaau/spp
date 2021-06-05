@@ -11,7 +11,15 @@ if (!interface_exists('BillRepository')) {
          * @return null|object
          */
         public function all();
-        
+
+        /**
+         * Get bill where id
+         *
+         * @param string $id
+         * @return object
+         */
+        public function whereId(string $id): object;
+
         /**
          * Save room
          *

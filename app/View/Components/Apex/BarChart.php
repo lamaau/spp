@@ -1,10 +1,10 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Apex;
 
 use Illuminate\View\Component;
 
-class ApexChart extends Component
+class BarChart extends Component
 {
     public $chartId;
 
@@ -21,6 +21,6 @@ class ApexChart extends Component
 
     public function render()
     {
-        return view('components.apex-chart');
+        return view('components.apex.bar-chart');
     }
 }

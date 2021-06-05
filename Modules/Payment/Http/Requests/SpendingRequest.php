@@ -12,11 +12,12 @@ class SpendingRequest extends FormRequest
      *
      * @return array
      */
-    public function rules(): array
+    public function rules($bill_id = null): array
     {
         return [
             'name' => ['required', 'string'],
-            'nominal' => ['required', new SpendingAboveIncome()],
+            'bill_id' => ['required'],
+            'nominal' => ['required', new SpendingAboveIncome($bill_id)],
             'spending_date' => ['required'],
             'description' => ['nullable', 'min:5']
         ];
@@ -32,6 +33,7 @@ class SpendingRequest extends FormRequest
         return [
             'name' => 'Nama',
             'nominal' => 'Nominal',
+            'bill_id' => 'Tagihan',
             'spending_date' => 'Tanggal Pengeluaran',
             'description' => 'Keterangan'
         ];

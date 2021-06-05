@@ -4183,3 +4183,9 @@ body:not(.sidebar-mini)
 .btn.disabled {
     cursor: not-allowed !important;
 }
+
+.card-list-icon {
+    box-shadow: none!important;
+    background-color: transparent!important;
+    border-bottom: 1px solid #f9f9f9;
+}

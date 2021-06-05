@@ -6,6 +6,7 @@ use Livewire\Event;
 use App\Datatables\Column;
 use App\Datatables\Traits\Notify;
 use App\Datatables\TableComponent;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Modules\Payment\Entities\Spending;
@@ -18,12 +19,16 @@ class SpendingDatatable extends TableComponent
     use HtmlComponents,
         Notify;
 
+    /** @var array */
+    public ?array $bills;
+
     /** @var null|string */
     public $pid = null;
     public $name = null;
     public $nominal = null;
+    public $bill_id = null;
     public $description = null;
-    public $spending_date;
+    public $spending_date = null;
 
     /** @var string table component */
     public $cardHeaderAction = 'payment::spending.component';
@@ -50,6 +55,7 @@ class SpendingDatatable extends TableComponent
     {
         $this->pid = null;
         $this->name = null;
+        $this->bill_id = null;
         $this->nominal = null;
         $this->description = null;
     }
@@ -62,7 +68,7 @@ class SpendingDatatable extends TableComponent
 
     public function save(): Event
     {
-        $validated = $this->validate($this->request->rules(), [], $this->request->attributes());
+        $validated = $this->validate($this->request->rules($this->bill_id), [], $this->request->attributes());
         $result = array_merge($validated, ['nominal' => clean_currency_format($validated['nominal'])]);
 
         if ($this->query()->create($result)) {
@@ -84,6 +90,7 @@ class SpendingDatatable extends TableComponent
 
         $this->name = $query->name;
         $this->nominal = $query->nominal;
+        $this->bill_id = $query->bill_id;
         $this->spending_date = \Carbon\Carbon::parse($query->spending_date)->format('Y-m-d');
         $this->description = $query->description;
 
@@ -98,7 +105,7 @@ class SpendingDatatable extends TableComponent
             return $this->error('Oopss!', 'Pengeluaran tidak ditemukan.');
         }
 
-        $validated = $this->validate($this->request->rules(), [], $this->request->attributes());
+        $validated = $this->validate($this->request->rules($this->bill_id), [], $this->request->attributes());
         $result = array_merge($validated, ['nominal' => clean_currency_format($validated['nominal'])]);
 
         if ($spending->update($result)) {
@@ -133,6 +140,12 @@ class SpendingDatatable extends TableComponent
             Column::make('nama', 'name')
                 ->searchable()
                 ->sortable(),
+            Column::make('tagihan', 'bill_id')
+                ->searchable()
+                ->sortable()
+                ->format(function (Spending $model) {
+                    return $model->bill->name;
+                }),
             Column::make('nominal')
                 ->searchable()
                 ->sortable()

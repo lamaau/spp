@@ -3,7 +3,7 @@
         <div class="statistic-details-item card card-statistic-1">
             <span class="text-muted">
                 @if ($result['last_income'] > $result['first_income'])
-                    <span class="text-primary">
+                    <span class="text-success">
                         <i class="fas fa-caret-up"></i>
                     </span>
                 @else

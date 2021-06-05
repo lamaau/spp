@@ -13,11 +13,18 @@ if (!interface_exists('SpendingRepository')) {
         public function all(): ?object;
 
         /**
-         * Count income
+         * Get total spending
          *
          * @return integer
          */
         public function spending(): int;
+
+        /**
+         * Spending where bill
+         *
+         * @return object
+         */
+        public function whereBill(string $id): object;
 
         /**
          * Save spending

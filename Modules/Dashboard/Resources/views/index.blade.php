@@ -11,7 +11,7 @@
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                 <x-widget
                     type="success"
-                    title="Pemasukan"
+                    title="Total Pemasukan"
                     :value="idr($income)"
                     icon="fas fa-dollar-sign"
                 />
@@ -20,7 +20,7 @@
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                 <x-widget
                     type="danger"
-                    title="Pengeluaran"
+                    title="Total Pengeluaran"
                     :value="idr($spending)"
                     icon="fas fa-dollar-sign"
                 />
@@ -29,7 +29,7 @@
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                 <x-widget
                     type="primary"
-                    title="Siswa"
+                    title="Total Siswa"
                     :value="$student"
                     icon="fas fa-users"
                 />
@@ -38,7 +38,7 @@
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                 <x-widget
                     type="warning"
-                    title="Tagihan"
+                    title="Total Tagihan"
                     :value="$bill"
                     icon="far fa-money-bill-alt"
                 />

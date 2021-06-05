@@ -9,15 +9,31 @@ class PaymentEloquent implements PaymentRepository
 {
     /** @var Payment */
     protected $payment;
-    
+
     public function __construct(Payment $payment)
     {
         $this->payment = $payment;
     }
-    
+
+    /**
+     * Get all payment
+     *
+     * @return object|null
+     */
     public function all()
     {
         return $this->payment->all();
+    }
+
+    /**
+     * Sum payment where bill
+     *
+     * @param string $id
+     * @return int|null
+     */
+    public function sumPayment(string $id): ?int
+    {
+        return $this->payment->where('bill_id', $id)->sum('pay');
     }
 
     /**

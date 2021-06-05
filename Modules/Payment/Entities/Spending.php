@@ -3,9 +3,10 @@
 namespace Modules\Payment\Entities;
 
 use Modules\Utils\Uuid;
+use Modules\Master\Entities\Bill;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Spending extends Model
 {
@@ -39,4 +40,14 @@ class Spending extends Model
      * @var string
      */
     protected $table = 'spendings';
+
+    /**
+     * Get bill
+     *
+     * @return BelongsTo
+     */
+    public function bill(): BelongsTo
+    {
+        return $this->belongsTo(Bill::class);
+    }
 }

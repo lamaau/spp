@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Master\Providers;
+namespace Modules\Report\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -13,6 +13,6 @@ class LivewireServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        \Livewire\Livewire::component('student-form', \Modules\Master\Http\Livewire\Student\Form::class);
+        \Livewire\Livewire::component('finance-income', \Modules\Report\Http\Livewire\Finance\Income::class);
     }
 }

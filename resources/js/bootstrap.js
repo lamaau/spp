@@ -4,6 +4,7 @@ import moment from 'moment';
 import Echo from "laravel-echo";
 
 window.Pusher = require("pusher-js");
+window.ApexCharts = require('apexcharts');
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support

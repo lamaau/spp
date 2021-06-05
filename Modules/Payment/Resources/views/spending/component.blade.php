@@ -16,6 +16,15 @@
                     />
                 </div>
                 <div class="form-group">
+                    <x-inputs.select-two
+                        required
+                        name="bill_id"
+                        :items="$bills"
+                        label="Tagihan"
+                        wire:model.defer="bill_id"
+                    />
+                </div>
+                <div class="form-group">
                     <x-inputs.text
                         required
                         name="name"
@@ -81,7 +90,7 @@
 
                 $(".summernote-simple").summernote({
                     dialogsInBody: true,
-                    minHeight: 150,
+                    minHeight: 80,
                     toolbar: [
                         ['style', ['bold', 'italic', 'underline', 'clear']],
                         ['font', ['strikethrough']],
@@ -106,6 +115,15 @@
                         if (event.isConfirmed) {
                             @this.call('delete', id, event.value);
                         }
+                    });
+                });
+
+                Livewire.hook('message.processed', (message, component) => {
+                    customSelect('#bill_id', {
+                        allowClear: false,
+                        placeholder: "",
+                    }, (e) => {
+                        @this.set('bill_id', e.target.value);
                     });
                 });
             });

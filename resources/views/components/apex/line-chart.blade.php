@@ -1,7 +1,6 @@
 <div>    
     <div id="{!! $chartId !!}"></div>
     @push('scripts')
-        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
         <script type="text/javascript">
             (function() {
                 var options = {

@@ -13,6 +13,14 @@ if (!interface_exists('PaymentRepository')) {
         public function all();
 
         /**
+         * Sum payment where bill
+         *
+         * @param string $id
+         * @return int|null
+         */
+        public function sumPayment(string $id): ?int;
+
+        /**
          * Delete payment
          *
          * @param string $id

@@ -4,6 +4,7 @@ namespace Modules\Payment\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Routing\Controller;
+use Modules\Master\Repository\BillRepository;
 
 class SpendingController extends Controller
 {
@@ -12,10 +13,11 @@ class SpendingController extends Controller
      * 
      * @return Renderable
      */
-    public function index(): Renderable
+    public function index(BillRepository $bill): Renderable
     {
         return view('payment::spending.index', [
-            'title' => 'Pengeluaran'
+            'title' => 'Pengeluaran',
+            'bills' => $bill->all()->get()->toArray(),
         ]);
     }
 }

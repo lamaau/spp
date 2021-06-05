@@ -2,22 +2,22 @@
 
 namespace Modules\Payment\Rules;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\Validation\Rule;
-use Modules\Report\Repository\IncomeRepository;
-use Modules\Payment\Repository\SpendingRepository;
 
 class SpendingAboveIncome implements Rule
 {
-    private IncomeRepository $income;
+    private $name;
+    private ?string $bill_id;
 
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(?string $bill_id)
     {
-        $this->income = resolve(IncomeRepository::class);
+        $this->bill_id = $bill_id;
     }
 
     /**
@@ -29,9 +29,26 @@ class SpendingAboveIncome implements Rule
      */
     public function passes($attribute, $value)
     {
-        $spending = resolve(SpendingRepository::class)->spending();
+        if (!is_null($this->bill_id)) {
+            $value = clean_currency_format($value);
 
-        return (int)abs($spending + clean_currency_format($value)) <= (int)$this->income->income();
+            $payment = DB::table('bills')
+                ->selectRaw('`bills`.`name` AS bill_name, SUM(`payments`.`pay`) AS payed')
+                ->where('payments.bill_id', $this->bill_id)->leftJoin('payments', 'bills.id', 'payments.bill_id')
+                ->whereNull(['bills.deleted_at', 'payments.deleted_at'])
+                ->first();
+
+            $spending = DB::table('bills')
+                ->selectRaw('SUM(`spendings`.`nominal`) AS spend')
+                ->where('spendings.bill_id', $this->bill_id)->leftJoin('spendings', 'bills.id', 'spendings.bill_id')
+                ->whereNull(['bills.deleted_at', 'spendings.deleted_at'])
+                ->first();
+
+            if (is_null($spending->spend)) $spending->spend = 0;
+            $this->name = strtolower($payment->bill_name);
+
+            return $value <= abs(($spending->spend - $payment->payed));
+        }
     }
 
     /**
@@ -41,6 +58,6 @@ class SpendingAboveIncome implements Rule
      */
     public function message()
     {
-        return ":attribute lebih besar dari pemasukan, total pemasukan saat ini adalah: " . idr($this->income->income());
+        return "Saldo pada tagihan {$this->name} tidak cukup, <a href='" . route('report.finance') . "' target='blank' class='text-primary'>lihat laporan keuangan?</a>";
     }
 }
