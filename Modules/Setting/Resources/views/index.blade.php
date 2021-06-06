@@ -15,35 +15,22 @@
 
             <div class="row">
                 <div class="col-lg-6">
-                    <div class="card card-large-icons">
-                        <div class="card-icon bg-primary text-white">
-                            <i class="fas fa-cog"></i>
-                        </div>
-                        <div class="card-body">
-                            <h4>Umum</h4>
-                            <p>Penagturan umum seperti, judul situs, deskripsi situs, alamat dan sebagainya.</p>
-                            <a href="{{ route('setting.general') }}" class="card-cta">
-                                Atur
-                                <i class="fas fa-chevron-right"></i>
-                            </a>
-                        </div>
-                    </div>
+                    <x-card-icon
+                        link-text="Atur"
+                        title="Umum"
+                        icon="fas fa-cog"
+                        link-route="{{route('setting.general')}}"
+                        description="Penagturan umum seperti, judul situs, deskripsi situs, alamat dan sebagainya."
+                    />
                 </div>
                 <div class="col-lg-6">
-                    <div class="card card-large-icons">
-                        <div class="card-icon bg-primary text-white">
-                            <i class="fas fa-stopwatch"></i>
-                        </div>
-                        <div class="card-body">
-                            <h4>Otomatisasi</h4>
-                            <p>Pengaturan tentang otomatisasi seperti tugas cron, otomatisasi pencadangan, dan
-                                sebagainya.</p>
-                            <a href="{{ route('setting.automation') }}" class="card-cta text-primary">
-                                Atur
-                                <i class="fas fa-chevron-right"></i>
-                            </a>
-                        </div>
-                    </div>
+                    <x-card-icon
+                        link-text="Atur"
+                        title="Otomatisasi"
+                        icon="fas fa-stopwatch"
+                        link-route="{{route('setting.automation')}}"
+                        description="Pengaturan tentang otomatisasi seperti tugas cron, otomatisasi pencadangan, dan sebagainya."
+                    />
                 </div>
             </div>
         </div>

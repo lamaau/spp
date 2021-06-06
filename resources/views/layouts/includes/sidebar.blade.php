@@ -47,6 +47,13 @@
                 </a>
             </li>
 
+            <li class="{{ active('document') }}">
+                <a class="nav-link" href="{{ route('document.index') }}">
+                    <i class="fas fa-fire"></i>
+                    <span>Dokumen</span>
+                </a>
+            </li>
+
             <li class="menu-header">Keuangan</li>
 
             <li class="{{ active('spending*') }}">
@@ -63,14 +70,28 @@
                 </a>
             </li>
 
-            <li class="menu-header">Ekstra</li>
+            <li class="menu-header">Website</li>
 
-            <li class="{{ active('document') }}">
-                <a class="nav-link" href="{{ route('document.index') }}">
+            <li class="#">
+                <a class="nav-link" href="#">
                     <i class="fas fa-fire"></i>
-                    <span>Dokumen</span>
+                    <span>Blog</span>
                 </a>
             </li>
+            <li class="#">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-fire"></i>
+                    <span>Event</span>
+                </a>
+            </li>
+            <li class="#">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-fire"></i>
+                    <span>Siswa Baru</span>
+                </a>
+            </li>
+
+            <li class="menu-header">Ekstra</li>
 
             <li class="{{ active('report*') }}">
                 <a class="nav-link" href="{{ route('report.index') }}">
