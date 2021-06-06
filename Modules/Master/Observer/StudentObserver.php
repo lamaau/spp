@@ -3,6 +3,7 @@
 namespace Modules\Master\Observer;
 
 use Illuminate\Support\Facades\Auth;
+use Modules\Master\Constants\StudentConstant;
 use Modules\Master\Entities\Student;
 
 class StudentObserver
@@ -11,6 +12,7 @@ class StudentObserver
     {
         $model->fill([
             'created_by' => Auth::id(),
+            'status' => StudentConstant::ACTIVE,
         ]);
     }
 

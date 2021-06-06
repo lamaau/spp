@@ -3,15 +3,12 @@
 namespace App\Datatables;
 
 use Illuminate\Support\Str;
-use App\Datatables\Traits\CanBeHidden;
 
 /**
  * Class Column.
  */
 class Column
 {
-    use CanBeHidden;
-
     /**
      * @var boolean
      */

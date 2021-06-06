@@ -20,4 +20,11 @@ class SpendingObserver
             'updated_by' => Auth::id(),
         ]);
     }
+
+    public function deleting(Spending $model)
+    {
+        $model->update([
+            'deleted_by' => Auth::id(),
+        ]);
+    }
 }

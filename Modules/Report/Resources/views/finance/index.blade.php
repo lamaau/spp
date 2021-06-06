@@ -55,7 +55,7 @@
                 <div class="col-lg-4 col-md-12 col-12 col-sm-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="text-title">Pemasukan Berdasarkan Tagihan</h4>
+                            <h4 class="text-title">Pengeluaran Berdasarkan Tagihan</h4>
                         </div>
                         <div class="card-body" style="height: 489px!important;overflow-y:scroll;">
                             <x-widget type="danger" title="Total Pengeluaran" class="card-list-icon"

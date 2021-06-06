@@ -13,12 +13,28 @@ if (!interface_exists('IncomeRepository')) {
         public function income(): int;
 
         /**
+         * Get total income where given bill
+         *
+         * @param string $id bill id
+         * @return object|null
+         */
+        public function incomeWhereBill(string $id): ?object;
+
+        /**
+         * Get total spending where given bill
+         *
+         * @param string $id
+         * @return object|null
+         */
+        public function spendingWhereBill(string $id): ?object;
+
+        /**
          * Get daily percentage
          *
          * @return array
          */
         public function dailyPercentage(): array;
-        
+
         /**
          * Get weekly percentage
          *

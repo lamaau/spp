@@ -2,11 +2,10 @@
 
 namespace Modules\Master\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Modules\Master\Entities\Room;
 use Illuminate\Routing\Controller;
 use Modules\Master\Constants\SexConstant;
 use Illuminate\Contracts\Support\Renderable;
+use Modules\Master\Constants\StudentConstant;
 use Modules\Master\Repository\RoomRepository;
 use Modules\Master\Constants\ReligionConstant;
 use Modules\Master\Http\Requests\StudentRequest;
@@ -38,7 +37,10 @@ class StudentController extends Controller
 
     public function index(): Renderable
     {
-        return view('master::student.index', ['title' => 'Daftar Siswa']);
+        return view('master::student.index', [
+            'title' => 'Daftar Siswa',
+            'items' => StudentConstant::labels(),
+        ]);
     }
 
     public function create(): Renderable

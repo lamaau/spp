@@ -26,17 +26,6 @@ class PaymentEloquent implements PaymentRepository
     }
 
     /**
-     * Sum payment where bill
-     *
-     * @param string $id
-     * @return int|null
-     */
-    public function sumPayment(string $id): ?int
-    {
-        return $this->payment->where('bill_id', $id)->sum('pay');
-    }
-
-    /**
      * Delete payment
      *
      * @return boolean

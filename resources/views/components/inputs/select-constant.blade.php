@@ -1,12 +1,14 @@
-<label for="{{ $name }}" class="text-capitalize">{{ $label }}
-    @if ($required)
-        <small class="required text-danger">*</small>
-    @endif
-</label>
+@if ($label)
+    <label for="{{ $name }}" class="text-capitalize">{{ $label }}
+        @if ($required)
+            <small class="required text-danger">*</small>
+        @endif
+    </label>
+@endif
 <div class="custom-select-icon @error($name) has-error @enderror">
     <div wire:ignore>
         <select id="{{ $name }}" {{ $attributes->wire('model') }} class="custom-select"
-            name="{{ $name }}">
+            name="{{ $name }}" {{ $attributes }}>
             <option></option>
             @foreach ($items as $key => $item)
                 <option value="{{ $key }}" {{ old($name, $value) == $key ? 'selected' : '' }}>

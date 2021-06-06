@@ -36,17 +36,6 @@ class SpendingEloquent implements SpendingRepository
     }
 
     /**
-     * Spending where bill
-     *
-     * @param string $id
-     * @return object
-     */
-    public function whereBill(string $id): object
-    {
-        return $this->spending->where('bill_id', $id);
-    }
-
-    /**
      * Save spending
      *
      * @param array $request

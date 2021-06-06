@@ -1,9 +1,11 @@
 <div class="@error($name) has-error @enderror">
-    <label for="{{ $name }}" class="text-capitalize">{{ $label }}
-        @if ($required)
-            <small class="required text-danger">*</small>
-        @endif
-    </label>
+    @if ($label)
+        <label for="{{ $name }}" class="text-capitalize">{{ $label }}
+            @if ($required)
+                <small class="required text-danger">*</small>
+            @endif
+        </label>
+    @endif
     <div class="custom-select-icon">
         <select id="{{ $name }}" {{ $attributes->wire('model') }} class="custom-select"
             name="{{ $name }}">

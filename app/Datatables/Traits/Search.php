@@ -7,9 +7,9 @@ trait Search
     /**
      * Initial search
      *
-     * @var string
+     * @var null
      */
-    public $search = '';
+    public $searchModel = null;
 
     /**
      * Whethever or not searching is enabled
@@ -24,14 +24,19 @@ trait Search
      *
      * @var int
      */
-    public $searchDebounce = 350;
+    public $searchDebounce = 750;
 
     /**
      * https://laravel-livewire.com/docs/pagination
      * Resetting Pagination After Filtering Data.
      */
-    public function updatingSearch(): void
+    public function updatingSearchModel(): void
     {
         $this->resetPage();
+
+        // if (property_exists($this, 'checkbox_all') && property_exists($this, 'checkbox_values')) {
+        //     $this->checkbox_all = false;
+        //     $this->checkbox_values = [];
+        // }
     }
 }

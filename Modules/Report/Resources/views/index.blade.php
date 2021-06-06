@@ -17,11 +17,11 @@
                 <div class="col-lg-6">
                     <div class="card card-large-icons">
                         <div class="card-icon bg-primary text-white">
-                            <i class="fas fa-box"></i>
+                            <i class="fas fa-users"></i>
                         </div>
                         <div class="card-body">
-                            <h4>Data Master</h4>
-                            <p>Semua data master berada disini, anda dapat melihat dan mendownloadnya.</p>
+                            <h4>Siswa</h4>
+                            <p>Berisi laporan data siswa, terdiri dari persentase pembayaran dilengkap dengan statistik bulanan dan mingguan..</p>
                             <a href="{{ route('setting.automation') }}" class="card-cta text-primary">
                                 Lihat
                                 <i class="fas fa-chevron-right"></i>
@@ -36,7 +36,7 @@
                         </div>
                         <div class="card-body">
                             <h4>Keuangan</h4>
-                            <p>Berisi semua laporan keuangan, terdiri dari pemasukan dan pengeluaran lengkap dengan statistik bulanan dan mingguan.</p>
+                            <p>Berisi laporan data keuangan, terdiri dari pemasukan dan pengeluaran dilengkap dengan statistik bulanan dan mingguan.</p>
                             <a href="{{ route('report.finance') }}" class="card-cta">
                                 Lihat
                                 <i class="fas fa-chevron-right"></i>

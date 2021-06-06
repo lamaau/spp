@@ -15,7 +15,14 @@ trait Options
     public $loadingEnabled = true;
 
     /**
-     * Right table component
+     * Card header form table component
+     *
+     * @var boolean
+     */
+    public $cardHeaderForm = false;
+    
+    /**
+     * Card header action table component
      * 
      * @var boolean
      */

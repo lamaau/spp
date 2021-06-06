@@ -20,13 +20,6 @@ if (!interface_exists('SpendingRepository')) {
         public function spending(): int;
 
         /**
-         * Spending where bill
-         *
-         * @return object
-         */
-        public function whereBill(string $id): object;
-
-        /**
          * Save spending
          *
          * @param array $request

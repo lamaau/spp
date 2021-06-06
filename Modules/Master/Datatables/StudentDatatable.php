@@ -15,6 +15,7 @@ use App\Datatables\Traits\HtmlComponents;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Master\Constants\SexConstant;
 use App\Datatables\Traits\DocumentListeners;
+use Modules\Master\Constants\StudentConstant;
 use Modules\Master\Constants\ReligionConstant;
 
 class StudentDatatable extends TableComponent
@@ -25,12 +26,19 @@ class StudentDatatable extends TableComponent
         DocumentImport,
         Notify;
 
-    /** @var null|object */
-    public $file = null;
+    public $items;
+        
+    /** @var string|null */
+    public $status;
+    public $query;
+
+    /** filter in card header form */
+    public int $filter = StudentConstant::ACTIVE;
 
     /** @var bool|string right table component */
-    public $cardHeaderAction = 'master::student.component';
     public string $formatFile = 'format-siswa.ods';
+    public $cardHeaderAction = 'master::student.component';
+    public $cardHeaderForm = 'master::student.card-header-form';
 
     /**
      * Get model
@@ -40,6 +48,31 @@ class StudentDatatable extends TableComponent
     public function getModel(): string
     {
         return '\Modules\Master\Entities\Student';
+    }
+
+    /**
+     * Change status modal
+     *
+     * @param string $id
+     * @return Event
+     */
+    public function openModalStatus(string $id): Event
+    {
+        $this->query = Student::query()->whereId($id)->first();
+        $this->status = $this->query->status;
+        
+        return $this->emit('modal:toggle');
+    }
+
+    public function update()
+    {
+        $validated = $this->validate([
+            'status' => ['required'],
+        ]);
+
+        $this->query->update($validated);
+        $this->status = null;
+        return $this->success('Berhasil!', 'Status siswa telah diubah.');
     }
 
     /**
@@ -63,13 +96,13 @@ class StudentDatatable extends TableComponent
 
     public function query(): Builder
     {
-        return Student::query()->with('room');
+        return Student::query()->where('status', $this->filter)->with('room');
     }
 
     public function columns(): array
     {
         return [
-            Column::make('no')->rowIndex(),
+            Column::make('checkbox'),
             Column::make('nama', 'name')
                 ->sortable()
                 ->searchable(),

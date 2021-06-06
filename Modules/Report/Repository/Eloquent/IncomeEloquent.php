@@ -3,6 +3,7 @@
 namespace Modules\Report\Repository\Eloquent;
 
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Modules\Payment\Entities\Payment;
 use Modules\Report\Repository\IncomeRepository;
 
@@ -23,7 +24,45 @@ class IncomeEloquent implements IncomeRepository
      */
     public function income(): int
     {
-        return $this->income->query()->select('pay')->whereNull('deleted_at')->sum('pay');
+        return $this->income->query()->select('pay')->sum('pay');
+    }
+
+    /**
+     * Get total income where given bill
+     *
+     * @param string $id bill id
+     * @return object|null
+     */
+    public function incomeWhereBill(string $id): ?object
+    {
+        $query = DB::table('bills')
+            ->selectRaw('`bills`.`name` AS bill_name, SUM(`payments`.`pay`) AS total_income')
+            ->where('payments.bill_id', $id)->leftJoin('payments', 'bills.id', 'payments.bill_id')
+            ->whereNull(['bills.deleted_at', 'payments.deleted_at'])
+            ->first();
+
+        if (is_null($query->total_income)) $query->total_income = 0;
+
+        return $query;
+    }
+
+    /**
+     * Get total spending where given bill
+     *
+     * @param string $id
+     * @return object|null
+     */
+    public function spendingWhereBill(string $id): ?object
+    {
+        $query = DB::table('bills')
+            ->selectRaw('`bills`.`name` AS bill_name, SUM(`spendings`.`nominal`) AS total_spending')
+            ->where('spendings.bill_id', $id)->leftJoin('spendings', 'bills.id', 'spendings.bill_id')
+            ->whereNull(['bills.deleted_at', 'spendings.deleted_at'])
+            ->first();
+
+        if (is_null($query->total_spending)) $query->total_spending = 0;
+
+        return $query;
     }
 
     /**
@@ -33,8 +72,8 @@ class IncomeEloquent implements IncomeRepository
      */
     public function dailyPercentage(): array
     {
-        $firstIncome = $this->income->where('pay_date', Carbon::yesterday()->toDateString())->whereNull('deleted_at')->sum('pay');
-        $lastIncome = $this->income->where('pay_date', Carbon::today()->toDateString())->whereNull('deleted_at')->sum('pay');
+        $firstIncome = $this->income->where('pay_date', Carbon::yesterday()->toDateString())->sum('pay');
+        $lastIncome = $this->income->where('pay_date', Carbon::today()->toDateString())->sum('pay');
 
         $result = $this->callculatePercentage($firstIncome, $lastIncome);
 
@@ -56,9 +95,9 @@ class IncomeEloquent implements IncomeRepository
         $oneWeekAgo = Carbon::today()->subWeek()->toDateString();
         $twoWeekAgo = Carbon::today()->subWeeks(2)->toDateString();
 
-        $firstIncome = $this->income->whereBetween('pay_date', [$twoWeekAgo, $oneWeekAgo])->whereNull('deleted_at')->sum('pay');
-        $lastIncome = $this->income->whereBetween('pay_date', [$oneWeekAgo, Carbon::today()->toDateString()])->whereNull('deleted_at')->sum('pay');
-        
+        $firstIncome = $this->income->whereBetween('pay_date', [$twoWeekAgo, $oneWeekAgo])->sum('pay');
+        $lastIncome = $this->income->whereBetween('pay_date', [$oneWeekAgo, Carbon::today()->toDateString()])->sum('pay');
+
         $result = $this->callculatePercentage($firstIncome, $lastIncome);
 
         return [
@@ -82,8 +121,8 @@ class IncomeEloquent implements IncomeRepository
         $currentMonthStartDate = Carbon::today()->startOfMonth()->toDateString();
         $currentMonthEndDate = Carbon::today()->endOfMonth()->toDateString();
 
-        $firstIncome = $this->income->whereBetween('pay_date', [$oneMonthAgoStartDate, $oneMonthAgoEndDate])->whereNull('deleted_at')->sum('pay');
-        $lastIncome = $this->income->whereBetween('pay_date', [$currentMonthStartDate, $currentMonthEndDate])->whereNull('deleted_at')->sum('pay');
+        $firstIncome = $this->income->whereBetween('pay_date', [$oneMonthAgoStartDate, $oneMonthAgoEndDate])->sum('pay');
+        $lastIncome = $this->income->whereBetween('pay_date', [$currentMonthStartDate, $currentMonthEndDate])->sum('pay');
 
         $result = $this->callculatePercentage($firstIncome, $lastIncome);
 
@@ -102,9 +141,9 @@ class IncomeEloquent implements IncomeRepository
      */
     public function yearlyPercentage(): array
     {
-        $firstIncome = $this->income->whereYear('pay_date', Carbon::now()->startOfYear()->subYear()->format('Y'))->whereNull('deleted_at')->sum('pay');
-        $lastIncome = $this->income->whereYear('pay_date', Carbon::today()->format('Y'))->whereNull('deleted_at')->sum('pay');
-        
+        $firstIncome = $this->income->whereYear('pay_date', Carbon::now()->startOfYear()->subYear()->format('Y'))->sum('pay');
+        $lastIncome = $this->income->whereYear('pay_date', Carbon::today()->format('Y'))->sum('pay');
+
         $result = $this->callculatePercentage($firstIncome, $lastIncome);
 
         return [

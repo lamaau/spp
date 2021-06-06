@@ -7,7 +7,7 @@ use Illuminate\View\Component;
 class SelectTwo extends Component
 {
     public string $name;
-    public string $label;
+    public ?string $label;
     public ?array $items;
     public bool $required;
     public string $key;
@@ -20,7 +20,7 @@ class SelectTwo extends Component
      */
     public function __construct(
         string $name,
-        string $label,
+        ?string $label = null,
         ?array $items = [],
         string $key = 'id',
         string $text = 'name',

@@ -9,5 +9,5 @@
         </div>
     </section>
 
-    <livewire:student-datatable :title="$title" />
+    <livewire:student-datatable :title="$title" :items="$items" />
 </x-app-layout>

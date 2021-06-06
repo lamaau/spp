@@ -7,7 +7,7 @@ use Illuminate\View\Component;
 class SelectConstant extends Component
 {
     public string $name;
-    public string $label;
+    public ?string $label;
     public ?string $value;
     public ?array $items;
     public bool $required;
@@ -19,7 +19,7 @@ class SelectConstant extends Component
      */
     public function __construct(
         string $name,
-        string $label,
+        ?string $label = null,
         ?string $value = null,
         ?array $items = [],
         bool $required = false

@@ -7,8 +7,7 @@
         @endif
     </label>
     <textarea {{ $attributes->wire('model') }} name="{{ $name }}" id="{{ $name }}"
-        class="form-control @error($name) is-invalid @enderror"
-        style="min-height: 5em;">{{ old($name, $value) }}</textarea>
+        class="form-control @error($name) is-invalid @enderror" style="min-height: 5em;"></textarea>
 
     @error($name)
         <small class="invalid-feedback mt-0">{{ $message }}</small>

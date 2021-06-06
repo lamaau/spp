@@ -9,6 +9,7 @@ class StudentConstant extends Constants
     const ACTIVE = 1;
     const GRADUATE = 2;
     const MOVE = 3;
+    const QUIT = 4;
 
     public static function labels(): array
     {
@@ -16,6 +17,7 @@ class StudentConstant extends Constants
             static::ACTIVE => 'Aktif',
             static::GRADUATE => 'Lulus',
             static::MOVE => 'Pindah',
+            static::QUIT => 'Berhenti',
         ];
     }
 }

@@ -5,6 +5,7 @@ namespace Modules\Payment\Rules;
 use Illuminate\Support\Facades\DB;
 use Modules\Payment\Entities\Spending;
 use Illuminate\Contracts\Validation\Rule;
+use Modules\Report\Repository\IncomeRepository;
 
 class SpendingAboveIncome implements Rule
 {
@@ -35,34 +36,23 @@ class SpendingAboveIncome implements Rule
         if (!is_null($this->bill_id)) {
             $value = clean_currency_format($value);
 
-            $payment = DB::table('bills')
-                ->selectRaw('`bills`.`name` AS bill_name, SUM(`payments`.`pay`) AS payed')
-                ->where('payments.bill_id', $this->bill_id)->leftJoin('payments', 'bills.id', 'payments.bill_id')
-                ->whereNull(['bills.deleted_at', 'payments.deleted_at'])
-                ->first();
+            $repository = resolve(IncomeRepository::class);
 
-            $spending = DB::table('bills')
-                ->selectRaw('SUM(`spendings`.`nominal`) AS spend')
-                ->where('spendings.bill_id', $this->bill_id)->leftJoin('spendings', 'bills.id', 'spendings.bill_id')
-                ->whereNull(['bills.deleted_at', 'spendings.deleted_at'])
-                ->first();
-
+            $payment = $repository->incomeWhereBill($this->bill_id);
+            $spending = $repository->spendingWhereBill($this->bill_id);
             $this->name = strtolower($payment->bill_name);
-
-            if (is_null($spending->spend)) $spending->spend = 0;
 
             if ($this->isUpdate) {
                 $oldNominal = Spending::query()->where('bill_id', $this->bill_id)->select('nominal')->first();
 
-                $totalSpend = (int)$spending->spend - (int)$oldNominal->nominal;
+                $totalSpend = (int)$spending->total_spending - (int)$oldNominal->nominal;
+                $totalIncome = ((int)$payment->total_income - (int)$totalSpend);
 
-                $totalIncome = ((int)$payment->payed - (int)$totalSpend);
-
-                return (int)$value <= $totalIncome ? true : false;
+                return $value <= $totalIncome ? true : false;
             }
 
-            $totalIncome = ((int)$payment->payed - (int)$spending->spend);
-            return (int)$value <= $totalIncome ? true : false;
+            $totalIncome = ((int)$payment->total_income - (int)$spending->total_spending);
+            return $value <= $totalIncome ? true : false;
         }
     }
 

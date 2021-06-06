@@ -83,20 +83,20 @@ abstract class TableComponent extends Component
     {
         $builder = $this->query();
 
-        if ($this->searchEnabled && trim($this->search) !== '') {
+        if ($this->searchEnabled && !is_null($this->searchModel)) {
             $builder->where(function (Builder $builder) {
                 foreach ($this->columns() as $column) {
                     if ($column->isSearchable()) {
                         if (is_callable($column->getSearchCallback())) {
-                            $builder = app()->call($column->getSearchCallback(), ['builder' => $builder, 'term' => trim($this->search)]);
+                            $builder = app()->call($column->getSearchCallback(), ['builder' => $builder, 'term' => trim($this->searchModel)]);
                         } elseif (Str::contains($column->getAttribute(), '.')) {
                             $relationship = $this->relationship($column->getAttribute());
 
                             $builder->orWhereHas($relationship->name, function (Builder $builder) use ($relationship) {
-                                $builder->where($relationship->attribute, 'like', '%' . trim($this->search) . '%');
+                                $builder->where($relationship->attribute, 'like', '%' . trim($this->searchModel) . '%');
                             });
                         } else {
-                            $builder->orWhere($builder->getModel()->getTable() . '.' . $column->getAttribute(), 'like', '%' . trim($this->search) . '%');
+                            $builder->orWhere($builder->getModel()->getTable() . '.' . $column->getAttribute(), 'like', '%' . trim($this->searchModel) . '%');
                         }
                     }
                 }
