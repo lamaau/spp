@@ -33,5 +33,12 @@ class BillObserver
                 $query->delete();
             });
         }
+
+        /** delete al related spendings */
+        if ($model->spendings->isNotEmpty()) {
+            $model->spendings()->each(function ($query) {
+                $query->delete();
+            });
+        }
     }
 }

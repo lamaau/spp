@@ -12,12 +12,12 @@ class SpendingRequest extends FormRequest
      *
      * @return array
      */
-    public function rules($bill_id = null): array
+    public function rules($bill_id = null, $isUpdate = false): array
     {
         return [
             'name' => ['required', 'string'],
             'bill_id' => ['required'],
-            'nominal' => ['required', new SpendingAboveIncome($bill_id)],
+            'nominal' => ['required', new SpendingAboveIncome($bill_id, $isUpdate)],
             'spending_date' => ['required'],
             'description' => ['nullable', 'min:5']
         ];

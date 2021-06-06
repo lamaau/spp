@@ -3,21 +3,24 @@
 namespace Modules\Payment\Rules;
 
 use Illuminate\Support\Facades\DB;
+use Modules\Payment\Entities\Spending;
 use Illuminate\Contracts\Validation\Rule;
 
 class SpendingAboveIncome implements Rule
 {
     private $name;
     private ?string $bill_id;
+    private bool $isUpdate;
 
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct(?string $bill_id)
+    public function __construct(?string $bill_id, bool $isUpdate)
     {
         $this->bill_id = $bill_id;
+        $this->isUpdate = $isUpdate;
     }
 
     /**
@@ -44,10 +47,22 @@ class SpendingAboveIncome implements Rule
                 ->whereNull(['bills.deleted_at', 'spendings.deleted_at'])
                 ->first();
 
-            if (is_null($spending->spend)) $spending->spend = 0;
             $this->name = strtolower($payment->bill_name);
 
-            return $value <= abs(($spending->spend - $payment->payed));
+            if (is_null($spending->spend)) $spending->spend = 0;
+
+            if ($this->isUpdate) {
+                $oldNominal = Spending::query()->where('bill_id', $this->bill_id)->select('nominal')->first();
+
+                $totalSpend = (int)$spending->spend - (int)$oldNominal->nominal;
+
+                $totalIncome = ((int)$payment->payed - (int)$totalSpend);
+
+                return (int)$value <= $totalIncome ? true : false;
+            }
+
+            $totalIncome = ((int)$payment->payed - (int)$spending->spend);
+            return (int)$value <= $totalIncome ? true : false;
         }
     }
 

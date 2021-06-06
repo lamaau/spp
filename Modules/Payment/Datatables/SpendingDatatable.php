@@ -105,7 +105,7 @@ class SpendingDatatable extends TableComponent
             return $this->error('Oopss!', 'Pengeluaran tidak ditemukan.');
         }
 
-        $validated = $this->validate($this->request->rules($this->bill_id), [], $this->request->attributes());
+        $validated = $this->validate($this->request->rules($this->bill_id, $isUpdate = true), [], $this->request->attributes());
         $result = array_merge($validated, ['nominal' => clean_currency_format($validated['nominal'])]);
 
         if ($spending->update($result)) {
