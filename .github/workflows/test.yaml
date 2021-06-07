@@ -11,7 +11,7 @@ jobs:
                 image: mariadb:10.4.12-bionic
                 env:
                     MYSQL_ALLOW_EMPTY_PASSWORD: true
-                    MYSQL_DATABASE: schools-db
+                    MYSQL_DATABASE: schools_db
                     MYSQL_USER: root
                     MYSQL_PASSWORD: root
                 ports:
@@ -41,6 +41,6 @@ jobs:
                 run: ./vendor/bin/phpunit
                 env:
                   DB_PORT: ${{ job.services.mariadb.ports[3306] }}
-                  DB_DATABASE: schools-db
+                  DB_DATABASE: schools_db
                   DB_USERNAME: root
                   DB_PASSWORD: root
