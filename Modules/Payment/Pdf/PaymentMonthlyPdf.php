@@ -3,6 +3,7 @@
 namespace Modules\Payment\Pdf;
 
 use DOMPDF;
+use Modules\Utils\Semester;
 use Modules\Payment\Entities\Payment;
 
 class PaymentMonthlyPdf
@@ -29,12 +30,12 @@ class PaymentMonthlyPdf
             ->where('student_id', $this->user)
             ->whereMonth('month', $this->month)
             ->get();
-
+            
         if (count($payments)) {
-            return DOMPDF::loadView($view, [
+            return view($view, [
                 'title' => 'NotaMonthly -' . date('Ymd-His'),
                 'rows' => $payments,
-            ])->setPaper('a4', 'portrait')->stream();
+            ]);
         }
 
         notify('red', 'Gagal!', 'Data tidak ditemukan.');

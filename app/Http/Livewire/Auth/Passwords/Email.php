@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Auth\Passwords;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\Password;
+use Modules\Setting\Repository\SettingRepository;
 
 class Email extends Component
 {
@@ -18,6 +19,12 @@ class Email extends Component
         $this->validate([
             'email' => ['required', 'email'],
         ]);
+
+        if (!resolve(SettingRepository::class)->mailConfiguration()) {
+            $this->addError('email', 'Email sender tidak ditemukan.');
+
+            return;
+        }
 
         $response = $this->broker()->sendResetLink(['email' => $this->email]);
 

@@ -24,7 +24,7 @@
                         data-target="#table-detail">
                         <i class="fa fa-eye"></i>
                     </button>
-                    <a href="#" target="_blank" class="btn btn-dark btn-sm {{array_sum($payments->pluck('pay')->toArray()) > 0 ? '' : 'disabled' }}"
+                    <a href="{{ route('payment.print-not-monthly', ['user' => $payments->first()->student_id, 'bill' => $bill->id, 'year' => $payments->first()->year_id]) }}" target="_blank" class="btn btn-dark btn-sm {{array_sum($payments->pluck('pay')->toArray()) > 0 ? '' : 'disabled' }}"
                     >
                         <i class="fa fa-print"></i>
                     </a>

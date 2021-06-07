@@ -3,11 +3,12 @@
         <tr>
             <td>
                 <div>
-                    <span style="display: block;">Ternate,
+                    <span style="display: block;text-transform:capitalize;">
+                        {{strtolower(\Regional::findCity($setting->city)['name'])}},
                         {{ \Carbon\Carbon::parse(now())->translatedFormat('d F Y') }}</span>
                     <span>Yang Menerima,</span>
                     <br /><br /><br />
-                    <span>{{ auth()->user()->name }}</span>
+                    <span>{{ $setting->treasurer }}</span>
                 </div>
             </td>
         </tr>

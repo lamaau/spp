@@ -20,7 +20,7 @@ class CreateMailsTable extends Migration
             $table->bigInteger('port');
             $table->string('from_address');
             $table->string('from_name');
-            $table->string('encryption');
+            $table->tinyInteger('encryption');
             $table->string('username');
             $table->string('password');
             $table->uuid('created_by')->index();

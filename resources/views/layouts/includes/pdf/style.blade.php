@@ -27,6 +27,14 @@
             margin-bottom: 20px;
             padding: 0 20px 20px 20px;
         }
+
+        body {
+            transform: scale(.99);
+        }
+
+        /* table {
+            page-break-inside: avoid;
+        } */
     }
 
     .cop-left .logo {

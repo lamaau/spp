@@ -36,11 +36,11 @@ class PaymentController extends Controller
         $type = $request->query('type');
 
         if ($user && $bill && $year && $type) {
-            return (new PaymentYearlyPdf($user, $bill, $year, $type))->loadView('payment::print.yearly');
+            return (new PaymentYearlyPdf($user, $bill, $year, $type))->loadView('payment::payment.print.yearly');
         }
     }
 
-    public function pdfMonthly(Request $request)
+    public function printMonthly(Request $request)
     {
         $user = $request->query('user');
         $bill = $request->query('bill');
@@ -48,24 +48,19 @@ class PaymentController extends Controller
         $month = $request->query('month');
 
         if ($user && $bill && $year && $month) {
-            return (new PaymentMonthlyPdf($user, $bill, $month, $year))->loadView('payment::pdf.monthly');
+            return (new PaymentMonthlyPdf($user, $bill, $month, $year))->loadView('payment::payment.print.monthly');
         }
-
-        notify('failed', 'Gagal!', 'Data tidak ditemukan.');
-        return redirect()->route('payment.index');
     }
 
-    public function pdfYearly(Request $request)
+    public function printNotMonthly(Request $request)
     {
         $user = $request->query('user');
         $bill = $request->query('bill');
         $year = $request->query('year');
+        $month = $request->query('month');
 
-        if ($user && $bill && $year) {
-            return (new PaymentYearlyPdf($user, $bill, $year))->loadView('payment::pdf.yearly');
+        if ($user && $bill && $year && $month) {
+            return (new PaymentMonthlyPdf($user, $bill, $month, $year))->loadView('payment::payment.print.monthly');
         }
-
-        notify('red', 'Gagal!', 'Data tidak ditemukan.');
-        return redirect()->route('payment.index');
     }
 }

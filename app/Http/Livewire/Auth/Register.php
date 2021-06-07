@@ -37,9 +37,11 @@ class Register extends Component
             'email'    => $this->email,
             'name'     => $this->name,
             'password' => Hash::make($this->password),
+            'email_verified_at' => now(),
         ]);
 
-        event(new Registered($user));
+        // not send mail
+        // event(new Registered($user));
 
         Auth::login($user, true);
 

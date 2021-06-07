@@ -63,7 +63,7 @@
     @push('scripts')
         <script type="text/javascript">
             window.onscroll = function(ev) {
-                if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                if ((window.innerHeight + window.scrollY + 10) >= document.body.offsetHeight) {
                     Livewire.emit('load-more');
                 }
             };

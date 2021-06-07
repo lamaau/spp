@@ -70,7 +70,7 @@
                 </a>
             </li>
 
-            <li class="menu-header">Website</li>
+            {{-- <li class="menu-header">Website</li>
 
             <li class="#">
                 <a class="nav-link" href="#">
@@ -89,7 +89,7 @@
                     <i class="fas fa-fire"></i>
                     <span>Siswa Baru</span>
                 </a>
-            </li>
+            </li> --}}
 
             <li class="menu-header">Ekstra</li>
 

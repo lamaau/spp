@@ -5,6 +5,8 @@ namespace Modules\Document\Datatables;
 use App\Datatables\Column;
 use App\Datatables\Traits\Notify;
 use App\Datatables\TableComponent;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Modules\Document\Entities\Document;
 use App\Datatables\Traits\HtmlComponents;
@@ -23,13 +25,17 @@ class DocumentDatatable extends TableComponent
         return Storage::disk('public')->download($document->filename);
     }
 
-    public function delete(string $id)
+    public function delete(string $id, string $password)
     {
-        $document = $this->query()->where('id', $id)->first();
+        if (Hash::check($password, Auth::user()->password)) {
+            $document = $this->query()->where('id', $id)->first();
 
-        return $document->delete()
-            ? $this->success('Berhasil!', 'Dokumen berhasil dihapus.')
-            : $this->error('Oops!', 'Terjadi kesalahan saat menghapus dokumen.');
+            return $document->delete()
+                ? $this->success('Berhasil!', 'Dokumen berhasil dihapus.')
+                : $this->error('Oops!', 'Terjadi kesalahan saat menghapus dokumen.');
+        }
+
+        return $this->error('', 'Password yang anda masukan salah');
     }
 
     public function query(): Builder
@@ -40,7 +46,7 @@ class DocumentDatatable extends TableComponent
     public function columns(): array
     {
         return [
-            Column::make('checkbox'),
+            // Column::make('checkbox'),
             Column::make('Nama File', 'filename')
                 ->searchable()
                 ->sortable(),

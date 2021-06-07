@@ -25,4 +25,24 @@ class Regional extends Endpoint
     {
         return $this->get("villages/{$id}");
     }
+
+    public function findProvince(string $id)
+    {
+        return $this->get("province/{$id}");
+    }
+
+    public function findCity(string $id)
+    {
+        return $this->get("regency/{$id}");
+    }
+
+    public function findDistrict($id)
+    {
+        return $this->get("district/{$id}");
+    }
+
+    public function findSubDistrict($id)
+    {
+        return $this->get("village/{$id}");
+    }
 }

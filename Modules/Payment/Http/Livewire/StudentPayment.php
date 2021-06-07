@@ -166,7 +166,6 @@ class StudentPayment extends Component
             $this->search();
             return $this->success('Berhasil!', 'Pembayaran telah dilakukan.');
         } catch (\Throwable $th) {
-            dd($th->getMessage());
             DB::rollBack();
             return $this->error('Oops!', 'Terjadi kesalahan.');
         }

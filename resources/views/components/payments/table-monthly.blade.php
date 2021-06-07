@@ -47,7 +47,7 @@
                             data-target="#table-detail-{{ $i }}">
                             <i class="fa fa-eye"></i>
                         </button>
-                        <a href="#" target="_blank"
+                        <a href="{{ route('payment.print-monthly', ['user' => $student, 'bill' => $bill, 'month' => $i, 'year' => $year, 'type' => $type]) }}" target="_blank"
                             class="btn btn-dark btn-sm {{ !$any && empty($payments[$i]) ? 'disabled' : '' }}"
                             {{ !$any && empty($payments[$i]) ? 'disabled' : '' }}>
                             <i class="fa fa-print"></i>

@@ -21,7 +21,7 @@
                                 <div class="form-group">
                                     <div class="d-block">
                                         <div class="float-right">
-                                            <a href="#" class="text-small">
+                                            <a href="{{ route('password.request') }}" class="text-small">
                                                 Forgot Password?
                                             </a>
                                         </div>

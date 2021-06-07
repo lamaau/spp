@@ -8,8 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Pusher extends Model
 {
-    use Uuid,
-        SoftDeletes;
+    use Uuid;
 
     /**
      * Primary Key Incrementing
