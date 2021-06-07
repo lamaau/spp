@@ -7,17 +7,17 @@ jobs:
         name: Run tests
         runs-on: ubuntu-latest
         services:
-            mariadb:
-                image: mariadb:10.4.12-bionic
+            mysql:
+                image: mariadb:10.4
                 env:
                     MYSQL_ALLOW_EMPTY_PASSWORD: true
                     MYSQL_DATABASE: schools_db
-                    MYSQL_USER: root
+                    MYSQL_ROOT_PASSWORD: root
                     MYSQL_PASSWORD: root
                 ports:
-                    - 33060:3306
-                options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-        
+                - 3306/tcp
+                options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=10s --health-retries=10        
+
         steps:
             -   uses: actions/checkout@v1
 
