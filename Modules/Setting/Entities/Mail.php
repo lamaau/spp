@@ -5,10 +5,11 @@ namespace Modules\Setting\Entities;
 use Modules\Utils\Uuid;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Mail extends Model
 {
-    use Uuid;
+    use HasFactory, Uuid;
 
     /**
      * Primary Key Incrementing
@@ -37,6 +38,11 @@ class Mail extends Model
      * @var string
      */
     protected $table = 'mails';
+
+    protected static function newFactory()
+    {
+        return \Modules\Setting\Database\Factories\MailFactory::new();
+    }
 
     /**
      * Get author

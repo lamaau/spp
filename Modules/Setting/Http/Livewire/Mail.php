@@ -23,7 +23,7 @@ class Mail extends Component
     public $encryption;
     public $from_name;
     public $from_address;
-    public bool $mailConfigured;
+    public bool $mailConfigured = false;
 
     public function mount()
     {

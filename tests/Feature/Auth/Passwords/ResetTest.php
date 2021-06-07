@@ -109,12 +109,12 @@ class ResetTest extends TestCase
     }
 
     /** @test */
-    function password_is_minimum_of_eight_characters()
+    function password_is_minimum_of_six_characters()
     {
         Livewire::test('auth.passwords.reset', [
             'token' => Str::random(16),
         ])
-            ->set('password', 'secret')
+            ->set('password', 'pswd')
             ->call('resetPassword')
             ->assertHasErrors(['password' => 'min']);
     }
