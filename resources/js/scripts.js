@@ -595,8 +595,33 @@ $(function () {
   if (jQuery().daterangepicker) {
     if ($(".datepicker").length) {
       $('.datepicker').daterangepicker({
-        locale: { format: 'YYYY-MM-DD' },
-        singleDatePicker: true,
+        locale: {
+          "format": 'YYYY-MM-DD',
+          "daysOfWeek": [
+            "Min",
+            "Sen",
+            "Sel",
+            "Rab",
+            "Kam",
+            "Jum",
+            "Sab"
+          ],
+          "monthNames": [
+            "Januari",
+            "Februari",
+            "Maret",
+            "April",
+            "Mei",
+            "Juni",
+            "Juli",
+            "Agustus",
+            "September",
+            "Oktober",
+            "November",
+            "Desember"
+          ],
+        },
+        singleDatePicker: true
       });
     }
     if ($(".datetimepicker").length) {

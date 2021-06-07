@@ -13,6 +13,7 @@ class LivewireServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        \Livewire\Livewire::component('student-chart', \Modules\Report\Http\Livewire\Student\StudentChart::class);
         \Livewire\Livewire::component('finance-income-chart', \Modules\Report\Http\Livewire\Finance\IncomeChart::class);
         \Livewire\Livewire::component('finance-spending-chart', \Modules\Report\Http\Livewire\Finance\SpendingChart::class);
     }

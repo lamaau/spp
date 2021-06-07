@@ -21,8 +21,8 @@
                         </div>
                         <div class="card-body">
                             <h4>Siswa</h4>
-                            <p>Berisi laporan data siswa, terdiri dari persentase pembayaran dilengkap dengan statistik bulanan dan mingguan..</p>
-                            <a href="{{ route('setting.automation') }}" class="card-cta text-primary">
+                            <p>Data statistik siswa.</p>
+                            <a href="{{ route('report.student') }}" class="card-cta text-primary">
                                 Lihat
                                 <i class="fas fa-chevron-right"></i>
                             </a>
@@ -36,7 +36,7 @@
                         </div>
                         <div class="card-body">
                             <h4>Keuangan</h4>
-                            <p>Berisi laporan data keuangan, terdiri dari pemasukan dan pengeluaran dilengkap dengan statistik bulanan dan mingguan.</p>
+                            <p>Data statistik keuangan.</p>
                             <a href="{{ route('report.finance') }}" class="card-cta">
                                 Lihat
                                 <i class="fas fa-chevron-right"></i>

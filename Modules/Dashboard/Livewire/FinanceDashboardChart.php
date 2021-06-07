@@ -9,9 +9,6 @@ use Illuminate\Support\Facades\DB;
 
 class FinanceDashboardChart extends Component
 {
-    public array $chartData;
-    public array $chartCategory;
-    public string $type = 'month';
     public string $chartId = 'statistics';
 
     protected function income()
@@ -72,11 +69,6 @@ class FinanceDashboardChart extends Component
     public function render()
     {
         $chartData = $this->query();
-
-        $this->emit("refreshChartData-{$this->chartId}", [
-            'chartData'  => $chartData,
-            'chartCategories' => Month::prefixName(),
-        ]);
 
         return view('dashboard::livewire.payment-chart', [
             'id' => $this->chartId,

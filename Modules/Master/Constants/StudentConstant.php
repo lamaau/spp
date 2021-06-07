@@ -20,4 +20,14 @@ class StudentConstant extends Constants
             static::QUIT => 'Berhenti',
         ];
     }
+
+    public static function types(): array
+    {
+        return [
+            static::ACTIVE => 'success',
+            static::GRADUATE => 'info',
+            static::MOVE => 'primary',
+            static::QUIT => 'danger',
+        ]; 
+    }
 }

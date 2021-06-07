@@ -11,6 +11,13 @@ if (!interface_exists('StudentRepository')) {
          * @return null|object
          */
         public function all();
+
+        /**
+         * Get student group by status count
+         *
+         * @return void
+         */
+        public function groupByStatusCount();
         
         /**
          * Find student

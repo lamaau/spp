@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Master\Constants\StudentConstant;
 
 class Student extends Model
 {
@@ -52,6 +53,17 @@ class Student extends Model
      */
     protected $table = 'students';
 
+    /**
+     * Get where active scope
+     *
+     * @param object $query
+     * @return void
+     */
+    public function scopeActive(object $query)
+    {
+        return $query->where('status', StudentConstant::ACTIVE);
+    }
+    
     /**
      * Get room
      *

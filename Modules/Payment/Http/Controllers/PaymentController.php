@@ -9,7 +9,6 @@ use Modules\Master\Entities\Student;
 use Modules\Master\Entities\SchoolYear;
 use Modules\Payment\Pdf\PaymentYearlyPdf;
 use Modules\Payment\Pdf\PaymentMonthlyPdf;
-use Modules\Payment\Pdf\PaymentNotMonthly;
 use Illuminate\Contracts\Support\Renderable;
 use Modules\Payment\Pdf\PaymentNotMonthlyPdf;
 
@@ -26,7 +25,7 @@ class PaymentController extends Controller
             'title' => 'Pembayaran',
             'bills' => Bill::query()->select(['id', 'name'])->get(),
             'years' => SchoolYear::query()->select(['id', 'year'])->get(),
-            'students' => Student::query()->select(['id', 'name', 'nis', 'nisn'])->get(),
+            'students' => Student::query()->active()->select(['id', 'name', 'nis', 'nisn'])->get(),
         ]);
     }
 

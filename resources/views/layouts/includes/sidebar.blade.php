@@ -6,9 +6,11 @@
                 <a href="{{ url('/') }}">{{ $setting->name }}</a>
             </center>
         </div>
-        <div class="sidebar-brand sidebar-brand-sm">
-            <a href="index.html">St</a>
-        </div>
+        {{-- <div class="sidebar-brand sidebar-brand-sm">
+            <a href="{{ route('dashboard') }}">
+                <i class="fas fa-home"></i>
+            </a>
+        </div> --}}
         <ul class="sidebar-menu">
             <li class="{{ active('dashboard') }}">
                 <a class="nav-link" href="{{ route('dashboard') }}">

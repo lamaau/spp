@@ -2,23 +2,26 @@
 
 namespace Modules\Report\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Contracts\Support\Renderable;
 use Modules\Master\Repository\BillRepository;
+use Modules\Master\Repository\StudentRepository;
 use Modules\Report\Repository\IncomeRepository;
 
 class ReportController extends Controller
 {
     protected BillRepository $bill;
     protected IncomeRepository $income;
+    protected StudentRepository $student;
 
     public function __construct(
         BillRepository $bill,
-        IncomeRepository $income
+        IncomeRepository $income,
+        StudentRepository $student
     ) {
         $this->bill = $bill;
         $this->income = $income;
+        $this->student = $student;
     }
 
     /**
@@ -43,6 +46,14 @@ class ReportController extends Controller
                 'monthly' => $this->income->monthlyPercentage(),
                 'yearly' => $this->income->yearlyPercentage(),
             ],
+        ]);
+    }
+
+    public function student(): Renderable
+    {
+        return view('report::student.index', [
+            'title' => 'Siswa',
+            'students' => $this->student->groupByStatusCount(),
         ]);
     }
 }
