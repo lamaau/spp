@@ -74,7 +74,7 @@
                     @foreach ($rows as $index => $item)
                         <tr>
                             <td>{{ ++$index }}.</td>
-                            <td>{{ $item->code }}</td>
+                            <td>{{ idr($item->pay) }}</td>
                             <td>{{ format_date($item->created_at) }}</td>
                             <td>{{ idr($item->pay) }}</td>
                         </tr>

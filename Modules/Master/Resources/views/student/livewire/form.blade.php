@@ -62,7 +62,6 @@
                             </div>
                         </div>
                         <div class="card-footer bg-whitesmoke text-right">
-                            <button type="button" class="btn btn-secondary">Reset</button>
                             <button type="submit" class="btn btn-primary">
                                 @if (is_null($pid))
                                     Tambah

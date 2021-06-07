@@ -24,13 +24,17 @@
                         data-target="#table-detail">
                         <i class="fa fa-eye"></i>
                     </button>
-                    <a href="{{ route('payment.print-not-monthly', ['user' => $payments->first()->student_id, 'bill' => $bill->id, 'year' => $payments->first()->year_id]) }}" target="_blank" class="btn btn-dark btn-sm {{array_sum($payments->pluck('pay')->toArray()) > 0 ? '' : 'disabled' }}"
-                    >
-                        <i class="fa fa-print"></i>
-                    </a>
+                    @if ($payments->isNotEmpty())
+                        <a href="{{ route('payment.print-not-monthly', ['user' => $payments->first()->student_id, 'bill' => $bill->id, 'year' => $payments->first()->year_id]) }}"
+                            target="_blank"
+                            class="btn btn-dark btn-sm {{ array_sum($payments->pluck('pay')->toArray()) > 0 ? '' : 'disabled' }}"><i
+                                class="fa fa-print"></i>
+                        </a>
+                    @else
+                        <a href="#" class="btn btn-dark btn-sm  disabled"><i class="fa fa-print"></i></a>
+                    @endif
                     <button wire:click.prevent='pay' class="btn btn-sm btn-success"
-                        {{$bill->nominal == array_sum($payments->pluck('pay')->toArray()) ? 'disabled' : ''}}
-                    >
+                        {{ $bill->nominal == array_sum($payments->pluck('pay')->toArray()) ? 'disabled' : '' }}>
                         <i class="far fa-money-bill-alt"></i>
                     </button>
                 </td>
@@ -56,7 +60,8 @@
                                         <td>{{ format_date($payment->pay_date) }}</td>
                                         <td>{{ $payment->author->name }}</td>
                                         <td>
-                                            <button wire:click.prevent="$emit('delete', '{{ $payment->id }}')" type="button" class="btn btn-sm btn-danger">
+                                            <button wire:click.prevent="$emit('delete', '{{ $payment->id }}')"
+                                                type="button" class="btn btn-sm btn-danger">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </td>

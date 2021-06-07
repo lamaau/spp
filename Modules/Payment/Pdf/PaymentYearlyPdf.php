@@ -26,6 +26,11 @@ class PaymentYearlyPdf
 
     public function loadView($view)
     {
+        if (is_null($this->user) || is_null($this->bill) || is_null($this->year) || is_null($this->type)) {
+            notify('red', 'Gagal!', 'Data pembayaran tidak ditemukan.');
+            return redirect()->route('payment.index');
+        }
+
         $rawQuery = 'MONTH(month) as month, `id`, `change`, `pay`, `pay_date`';
         $payments = DB::table('payments')
             ->select(DB::raw($rawQuery))
@@ -51,13 +56,13 @@ class PaymentYearlyPdf
         if (in_array($this->type, ['ganjil', 'genap'])) {
             return view($view, [
                 'type' => $this->type,
-                'title' => 'NotaYearly -' . date('Ymd-His'),
+                'title' => $results['detail']['student']['name'] . '-NotaYearly -' . date('Ymd-His'),
                 'results' => $results,
                 'semesters' => $this->type == 'ganjil' ? Semester::odd() : Semester::even(),
             ]);
         }
 
-        notify('red', 'Gagal!', 'Data tidak ditemukan.');
+        notify('red', 'Gagal!', 'Data pembayaran tidak ditemukan.');
         return redirect()->route('payment.index');
     }
 }

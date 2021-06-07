@@ -2,8 +2,7 @@
     @section('content')
         <div class="content-container">
             <div class="content-header">
-                <h2 style="color: rgb(24, 23, 23);">Bukti Pembayaran {{ $rows->first()->bill->name }} Bulan
-                    {{ \Carbon\Carbon::parse($rows->first()->month)->translatedFormat('F') }}
+                <h2 style="color: rgb(24, 23, 23);">Bukti Pembayaran {{ $rows->first()->bill->name }}
                 </h2>
                 <div class="line-1"></div>
             </div>
@@ -74,7 +73,7 @@
                     @foreach ($rows as $index => $item)
                         <tr>
                             <td>{{ ++$index }}.</td>
-                            <td>{{ $item->code }}</td>
+                            <td>{{ idr($item->pay) }}</td>
                             <td>{{ format_date($item->created_at) }}</td>
                             <td>{{ idr($item->pay) }}</td>
                         </tr>

@@ -9,7 +9,9 @@ use Modules\Master\Entities\Student;
 use Modules\Master\Entities\SchoolYear;
 use Modules\Payment\Pdf\PaymentYearlyPdf;
 use Modules\Payment\Pdf\PaymentMonthlyPdf;
+use Modules\Payment\Pdf\PaymentNotMonthly;
 use Illuminate\Contracts\Support\Renderable;
+use Modules\Payment\Pdf\PaymentNotMonthlyPdf;
 
 class PaymentController extends Controller
 {
@@ -35,9 +37,7 @@ class PaymentController extends Controller
         $year = $request->query('year');
         $type = $request->query('type');
 
-        if ($user && $bill && $year && $type) {
-            return (new PaymentYearlyPdf($user, $bill, $year, $type))->loadView('payment::payment.print.yearly');
-        }
+        return (new PaymentYearlyPdf($user, $bill, $year, $type))->loadView('payment::payment.print.yearly');
     }
 
     public function printMonthly(Request $request)
@@ -47,9 +47,7 @@ class PaymentController extends Controller
         $year = $request->query('year');
         $month = $request->query('month');
 
-        if ($user && $bill && $year && $month) {
-            return (new PaymentMonthlyPdf($user, $bill, $month, $year))->loadView('payment::payment.print.monthly');
-        }
+        return (new PaymentMonthlyPdf($user, $bill, $month, $year))->loadView('payment::payment.print.monthly');
     }
 
     public function printNotMonthly(Request $request)
@@ -57,10 +55,7 @@ class PaymentController extends Controller
         $user = $request->query('user');
         $bill = $request->query('bill');
         $year = $request->query('year');
-        $month = $request->query('month');
 
-        if ($user && $bill && $year && $month) {
-            return (new PaymentMonthlyPdf($user, $bill, $month, $year))->loadView('payment::payment.print.monthly');
-        }
+        return (new PaymentNotMonthlyPdf($user, $year, $bill))->loadView('payment::payment.print.not-monthly');
     }
 }
