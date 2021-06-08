@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Modules\Master\Entities\Setting;
+use Modules\Setting\Entities\Setting;
 
 class NotInstalled
 {

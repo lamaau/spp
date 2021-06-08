@@ -17,8 +17,5 @@
         <div class="col-6">
             <livewire:mail-setting />
         </div>
-        <div class="col-6">
-            <livewire:pusher-setting />
-        </div>
     </div>
 </x-app-layout>

@@ -15,7 +15,6 @@ class SettingRequest extends FormRequest
             'fax' => 'Fax Sekolah',
             'principal' => 'Kepala Sekolah',
             'principal_number' => 'NIP Kepala Sekolah',
-            'logo' => 'Logo Sekolah',
             'address' => 'Alamat',
         ];
     }
@@ -30,11 +29,12 @@ class SettingRequest extends FormRequest
         return [
             'name' => ['required', 'min:3', 'string'],
             'code' => ['required', 'min:3', 'string'],
-            'level' => ['required', 'string'],
+            'level' => ['required'],
             'fax' => ['required', 'min:3', 'string'],
             'principal' => ['required', 'min:5', 'string'],
-            'principal_number' => ['required', 'min:17', 'string'],
-            'logo' => ['required', 'max:10000', 'mimes:png,jpg,jpeg'],
+            'principal_number' => ['required', 'min:9', 'string'],
+            'treasurer' => ['required', 'min:5', 'string'],
+            'treasurer_number' => ['nullable', 'min:9', 'string'],
             'address' => ['required', 'min:3', 'string'],
         ];
     }

@@ -26,6 +26,8 @@ class SecondMoveRoomDatatable extends TableComponent
 
     /** @var string */
     public $room;
+    public $sortField = 'name';
+    public $sortDirection = 'asc';
     public $cardHeaderAction = "master::student.room.second";
 
     /**

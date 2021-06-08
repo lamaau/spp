@@ -6,6 +6,7 @@ use App\Http\Livewire\Auth\Install;
 use App\Http\Livewire\Auth\Register;
 use App\Http\Middleware\NotInstalled;
 use Illuminate\Support\Facades\Route;
+use Modules\Setting\Entities\Setting;
 use App\Http\Livewire\Auth\Passwords\Email;
 use App\Http\Livewire\Auth\Passwords\Reset;
 use App\Http\Livewire\Auth\Passwords\Confirm;
@@ -19,6 +20,7 @@ Route::middleware(['auth', 'verified', NotInstalled::class])->group(function () 
 Route::middleware('guest')->group(function () {
     Route::get('/', Login::class);
     Route::get('login', Login::class)->name('login');
+
     Route::get('register', Register::class)->name('register');
 });
 

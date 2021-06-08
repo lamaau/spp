@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Modules\Setting\Constants\EncryptionConstant;
 
-class AutomationServiceProvider extends ServiceProvider
+class ConfigServiceProvider extends ServiceProvider
 {
     /**
      * Register the service provider.
@@ -18,7 +18,6 @@ class AutomationServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerMail();
-        $this->registerPusher();
     }
 
     /**
@@ -44,10 +43,15 @@ class AutomationServiceProvider extends ServiceProvider
 
                 Config::set('broadcasting', $config);
                 Config::set('queue.default', 'database');
+
+                put_env("MIX_PUSHER_APP_KEY", $pusher->app_key);
+                put_env("MIX_PUSHER_APP_CLUSTER", $pusher->app_cluster);
             }
         } else {
             Config::set('queue.driver', 'sync');
             Config::set('broadcasting.driver', 'log');
+            put_env("MIX_PUSHER_APP_KEY", "null");
+            put_env("MIX_PUSHER_APP_CLUSTER", "null");
         }
     }
 

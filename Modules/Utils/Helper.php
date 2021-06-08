@@ -3,6 +3,35 @@
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 
+if (!function_exists('put_env')) {
+    /**
+     * Replace env
+     *
+     * @see https://stackoverflow.com/a/52548022/7980381
+     * 
+     * @param string $key
+     * @param string|null $value
+     * @return void
+     */
+    function put_env(string $key, ?string $value)
+    {
+        $envFile = app()->environmentFilePath();
+        $str = file_get_contents($envFile);
+
+        $str .= "\n"; // In case the searched variable is in the last line without \n
+        $keyPosition = strpos($str, "{$key}=");
+
+        $endOfLinePosition = strpos($str, PHP_EOL, $keyPosition);
+        $oldLine = substr($str, $keyPosition, $endOfLinePosition - $keyPosition);
+        $str = str_replace($oldLine, "{$key}={$value}", $str);
+        $str = substr($str, 0, -1);
+
+        $fp = fopen($envFile, 'w');
+        fwrite($fp, $str);
+        fclose($fp);
+    }
+}
+
 if (!function_exists('clean_currency_format')) {
     /**
      * Clean currency from number format

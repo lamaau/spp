@@ -102,7 +102,7 @@ class StudentDatatable extends TableComponent
     public function columns(): array
     {
         return [
-            Column::make('checkbox'),
+            Column::make('No')->rowIndex(),
             Column::make('nama', 'name')
                 ->sortable()
                 ->searchable(),

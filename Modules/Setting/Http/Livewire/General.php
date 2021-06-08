@@ -2,28 +2,52 @@
 
 namespace Modules\Setting\Http\Livewire;
 
+use App\Datatables\Traits\Notify;
 use Livewire\Component;
+use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Validator;
 use Modules\Setting\Http\Requests\SettingRequest;
 
 class General extends Component
 {
+    use WithFileUploads,
+        Notify;
+
     public array $levels;
     public object $setting;
 
-    public string $name;
-    public string $level;
-    public string $email;
-    public string $phone;
-    public string $fax;
-    public string $code;
-    public string $logo;
-    public string $principal;
-    public string $principal_number;
-    public string $address;
+    public $name = null;
+    public $level = null;
+    public $email = null;
+    public $phone = null;
+    public $fax = null;
+    public $code = null;
+    public $logo = null;
+    public $principal = null;
+    public $principal_number = null;
+    public $treasurer = null;
+    public $treasurer_number = null;
+    public $address = null;
 
     public function mount()
     {
         $this->setDefault();
+    }
+
+    public function updatedLogo()
+    {
+        $validator = Validator::make(['logo' => $this->logo], [
+            'logo' => 'image|max:10000'
+        ]);
+
+        if ($validator->fails()) {
+            $this->addError('logo', $validator->getMessageBag()->first());
+            $this->logo = $this->setting->logo;
+
+            return;
+        }
+
+        $this->logo = $this->logo->store('uploads/logo');
     }
 
     public function setDefault(): void
@@ -37,6 +61,8 @@ class General extends Component
         $this->logo = $this->setting->logo;
         $this->principal = $this->setting->principal;
         $this->principal_number = $this->setting->principal_number;
+        $this->treasurer = $this->setting->treasurer;
+        $this->treasurer_number = $this->setting->treasurer_number;
         $this->address = $this->setting->address;
     }
 
@@ -44,8 +70,11 @@ class General extends Component
     {
         $request = new SettingRequest();
         $validated = $this->validate($request->rules(), [], $request->attributes());
+        $validated['logo'] = $this->logo;
 
-        dd($validated);
+        if (resolve(\Modules\Setting\Repository\SettingRepository::class)->saveOrUpdate('settings', $validated)) {
+            return $this->success('Berhasil!', 'Berhasil menyimpan pengaturan');
+        }
     }
 
     public function render()

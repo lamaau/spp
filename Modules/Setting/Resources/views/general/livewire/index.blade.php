@@ -12,6 +12,9 @@
                         </label>
                         <div class="col-sm-6 col-md-9">
                             <input type="text" name="name" wire:model.defer='name' class="form-control" id="name">
+                            @error('name')
+                                <small class="text-validate-error">{{ $message }}</small>
+                            @enderror
                         </div>
                     </div>
 
@@ -20,13 +23,16 @@
                             Derajat Sekolah
                         </label>
                         <div class="col-sm-6 col-md-9 custom-select-icon" wire:ignore>
-                            <select name="level" class="custom-select" id="level">
+                            <select name="level" class="custom-select" id="level" wire:model="level">
                                 <option></option>
                                 @foreach ($levels as $key => $name)
                                     <option value="{{ $key }}"
                                         {{ $key == $setting->level ? 'selected' : '' }}>{{ $name }}</option>
                                 @endforeach
                             </select>
+                            @error('level')
+                                <small class="text-validate-error">{{ $message }}</small>
+                            @enderror
                         </div>
                     </div>
 
@@ -37,6 +43,9 @@
                         <div class="col-sm-6 col-md-9">
                             <input type="email" name="email" wire:model.defer='email' class="form-control" id="email">
                         </div>
+                        @error('email')
+                            <small class="text-validate-error">{{ $message }}</small>
+                        @enderror
                     </div>
 
                     <div class="form-group row align-items-center">
@@ -44,8 +53,11 @@
                             Nomor Hp Sekolah
                         </label>
                         <div class="col-sm-6 col-md-9">
-                            <input type="text" name="phone" wire:model.defer='phone' class="form-control" id="phone">
+                            <input type="number" name="phone" wire:model.defer='phone' class="form-control" id="phone">
                         </div>
+                        @error('phone')
+                            <small class="text-validate-error">{{ $message }}</small>
+                        @enderror
                     </div>
 
                     <div class="form-group row align-items-center">
@@ -55,6 +67,9 @@
                         <div class="col-sm-6 col-md-9">
                             <input type="number" name="fax" wire:model.defer='fax' class="form-control" id="fax">
                         </div>
+                        @error('fax')
+                            <small class="text-validate-error">{{ $message }}</small>
+                        @enderror
                     </div>
 
                     <div class="form-group row align-items-center">
@@ -64,6 +79,9 @@
                         <div class="col-sm-6 col-md-9">
                             <input type="number" name="code" wire:model.defer='code' class="form-control" id="code">
                         </div>
+                        @error('code')
+                            <small class="text-validate-error">{{ $message }}</small>
+                        @enderror
                     </div>
 
                     <div class="form-group row align-items-center">
@@ -73,6 +91,9 @@
                         <div class="col-sm-6 col-md-9">
                             <input type="text" name="principal" wire:model.defer='principal' class="form-control"
                                 id="principal">
+                            @error('principal')
+                                <small class="text-validate-error">{{ $message }}</small>
+                            @enderror
                         </div>
                     </div>
 
@@ -83,6 +104,35 @@
                         <div class="col-sm-6 col-md-9">
                             <input type="number" name="principal_number" wire:model.defer='principal_number'
                                 class="form-control" id="principal_number">
+                            @error('principal_number')
+                                <small class="text-validate-error">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="form-group row align-items-center">
+                        <label for="treasurer" class="form-control-label col-sm-3 text-md-right">
+                            Bendahara
+                        </label>
+                        <div class="col-sm-6 col-md-9">
+                            <input type="text" name="treasurer" wire:model.defer='treasurer' class="form-control"
+                                id="treasurer">
+                            @error('treasurer')
+                                <small class="text-validate-error">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="form-group row align-items-center">
+                        <label for="treasurer_number" class="form-control-label col-sm-3 text-md-right">
+                            Nip Bendahara
+                        </label>
+                        <div class="col-sm-6 col-md-9">
+                            <input type="number" name="treasurer_number" wire:model.defer='treasurer_number'
+                                class="form-control" id="treasurer_number">
+                            @error('treasurer_number')
+                                <small class="text-validate-error">{{ $message }}</small>
+                            @enderror
                         </div>
                     </div>
 
@@ -90,9 +140,13 @@
                         <label class="form-control-label col-sm-3 text-md-right">Logo Sekolah</label>
                         <div class="col-sm-6 col-md-9">
                             <div class="custom-file">
-                                <input type="file" name="logo" wire:model='logo' class="custom-file-input">
+                                <input type="file" name="logo" wire:model='logo'
+                                    class="custom-file-input @error('logo') is-invalid @enderror">
                                 <label class="custom-file-label">Choose File</label>
                             </div>
+                            @error('logo')
+                                <small class="text-validate-error">{{ $message }}</small>
+                            @enderror
                             <div class="form-text text-muted">
                                 The image must have a maximum size of 1MB
                                 <span data-toggle="modal" data-target="#img" class="d-block text-info mr-auto"
@@ -118,6 +172,9 @@
                         <div class="col-sm-6 col-md-9">
                             <textarea name="address" wire:model.defer='address' id="address" class="form-control"
                                 style="min-height: 120px;"></textarea>
+                            @error('address')
+                                <small class="text-validate-error">{{ $message }}</small>
+                            @enderror
                         </div>
                     </div>
                 </div>

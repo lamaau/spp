@@ -5,6 +5,6 @@
             Lamaau</a>
     </div>
     <div class="footer-right">
-        v2.0.0
+        v0.0.1-Alpha
     </div>
 </footer>

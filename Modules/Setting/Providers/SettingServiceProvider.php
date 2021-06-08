@@ -41,7 +41,7 @@ class SettingServiceProvider extends ServiceProvider
         $this->app->register(LivewireServiceProvider::class);
         $this->app->register(RepositoryServiceProvider::class);
         $this->app->register(ComposerServiceProvider::class);
-        $this->app->register(AutomationServiceProvider::class);
+        $this->app->register(ConfigServiceProvider::class);
     }
 
     /**

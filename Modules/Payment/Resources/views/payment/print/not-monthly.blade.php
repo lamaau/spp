@@ -63,7 +63,7 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Bulan</th>
+                        <th>No</th>
                         <th>Nominal</th>
                         <th>Tanggal</th>
                         <th>Total</th>

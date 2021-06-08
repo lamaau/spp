@@ -54,13 +54,11 @@ class Pusher extends Component
         ]);
 
         try {
-            if (resolve(\Modules\Setting\Repository\SettingRepository::class)->saveOrUpdate('pushers', $validated)) {
-                $this->pusherConfigured = true;
-                return $this->success('Berhasil!', 'Pusher berhasil diatur.');
-            }
-
-            return $this->error('Oops!', 'Terjadi kesalahan.');
+            resolve(\Modules\Setting\Repository\SettingRepository::class)->saveOrUpdate('pushers', $validated);
+            $this->pusherConfigured = true;
+            return $this->success('Berhasil!', 'Pusher berhasil diatur.');
         } catch (\Exception $e) {
+            dd($e->getMessage());
             return $this->error('Oops!', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
