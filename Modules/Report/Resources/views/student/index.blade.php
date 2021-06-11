@@ -16,7 +16,7 @@
             @foreach ($students as $index => $item)
                 <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                     <x-widget
-                        icon="fas fa-users"
+                        icon="fad fa-users"
                         :type="$item['type']"
                         :value="$item['total']"
                         :title="$item['status']"

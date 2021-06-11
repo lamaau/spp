@@ -9,6 +9,8 @@
 
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     <link rel="stylesheet" href="{{ mix('css/template.css') }}">
+    {{-- if using pro, disable font awesome --}}
+    <link rel="stylesheet" href="https://kit-pro.fontawesome.com/releases/v5.12.1/css/pro.min.css">
     {!! Livewire::styles() !!}
     @include('layouts.includes.styles')
     @stack('styles')

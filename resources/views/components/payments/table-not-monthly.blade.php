@@ -22,20 +22,20 @@
                 <td>
                     <button class="btn btn-info btn-sm" role="button" data-toggle="collapse"
                         data-target="#table-detail">
-                        <i class="fa fa-eye"></i>
+                        <i class="fad fa-eye"></i>
                     </button>
                     @if ($payments->isNotEmpty())
                         <a href="{{ route('payment.print-not-monthly', ['user' => $payments->first()->student_id, 'bill' => $bill->id, 'year' => $payments->first()->year_id]) }}"
                             target="_blank"
                             class="btn btn-dark btn-sm {{ array_sum($payments->pluck('pay')->toArray()) > 0 ? '' : 'disabled' }}"><i
-                                class="fa fa-print"></i>
+                                class="fad fa-print"></i>
                         </a>
                     @else
                         <a href="#" class="btn btn-dark btn-sm  disabled"><i class="fa fa-print"></i></a>
                     @endif
                     <button wire:click.prevent='pay' class="btn btn-sm btn-success"
                         {{ $bill->nominal == array_sum($payments->pluck('pay')->toArray()) ? 'disabled' : '' }}>
-                        <i class="far fa-money-bill-alt"></i>
+                        <i class="fad fa-money-bill-alt"></i>
                     </button>
                 </td>
             </tr>
@@ -62,7 +62,7 @@
                                         <td>
                                             <button wire:click.prevent="$emit('delete', '{{ $payment->id }}')"
                                                 type="button" class="btn btn-sm btn-danger">
-                                                <i class="fas fa-trash"></i>
+                                                <i class="fad fa-trash"></i>
                                             </button>
                                         </td>
                                     </tr>

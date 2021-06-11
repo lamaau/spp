@@ -45,7 +45,7 @@ class ImportFailedNotification extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'icon' => 'fas fa-times',
+            'icon' => 'fad fa-times',
             'background' => 'bg-danger',
             'title' => "Dokumen tidak dapat diproses",
             'subtitle' => $this->subtitle,

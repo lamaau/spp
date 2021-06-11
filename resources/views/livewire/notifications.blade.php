@@ -31,7 +31,7 @@
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-light btn-sm rounded" data-toggle="dropdown"
                                         aria-haspopup="true" aria-expanded="false">
-                                        <i class="fas fa-ellipsis-v"></i>
+                                        <i class="fad fa-ellipsis-v"></i>
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <button wire:click.prevent='delete("{{ $notification->id }}")'

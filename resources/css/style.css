@@ -92,6 +92,7 @@ a {
 }
 
 a:not(.btn-social-icon):not(.btn-social):not(.page-link) .ion,
+a:not(.btn-social-icon):not(.btn-social):not(.page-link) .fad,
 a:not(.btn-social-icon):not(.btn-social):not(.page-link) .fas,
 a:not(.btn-social-icon):not(.btn-social):not(.page-link) .far,
 a:not(.btn-social-icon):not(.btn-social):not(.page-link) .fal,
@@ -765,6 +766,7 @@ select.form-control:not([size]):not([multiple]) {
     width: 30px;
 }
 .alert.alert-has-icon .alert-icon .ion,
+.alert.alert-has-icon .alert-icon .fad,
 .alert.alert-has-icon .alert-icon .fas,
 .alert.alert-has-icon .alert-icon .far,
 .alert.alert-has-icon .alert-icon .fab,
@@ -1032,6 +1034,7 @@ select.form-control:not([size]):not([multiple]) {
     margin: -60px;
 }
 .card.card-hero .card-header .card-icon .ion,
+.card.card-hero .card-header .card-icon .fad,
 .card.card-hero .card-header .card-icon .fas,
 .card.card-hero .card-header .card-icon .far,
 .card.card-hero .card-header .card-icon .fab,
@@ -1079,11 +1082,13 @@ select.form-control:not([size]):not([multiple]) {
     margin-right: 15px;
 }
 .card.card-statistic-1 .card-icon .ion,
+.card.card-statistic-1 .card-icon .fad,
 .card.card-statistic-1 .card-icon .fas,
 .card.card-statistic-1 .card-icon .far,
 .card.card-statistic-1 .card-icon .fab,
 .card.card-statistic-1 .card-icon .fal,
 .card.card-statistic-2 .card-icon .ion,
+.card.card-statistic-2 .card-icon .fad,
 .card.card-statistic-2 .card-icon .fas,
 .card.card-statistic-2 .card-icon .far,
 .card.card-statistic-2 .card-icon .fab,
@@ -1188,6 +1193,7 @@ select.form-control:not([size]):not([multiple]) {
     border-radius: 3px 0 0 3px;
 }
 .card.card-large-icons .card-icon .ion,
+.card.card-large-icons .card-icon .fad,
 .card.card-large-icons .card-icon .fas,
 .card.card-large-icons .card-icon .far,
 .card.card-large-icons .card-icon .fab,
@@ -1443,6 +1449,7 @@ table tr:hover .table-links {
 }
 
 .nav .nav-item .nav-link .ion,
+.nav .nav-item .nav-link .fad,
 .nav .nav-item .nav-link .fas,
 .nav .nav-item .nav-link .far,
 .nav .nav-item .nav-link .fab,
@@ -1660,6 +1667,7 @@ h6 .badge {
     font-size: 12px;
 }
 .btn.btn-icon .ion,
+.btn.btn-icon .fad,
 .btn.btn-icon .fas,
 .btn.btn-icon .far,
 .btn.btn-icon .fab,
@@ -1668,6 +1676,7 @@ h6 .badge {
     font-size: 12px;
 }
 .btn.btn-icon.icon-left .ion,
+.btn.btn-icon.icon-left .fad,
 .btn.btn-icon.icon-left .fas,
 .btn.btn-icon.icon-left .far,
 .btn.btn-icon.icon-left .fab,
@@ -1675,6 +1684,7 @@ h6 .badge {
     margin-right: 3px;
 }
 .btn.btn-icon.icon-right .ion,
+.btn.btn-icon.icon-right .fad,
 .btn.btn-icon.icon-right .fas,
 .btn.btn-icon.icon-right .far,
 .btn.btn-icon.icon-right .fab,
@@ -2901,6 +2911,7 @@ blockquote .blockquote-footer {
     font-size: 15px;
 }
 
+.fad,
 .fas,
 .far,
 .fab,
@@ -3464,6 +3475,7 @@ body.sidebar-mini .main-sidebar .sidebar-menu > li > a {
     justify-content: center;
 }
 body.sidebar-mini .main-sidebar .sidebar-menu > li > a .ion,
+body.sidebar-mini .main-sidebar .sidebar-menu > li > a .fad,
 body.sidebar-mini .main-sidebar .sidebar-menu > li > a .fas,
 body.sidebar-mini .main-sidebar .sidebar-menu > li > a .far,
 body.sidebar-mini .main-sidebar .sidebar-menu > li > a .fab,

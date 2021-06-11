@@ -17,7 +17,7 @@ class ConfigServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerMail();
+        // 
     }
 
     /**

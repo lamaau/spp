@@ -1,13 +1,13 @@
 <div>
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card" id="settings-card">
                 <div class="card-header">
                     <h4>General Settings</h4>
                 </div>
                 <div class="card-body">
                     <div class="form-group row align-items-center">
-                        <label for="name" class="form-control-label col-sm-3 text-md-right">
+                        <label for="name" class="form-control-label col-sm-2 text-md-right">
                             Nama Sekolah
                         </label>
                         <div class="col-sm-6 col-md-9">
@@ -19,7 +19,7 @@
                     </div>
 
                     <div class="form-group row align-items-center">
-                        <label for="level" class="form-control-label col-sm-3 text-md-right">
+                        <label for="level" class="form-control-label col-sm-2 text-md-right">
                             Derajat Sekolah
                         </label>
                         <div class="col-sm-6 col-md-9 custom-select-icon" wire:ignore>
@@ -37,7 +37,7 @@
                     </div>
 
                     <div class="form-group row align-items-center">
-                        <label for="email" class="form-control-label col-sm-3 text-md-right">
+                        <label for="email" class="form-control-label col-sm-2 text-md-right">
                             Email Sekolah
                         </label>
                         <div class="col-sm-6 col-md-9">
@@ -49,7 +49,7 @@
                     </div>
 
                     <div class="form-group row align-items-center">
-                        <label for="phone" class="form-control-label col-sm-3 text-md-right">
+                        <label for="phone" class="form-control-label col-sm-2 text-md-right">
                             Nomor Hp Sekolah
                         </label>
                         <div class="col-sm-6 col-md-9">
@@ -61,7 +61,7 @@
                     </div>
 
                     <div class="form-group row align-items-center">
-                        <label for="fax" class="form-control-label col-sm-3 text-md-right">
+                        <label for="fax" class="form-control-label col-sm-2 text-md-right">
                             Fax Sekolah
                         </label>
                         <div class="col-sm-6 col-md-9">
@@ -73,7 +73,7 @@
                     </div>
 
                     <div class="form-group row align-items-center">
-                        <label for="code" class="form-control-label col-sm-3 text-md-right">
+                        <label for="code" class="form-control-label col-sm-2 text-md-right">
                             Kode Sekolah
                         </label>
                         <div class="col-sm-6 col-md-9">
@@ -85,7 +85,7 @@
                     </div>
 
                     <div class="form-group row align-items-center">
-                        <label for="principal" class="form-control-label col-sm-3 text-md-right">
+                        <label for="principal" class="form-control-label col-sm-2 text-md-right">
                             Kepala Sekolah
                         </label>
                         <div class="col-sm-6 col-md-9">
@@ -98,7 +98,7 @@
                     </div>
 
                     <div class="form-group row align-items-center">
-                        <label for="principal_number" class="form-control-label col-sm-3 text-md-right">
+                        <label for="principal_number" class="form-control-label col-sm-2 text-md-right">
                             Nip Sekolah
                         </label>
                         <div class="col-sm-6 col-md-9">
@@ -111,7 +111,7 @@
                     </div>
 
                     <div class="form-group row align-items-center">
-                        <label for="treasurer" class="form-control-label col-sm-3 text-md-right">
+                        <label for="treasurer" class="form-control-label col-sm-2 text-md-right">
                             Bendahara
                         </label>
                         <div class="col-sm-6 col-md-9">
@@ -124,7 +124,7 @@
                     </div>
 
                     <div class="form-group row align-items-center">
-                        <label for="treasurer_number" class="form-control-label col-sm-3 text-md-right">
+                        <label for="treasurer_number" class="form-control-label col-sm-2 text-md-right">
                             Nip Bendahara
                         </label>
                         <div class="col-sm-6 col-md-9">
@@ -137,9 +137,10 @@
                     </div>
 
                     <div class="form-group row align-items-center">
-                        <label class="form-control-label col-sm-3 text-md-right">Logo Sekolah</label>
+                        <label class="form-control-label col-sm-2 text-md-right">Logo Sekolah</label>
                         <div class="col-sm-6 col-md-9">
-                            <div class="custom-file">
+                            <x-progress id="logo" max="100" />
+                            <div class="custom-file mt-2">
                                 <input type="file" name="logo" wire:model='logo'
                                     class="custom-file-input @error('logo') is-invalid @enderror">
                                 <label class="custom-file-label">Choose File</label>
@@ -166,7 +167,7 @@
                     </div>
 
                     <div class="form-group row align-items-center">
-                        <label for="address" class="form-control-label col-sm-3 text-md-right">
+                        <label for="address" class="form-control-label col-sm-2 text-md-right">
                             Alamat
                         </label>
                         <div class="col-sm-6 col-md-9">
@@ -177,18 +178,15 @@
                             @enderror
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">
-                    <h4>Aksi</h4>
-                </div>
-                <div class="card-body">
-                    <button wire:click.prevent='setDefault' type="button" class="btn btn-secondary">Reset</button>
-                    <button wire:click.prevent='save' type="button" class="btn btn-primary"
-                        id="save-btn">Simpan</button>
+
+                    <div class="form-row-group row align-items-center">
+                        <div class="col-md-6 offset-md-5 text-right">
+                            <button wire:click.prevent='setDefault' type="button"
+                                class="btn btn-secondary">Reset</button>
+                            <button wire:click.prevent='save' type="button" class="btn btn-primary"
+                                id="save-btn">Simpan</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

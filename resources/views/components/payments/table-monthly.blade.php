@@ -45,16 +45,16 @@
                     <td>
                         <button class="btn btn-info btn-sm" role="button" data-toggle="collapse"
                             data-target="#table-detail-{{ $i }}">
-                            <i class="fa fa-eye"></i>
+                            <i class="fad fa-eye"></i>
                         </button>
                         <a href="{{ route('payment.print-monthly', ['user' => $student, 'bill' => $bill, 'month' => $i, 'year' => $year, 'type' => $type]) }}" target="_blank"
                             class="btn btn-dark btn-sm {{ !$any && empty($payments[$i]) ? 'disabled' : '' }}"
                             {{ !$any && empty($payments[$i]) ? 'disabled' : '' }}>
-                            <i class="fa fa-print"></i>
+                            <i class="fad fa-print"></i>
                         </a>
                         <button wire:click.prevent='pay("{{ $i }}")' class="btn btn-sm btn-success"
                             {{ array_sum($totalForStatus) === $billResult['nominal'] ? 'disabled' : '' }}>
-                            <i class="far fa-money-bill-alt"></i>
+                            <i class="fad fa-money-bill-alt"></i>
                         </button>
                     </td>
                 </tr>
@@ -85,7 +85,7 @@
                                                     <td> {{ format_date($item['pay_date']) }}</td>
                                                     <td>{{ $item['author_name'] }}</td>
                                                     <td>
-                                                        <button class="btn btn-danger btn-sm" wire:click.prevent="$emit('delete', '{{$item['id']}}')"><i class="fas fa-trash"></i></button>
+                                                        <button class="btn btn-danger btn-sm" wire:click.prevent="$emit('delete', '{{$item['id']}}')"><i class="fad fa-trash"></i></button>
                                                     </td>
                                                 </tr>
                                             @endforeach

@@ -51,11 +51,11 @@
                                     wire:model="religion"
                                 />
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" wire:ignore>
                                 <x-inputs.select-two
                                     required
                                     label="Kelas"
-                                    name="room_id"
+                                    name="room"
                                     :items="$rooms"
                                     wire:model="room_id"
                                 />
@@ -78,13 +78,13 @@
                     type="primary"
                     title="Siswa"
                     :value="$studentCount"
-                    icon="fas fa-users"
+                    icon="fad fa-users"
                 />
                 <x-widget
                     type="primary"
                     title="Kelas"
                     :value="$roomCount"
-                    icon="fas fa-building"
+                    icon="fad fa-building"
                 />
             </div>
         </div>
@@ -129,15 +129,15 @@
                     @this.set('religion', e.target.value);
                 });
 
-                customSelect('#room_id', {
+                customSelect('#room', {
                     allowClear: false,
                     placeholder: "",
                 }, (e) => {
                     @this.set('room_id', e.target.value);
                 });
 
-                Livewire.on('message.processed', () => {
-                    customSelect('#sex, #religion, #room_id', {
+                Livewire.hook('message.processed', (message, component) => {
+                    customSelect('#sex, #religion, #room', {
                         allowClear: false,
                         placeholder: "",
                     });

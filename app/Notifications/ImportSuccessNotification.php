@@ -42,7 +42,7 @@ class ImportSuccessNotification extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'icon' => 'fas fa-check',
+            'icon' => 'fad fa-check',
             'background' => 'bg-success',
             'title' => "Dokumen berhasil diimport.",
             'message' => $this->message,

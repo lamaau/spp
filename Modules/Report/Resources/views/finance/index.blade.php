@@ -34,11 +34,11 @@
                         </div>
                         <div class="card-body" style="height: 489px!important;overflow-y:scroll;">
                             <x-widget type="success" title="Total Pemasukan" class="card-list-icon"
-                                icon="fas fa-dollar-sign"
+                                icon="fad fa-dollar-sign"
                                 :value="idr(array_sum($bills->pluck('payments_sum_pay')->toArray()))" />
                             @foreach ($bills as $bill)
                                 <x-widget type="success" :title="$bill->name" class="card-list-icon"
-                                    icon="fas fa-money-bill-alt" :value="idr($bill->payments_sum_pay)" />
+                                    icon="fad fa-money-bill-alt" :value="idr($bill->payments_sum_pay)" />
                             @endforeach
                         </div>
                     </div>
@@ -59,11 +59,11 @@
                         </div>
                         <div class="card-body" style="height: 489px!important;overflow-y:scroll;">
                             <x-widget type="danger" title="Total Pengeluaran" class="card-list-icon"
-                                icon="fas fa-dollar-sign"
+                                icon="fad fa-dollar-sign"
                                 :value="idr(array_sum($bills->pluck('spendings_sum_nominal')->toArray()))" />
                             @foreach ($bills as $bill)
                                 <x-widget type="danger" :title="$bill->name" class="card-list-icon"
-                                    icon="fas fa-money-bill-alt" :value="idr($bill->spendings_sum_nominal)" />
+                                    icon="fad fa-money-bill-alt" :value="idr($bill->spendings_sum_nominal)" />
                             @endforeach
                         </div>
                     </div>

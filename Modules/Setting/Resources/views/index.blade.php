@@ -18,7 +18,7 @@
                     <x-card-icon
                         link-text="Atur"
                         title="Umum"
-                        icon="fas fa-cog"
+                        icon="fad fa-cog"
                         link-route="{{route('setting.general')}}"
                         description="Penagturan umum seperti, judul situs, deskripsi situs, alamat dan sebagainya."
                     />
@@ -27,7 +27,7 @@
                     <x-card-icon
                         link-text="Atur"
                         title="Otomatisasi"
-                        icon="fas fa-stopwatch"
+                        icon="fad fa-stopwatch"
                         link-route="{{route('setting.automation')}}"
                         description="Pengaturan tentang otomatisasi seperti tugas cron, otomatisasi pencadangan, dan sebagainya."
                     />

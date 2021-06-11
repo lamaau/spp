@@ -6,7 +6,6 @@ use Livewire\Event;
 use App\Datatables\Column;
 use App\Datatables\Traits\Notify;
 use App\Datatables\TableComponent;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Modules\Payment\Entities\Spending;

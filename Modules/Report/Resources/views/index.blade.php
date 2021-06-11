@@ -17,7 +17,7 @@
                 <div class="col-lg-6">
                     <div class="card card-large-icons">
                         <div class="card-icon bg-primary text-white">
-                            <i class="fas fa-users"></i>
+                            <i class="fad fa-users"></i>
                         </div>
                         <div class="card-body">
                             <h4>Siswa</h4>
@@ -32,7 +32,7 @@
                 <div class="col-lg-6">
                     <div class="card card-large-icons">
                         <div class="card-icon bg-primary text-white">
-                            <i class="fas fa-dollar-sign"></i>
+                            <i class="fad fa-dollar-sign"></i>
                         </div>
                         <div class="card-body">
                             <h4>Keuangan</h4>

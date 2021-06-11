@@ -1,6 +1,6 @@
 <div class="cop-container">
     <div class="cop-left">
-        <img src="{{ asset($setting->logo) }}" class="logo" alt="Logo Sekolah">
+        <img src="{{ asset("storage/$setting->logo") }}" class="logo" alt="Logo Sekolah">
     </div>
     <div class="cop-right">
         <h1 class="school-name">{{ $setting->name }}</h1>

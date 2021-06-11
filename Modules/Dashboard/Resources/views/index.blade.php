@@ -13,7 +13,7 @@
                     type="success"
                     title="Total Pemasukan"
                     :value="idr($income)"
-                    icon="fas fa-dollar-sign"
+                    icon="fad fa-dollar-sign"
                 />
             </div>
 
@@ -22,7 +22,7 @@
                     type="danger"
                     title="Total Pengeluaran"
                     :value="idr($spending)"
-                    icon="fas fa-dollar-sign"
+                    icon="fad fa-dollar-sign"
                 />
             </div>
 
@@ -31,7 +31,7 @@
                     type="primary"
                     title="Total Siswa"
                     :value="$student"
-                    icon="fas fa-users"
+                    icon="fad fa-users"
                 />
             </div>
 

@@ -5,9 +5,9 @@
                 <label for="file" class="input-file mb-0 text-center @error('file') input-file-error @enderror">
                     <div>
                         @if (is_null($file))
-                            <i class="fas fa-upload input-file-icon"></i>
+                            <i class="fad fa-upload input-file-icon"></i>
                         @else
-                            <i class="fas fa-file-excel input-file-icon"></i>
+                            <i class="fad fa-file-excel input-file-icon"></i>
                         @endif
                     </div>
 
@@ -24,6 +24,8 @@
                 @error('file')
                     <span class="text-danger text-left font-italic">{{ ucfirst($message) }}</span>
                 @enderror
+
+                <x-progress id="student" class="mt-2" max="100" />
             </div>
         </x-slot>
         <x-slot name="footer">

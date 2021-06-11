@@ -45,10 +45,12 @@ class SpendingAboveIncome implements Rule
             if ($this->isUpdate) {
                 $oldNominal = Spending::query()->where('bill_id', $this->bill_id)->select('nominal')->first();
 
-                $totalSpend = (int)$spending->total_spending - (int)$oldNominal->nominal;
-                $totalIncome = ((int)$payment->total_income - (int)$totalSpend);
+                if ($oldNominal) {
+                    $totalSpend = (int)$spending->total_spending - (int)$oldNominal->nominal;
+                    $totalIncome = ((int)$payment->total_income - (int)$totalSpend);
 
-                return $value <= $totalIncome ? true : false;
+                    return $value <= $totalIncome ? true : false;
+                }
             }
 
             $totalIncome = ((int)$payment->total_income - (int)$spending->total_spending);
