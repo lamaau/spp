@@ -122,28 +122,52 @@
                                 <div class="{{ $currentStep != 1 ? 'displayNone' : '' }}">
                                     <div class="row">
                                         <div class="form-group col-6">
-                                            <x-inputs.text required name="name" label="nama sekolah"
-                                                wire:model.defer='name' />
+                                            <x-inputs.text
+                                                required
+                                                name="name"
+                                                label="nama sekolah"
+                                                wire:model.defer='name'
+                                            />
                                         </div>
                                         <div class="form-group col-6">
-                                            <x-inputs.number required name="code" label="kode sekolah"
-                                                wire:model.defer='code' />
+                                            <x-inputs.number
+                                                required
+                                                name="code"
+                                                label="kode sekolah"
+                                                wire:model.defer='code'
+                                            />
                                         </div>
                                         <div class="form-group col-6">
-                                            <x-inputs.email required name="email" label="email sekolah"
-                                                wire:model.defer='email' />
+                                            <x-inputs.email
+                                                required
+                                                name="email"
+                                                label="email sekolah"
+                                                wire:model.defer='email'
+                                            />
                                         </div>
                                         <div class="form-group col-6">
-                                            <x-inputs.number required name="phone" label="Telpon Sekolah"
-                                                wire:model.defer='phone' />
+                                            <x-inputs.number
+                                                required
+                                                name="phone"
+                                                label="Telpon Sekolah"
+                                                wire:model.defer='phone'
+                                            />
                                         </div>
                                         <div class="form-group col-6">
-                                            <x-inputs.select-constant required name="level" label="tingkatan"
-                                                :items="$levels" />
+                                            <x-inputs.select-constant
+                                                required
+                                                name="level"
+                                                label="tingkatan"
+                                                :items="$levels"
+                                            />
                                         </div>
                                         <div class="form-group col-6">
-                                            <x-inputs.number required name="fax" label="Fax Sekolah"
-                                                wire:model.defer='fax' />
+                                            <x-inputs.number
+                                                required
+                                                name="fax"
+                                                label="Fax Sekolah"
+                                                wire:model.defer='fax'
+                                            />
                                         </div>
 
                                         <div class="form-group col-12">
@@ -166,36 +190,26 @@
 
                                 <div class="{{ $currentStep != 2 ? 'displayNone' : '' }}">
                                     <div class="row">
-                                        <div class="form-group col-6">
-                                            <x-inputs.select-two required name="province" label="provinsi"
-                                                :items="$provinces" wire:model="province" />
-                                        </div>
-
-                                        <div class="form-group col-6">
-                                            <x-inputs.select-two required name="city" label="kota / kabupaten"
-                                                :items="$cities" wire:model="city" />
-                                        </div>
-
-                                        <div class="form-group col-6">
-                                            <x-inputs.select-two required name="district" label="kecamatan"
-                                                :items="$districts" wire:model="district" />
-                                        </div>
-
-                                        <div class="form-group col-6">
-                                            <x-inputs.select-two required name="subdistrict" label="kelurahan"
-                                                :items="$subdistricts" wire:model="subdistrict" />
-                                        </div>
-
                                         <div class="form-group col-12">
-                                            <label for="address">Alamat Lengkap
-                                                <small class="text-danger">*</small>
-                                            </label>
-                                            <textarea name="adress" id="adress" cols="30" rows="10" wire:model='address'
-                                                class="form-control @error('address') is-invalid @enderror"
-                                                style="min-height: 110px;"></textarea>
-                                            @error('address')
-                                                <small class="text-validate-error">{{ $message }}</small>
-                                            @enderror
+                                            <div class="form-group">
+                                                <x-inputs.text
+                                                    required
+                                                    name="city_name"
+                                                    label="Nama Kota"
+                                                    wire:model.defer="city_name"
+                                                />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="address">Alamat Lengkap
+                                                    <small class="text-danger">*</small>
+                                                </label>
+                                                <textarea name="adress" id="adress" cols="30" rows="10" wire:model='address'
+                                                    class="form-control @error('address') is-invalid @enderror"
+                                                    style="min-height: 110px;"></textarea>
+                                                @error('address')
+                                                    <small class="text-validate-error">{{ $message }}</small>
+                                                @enderror
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -203,20 +217,35 @@
                                 <div class="{{ $currentStep != 3 ? 'displayNone' : '' }}">
                                     <div class="row">
                                         <div class="form-group col-6">
-                                            <x-inputs.text required name="principal" label="nama kepala sekolah"
-                                                wire:model.defer='principal' />
+                                            <x-inputs.text
+                                                required
+                                                name="principal"
+                                                label="nama kepala sekolah"
+                                                wire:model.defer='principal'
+                                            />
                                         </div>
                                         <div class="form-group col-6">
-                                            <x-inputs.number required name="principal_number" label="nip kepala sekolah"
-                                                wire:model.defer='principal_number' />
+                                            <x-inputs.number
+                                                required
+                                                name="principal_number"
+                                                label="nip kepala sekolah"
+                                                wire:model.defer='principal_number'
+                                            />
                                         </div>
                                         <div class="form-group col-6">
-                                            <x-inputs.text required name="treasurer" label="nama bendahara sekolah"
-                                                wire:model.defer='treasurer' />
+                                            <x-inputs.text
+                                                required
+                                                name="treasurer"
+                                                label="nama bendahara sekolah"
+                                                wire:model.defer='treasurer'
+                                            />
                                         </div>
                                         <div class="form-group col-6">
-                                            <x-inputs.number name="treasurer_number" label="nip bendahara sekolah"
-                                                wire:model.defer='treasurer_number' />
+                                            <x-inputs.number
+                                                name="treasurer_number"
+                                                label="nip bendahara sekolah"
+                                                wire:model.defer='treasurer_number'
+                                            />
                                         </div>
                                     </div>
                                 </div>
@@ -287,26 +316,10 @@
                 $('#level').on('change', (e) => {
                     @this.set('level', e.target.value);
                 });
-
-                $('#province').on('change', (e) => {
-                    @this.set('province', e.target.value);
-                });
-
-                $('#city').on('change', (e) => {
-                    @this.set('city', e.target.value);
-                });
-
-                $('#district').on('change', (e) => {
-                    @this.set('district', e.target.value);
-                });
-
-                $('#subdistrict').on('change', (e) => {
-                    @this.set('subdistrict', e.target.value);
-                });
             });
 
             Livewire.hook('message.processed', (message, component) => {
-                $('#level, #province, #city, #district, #subdistrict').select2({
+                $('#level').select2({
                     allowClear: false,
                     placeholder: "",
                 });

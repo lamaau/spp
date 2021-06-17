@@ -26,11 +26,8 @@ class CreateSettingsTable extends Migration
             $table->string('principal_number')->comment('nip kepala sekolah');
             $table->string('treasurer')->comment('bendahara');
             $table->string('treasurer_number')->nullable()->comment('nip bendahara');
-            $table->bigInteger('province')->nullable();
-            $table->bigInteger('city')->nullable();
-            $table->bigInteger('district')->nullable();
-            $table->bigInteger('subdistrict')->nullable();
-            $table->longText('address');
+            $table->string('city_name')->comment('this city name for letter ttd');
+            $table->longText('address')->comment('this address for letter cop');
             $table->uuid('created_by')->index();
             $table->uuid('updated_by')->nullable()->index();
             $table->uuid('deleted_by')->nullable()->index();

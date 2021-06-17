@@ -7,9 +7,6 @@
     </form>
 
     <ul class="navbar-nav navbar-right ml-auto">
-
-        @livewire('notification')
-
         <li class="dropdown">
             <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                 <img alt="image" src="https://demo.getstisla.com/assets/img/avatar/avatar-1.png" width="30"

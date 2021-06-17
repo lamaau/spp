@@ -29,11 +29,4 @@ class SettingController extends Controller
             'levels' => SchoolLevel::labels(),
         ]);
     }
-
-    public function automation()
-    {
-        return view('setting::automation.index', [
-            'title' => 'Otomatisasi'
-        ]);
-    }
 }

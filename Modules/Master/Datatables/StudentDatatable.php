@@ -64,6 +64,11 @@ class StudentDatatable extends TableComponent
         return $this->emit('modal:toggle');
     }
 
+    public function updatedFilter()
+    {
+        $this->resetPage();
+    }
+    
     public function update()
     {
         $validated = $this->validate([

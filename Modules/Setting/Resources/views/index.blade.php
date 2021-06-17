@@ -23,15 +23,6 @@
                         description="Penagturan umum seperti, judul situs, deskripsi situs, alamat dan sebagainya."
                     />
                 </div>
-                <div class="col-lg-6">
-                    <x-card-icon
-                        link-text="Atur"
-                        title="Otomatisasi"
-                        icon="fad fa-stopwatch"
-                        link-route="{{route('setting.automation')}}"
-                        description="Pengaturan tentang otomatisasi seperti tugas cron, otomatisasi pencadangan, dan sebagainya."
-                    />
-                </div>
             </div>
         </div>
     </section>

@@ -4,7 +4,7 @@
             <td>
                 <div>
                     <span style="display: block;text-transform:capitalize;">
-                        {{ strtolower(\Regional::findCity($setting->city)['name']) }},
+                        {{ $setting->city_name }}
                         {{ \Carbon\Carbon::parse(now())->translatedFormat('d F Y') }}</span>
                     <span>Yang Menerima,</span>
                     <div style="margin-top: 50px">

@@ -19,13 +19,6 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <div class="d-block">
-                                        <div class="float-right">
-                                            <a href="{{ route('password.request') }}" class="text-small">
-                                                Forgot Password?
-                                            </a>
-                                        </div>
-                                    </div>
                                     <x-inputs.password required label="password" name="password"
                                         wire:model.defer='password' />
                                 </div>

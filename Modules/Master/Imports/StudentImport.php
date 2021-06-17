@@ -16,6 +16,7 @@ use Maatwebsite\Excel\Concerns\WithStartRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Modules\Master\Constants\ReligionConstant;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
+use Modules\Master\Constants\StudentConstant;
 
 class StudentImport implements ToCollection, ShouldQueue, WithValidation, WithStartRow, WithChunkReading, WithEvents
 {
@@ -62,6 +63,7 @@ class StudentImport implements ToCollection, ShouldQueue, WithValidation, WithSt
                         'nisn' => $rows[$key][3],
                         'email' => $rows[$key][4],
                         'phone' => $rows[$key][5],
+                        'status' => StudentConstant::ACTIVE,
                         'religion' => ReligionConstant::key($rows[$key][6]),
                         'sex' => SexConstant::key($rows[$key][7]),
                         'created_by' => $this->document->author->id,

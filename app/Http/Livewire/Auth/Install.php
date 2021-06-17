@@ -9,8 +9,7 @@ use Livewire\WithFileUploads;
 
 class Install extends Component
 {
-    use Regional,
-        WithFileUploads;
+    use WithFileUploads;
 
     /** @var null|string */
     public $name;
@@ -24,6 +23,7 @@ class Install extends Component
     public $principal_number;
     public $treasurer;
     public $treasurer_number;
+    public $city_name;
     public $address;
 
     public int $totalStep = 3;
@@ -36,11 +36,6 @@ class Install extends Component
         2 => 'Alamat Sekolah',
         3 => 'Kepala Sekolah dan Bendahara'
     ];
-
-    public function mount()
-    {
-        $this->provinces = $this->getRegional('provinces');
-    }
 
     public function updatedLogo()
     {
@@ -69,10 +64,7 @@ class Install extends Component
     public function secondStepSubmit()
     {
         $validated = $this->validate([
-            'province' => ['required'],
-            'city' => ['required'],
-            'district' => ['required'],
-            'subdistrict' => ['required'],
+            'city_name' => ['required'],
             'address' => ['required'],
         ]);
 
@@ -91,6 +83,7 @@ class Install extends Component
         ]);
 
         $validated = array_merge($this->validated, $validated);
+
         $logo = $validated['logo']->store('uploads/logo');
         $validated['logo'] = $logo;
 

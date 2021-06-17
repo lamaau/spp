@@ -45,7 +45,7 @@ class StudentEloquent implements StudentRepository
                 'status' => $value,
                 'status_key' => $key,
                 'type' => StudentConstant::types()[$key],
-                'month' => $tmp[$key]['month']
+                'month' => $tmp[$key]['month'] ?? 0
             ];
         }
         
