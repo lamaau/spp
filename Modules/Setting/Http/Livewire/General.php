@@ -27,6 +27,7 @@ class General extends Component
     public $principal_number = null;
     public $treasurer = null;
     public $treasurer_number = null;
+    public $city_name = null;
     public $address = null;
 
     public function mount()
@@ -63,6 +64,7 @@ class General extends Component
         $this->principal_number = $this->setting->principal_number;
         $this->treasurer = $this->setting->treasurer;
         $this->treasurer_number = $this->setting->treasurer_number;
+        $this->city_name = $this->setting->city_name;
         $this->address = $this->setting->address;
     }
 

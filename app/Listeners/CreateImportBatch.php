@@ -24,8 +24,6 @@ class CreateImportBatch implements ShouldQueue
         Bus::batch([
             new DocumentConverterJob($document),
             new DocumentImporterJob($document),
-        ])->finally(function () use ($document) {
-            DocumentImportedComplete::dispatch($document);
-        })->dispatch();
+        ])->dispatch();
     }
 }

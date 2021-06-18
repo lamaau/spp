@@ -35,6 +35,7 @@ class SettingRequest extends FormRequest
             'principal_number' => ['required', 'min:9', 'string'],
             'treasurer' => ['required', 'min:5', 'string'],
             'treasurer_number' => ['nullable', 'min:9', 'string'],
+            'city_name' => ['required', 'min:3', 'string'],
             'address' => ['required', 'min:3', 'string'],
         ];
     }

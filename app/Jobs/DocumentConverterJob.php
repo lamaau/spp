@@ -6,7 +6,6 @@ use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use App\Services\XlsxConverter;
 use Illuminate\Queue\SerializesModels;
-use App\Events\DocumentConvertedToXlsx;
 use Modules\Document\Entities\Document;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -40,7 +39,5 @@ class DocumentConverterJob implements ShouldQueue
         $this->document->update([
             'converted_filename' => $filename,
         ]);
-
-        DocumentConvertedToXlsx::dispatch($this->document);
     }
 }

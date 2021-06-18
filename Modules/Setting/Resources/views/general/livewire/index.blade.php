@@ -167,6 +167,19 @@
                     </div>
 
                     <div class="form-group row align-items-center">
+                        <label for="city_name" class="form-control-label col-sm-2 text-md-right">
+                            Nama Kota
+                        </label>
+                        <div class="col-sm-6 col-md-9">
+                            <input type="text" name="city_name" wire:model.defer='city_name'
+                                class="form-control" id="city_name">
+                            @error('city_name')
+                                <small class="text-validate-error">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row align-items-center">
                         <label for="address" class="form-control-label col-sm-2 text-md-right">
                             Alamat
                         </label>
