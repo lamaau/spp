@@ -7,16 +7,16 @@
     <title>Document</title>
 </head>
 <body>
-    {{-- <div class="header" style="text-align: center;">
-        <h4 >{{$setting->name}}</h4>
-        <p>{{$setting->address}}</p>
-        <p>Tlp: {{ $setting->phone }} Fax: {{ $setting->fax }} Email: {{ $setting->email }}</p>
-    </div> --}}
-
 
     @for ($i = 0; $i < 10; $i++)
         <p></p>
     @endfor
+    
+    {{-- <div class="page">
+        <p>Laporan Siswa / i</p>
+    </div>
+
+    <p></p><p></p> --}}
 
     <div class="page">
         <table>
