@@ -13,7 +13,9 @@ return [
          * `Spatie\Permission\Contracts\Permission` contract.
          */
 
-        'permission' => Spatie\Permission\Models\Permission::class,
+        // 'permission' => Spatie\Permission\Models\Permission::class,
+        // i use custom table because i add some column in permissions table
+        'permission' => \App\Entities\Permission::class,
 
         /*
          * When using the "HasRoles" trait from this package, we need to know which
@@ -23,8 +25,9 @@ return [
          * The model you want to use as a Role model needs to implement the
          * `Spatie\Permission\Contracts\Role` contract.
          */
-
-        'role' => Spatie\Permission\Models\Role::class,
+        // i use custom table because i add some column in roles table
+        // 'role' => Spatie\Permission\Models\Role::class,
+        'role' => \App\Entities\Role::class,
 
     ],
 

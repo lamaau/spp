@@ -4,18 +4,29 @@ namespace Modules\Master\Entities;
 
 use Modules\Utils\Uuid;
 use Modules\Master\Entities\Room;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 use Modules\Master\Constants\StudentConstant;
+use Spatie\Permission\Traits\HasRoles;
 
-class Student extends Model
+class Student extends Authenticatable
 {
     use SoftDeletes,
+        Notifiable,
         HasFactory,
+        HasRoles,
         Uuid;
 
+    /**
+     * Guard
+     *
+     * @var string
+     */
+    protected $guard = 'student';
+        
     /**
      * Primary Key Incrementing
      *
@@ -45,6 +56,15 @@ class Student extends Model
      * @var string
      */
     protected $keyType = "string";
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password',
+    ];
 
     /**
      * Table name

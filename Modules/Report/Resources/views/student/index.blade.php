@@ -1,4 +1,6 @@
 <x-app-layout :title="$title">
+    <livewire:export-student />
+    
     <section class="section">
         <div class="section-header">
             <div class="section-header-back">

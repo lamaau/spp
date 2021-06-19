@@ -19,6 +19,7 @@ class CreateStudentsTable extends Migration
             $table->string('nis')->unique()->nullable();
             $table->string('nisn')->unique()->nullable();
             $table->string('email')->unique()->nullable();
+            $table->string('password');
             $table->string('phone')->nullable();
             $table->integer('religion');
             $table->integer('status')->comment('aktif, pindah, berhenti, lulus, etc');

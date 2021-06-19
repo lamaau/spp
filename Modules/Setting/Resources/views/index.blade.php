@@ -12,7 +12,6 @@
             <p class="section-lead">
                 Atur dan sesuaikan semua pengaturan tentang aplikasi ini.
             </p>
-
             <div class="row">
                 <div class="col-lg-6">
                     <x-card-icon
@@ -20,7 +19,16 @@
                         title="Umum"
                         icon="fad fa-cog"
                         link-route="{{route('setting.general')}}"
-                        description="Penagturan umum seperti, judul situs, deskripsi situs, alamat dan sebagainya."
+                        description="Pengaturan umum seperti nama sekolah, kepala sekolah, alamat sekolah dan sebagainya."
+                    />
+                </div>
+                <div class="col-lg-6">
+                    <x-card-icon
+                        link-text="Atur"
+                        title="Hak Akses"
+                        icon="fad fa-lock"
+                        link-route="{{route('setting.role')}}"
+                        description="Pengaturan hak akses seperti membuat pengguna baru dan role serta memberikan permission terhadap role."
                     />
                 </div>
             </div>

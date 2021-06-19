@@ -13,6 +13,6 @@ class MasterDatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(AdminTableSeederTableSeeder::class);
+        // 
     }
 }

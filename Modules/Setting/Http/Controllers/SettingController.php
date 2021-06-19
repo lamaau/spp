@@ -21,6 +21,13 @@ class SettingController extends Controller
         ]);
     }
 
+    public function role()
+    {
+        return view('setting::role.index', [
+            'title' => 'Hak akses'
+        ]);
+    }
+
     public function general(SettingRepository $setting)
     {
         return view('setting::general.index', [

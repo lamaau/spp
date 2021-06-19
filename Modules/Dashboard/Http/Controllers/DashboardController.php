@@ -3,6 +3,7 @@
 namespace Modules\Dashboard\Http\Controllers;
 
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Modules\Master\Repository\BillRepository;
 use Modules\Report\Repository\IncomeRepository;
 use Modules\Master\Repository\StudentRepository;
@@ -15,7 +16,7 @@ class DashboardController extends Controller
         StudentRepository $student,
         IncomeRepository $income,
         SpendingRepository $spending
-    ) {        
+    ) {
         return view('dashboard::index', [
             'title' => 'Dashboard',
             'bill' => $bill->all()->count(),

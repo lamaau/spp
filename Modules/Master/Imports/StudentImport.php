@@ -11,6 +11,7 @@ use Modules\Master\Constants\SexConstant;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Imports\Traits\DocumentEventHandler;
+use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
@@ -62,6 +63,7 @@ class StudentImport implements ToCollection, ShouldQueue, WithValidation, WithSt
                         'nis' => $rows[$key][2],
                         'nisn' => $rows[$key][3],
                         'email' => $rows[$key][4],
+                        'password' => Hash::make($rows[$key][2]),
                         'phone' => $rows[$key][5],
                         'status' => StudentConstant::ACTIVE,
                         'religion' => ReligionConstant::key($rows[$key][6]),

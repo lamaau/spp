@@ -1,13 +1,15 @@
 <?php
 
-namespace Modules\Master\Database\Seeders;
+namespace Database\Seeders;
 
+use App\Entities\Role;
+use App\Entities\Permission;
 use Illuminate\Database\Seeder;
 use Modules\Master\Entities\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Model;
 
-class AdminTableSeederTableSeeder extends Seeder
+class UserTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,11 +20,16 @@ class AdminTableSeederTableSeeder extends Seeder
     {
         Model::unguard();
 
-        User::create([
+        $role = Role::create(['name' => 'Super Admin', 'guard_name' => 'web']);
+        $role->givePermissionTo(Permission::all());
+
+        $user = User::create([
             'name' => 'Admin',
             'email' => 'admin@domain.com',
             'password' => Hash::make('secret'),
             'email_verified_at' => now(),
         ]);
+
+        $user->assignRole('Super Admin');
     }
 }
