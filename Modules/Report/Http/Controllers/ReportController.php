@@ -38,7 +38,7 @@ class ReportController extends Controller
     public function finance(): Renderable
     {        
         return view('report::finance.index', [
-            'title' => 'Keuangan',
+            'title' => 'Laporan Keuangan',
             'bills' => $this->bill->all()->orderBy('payments_sum_pay', 'desc')->get(),
             'stats' => [
                 'daily' => $this->income->dailyPercentage(),
@@ -52,7 +52,7 @@ class ReportController extends Controller
     public function student(): Renderable
     {
         return view('report::student.index', [
-            'title' => 'Siswa',
+            'title' => 'Laporan Siswa',
             'students' => $this->student->groupByStatusCount(),
         ]);
     }

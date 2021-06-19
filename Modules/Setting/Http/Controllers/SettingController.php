@@ -2,7 +2,6 @@
 
 namespace Modules\Setting\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Constants\SchoolLevel;
 use Illuminate\Routing\Controller;
 use Illuminate\Contracts\Support\Renderable;

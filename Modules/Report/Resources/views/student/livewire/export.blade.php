@@ -8,7 +8,7 @@
             <div class="form-group custom-select-icon">
                 <div wire:ignore>
                     <label>Kelas <small class="text-danger">*</small></label>
-                    <select name="room" id="room" class="form-control custom-select">
+                    <select name="room" id="room" wire:model.lazy="room" class="form-control custom-select">
                         <option></option>
                         <option value="*">Semua</option>
                         @foreach ($rooms as $room)
@@ -24,7 +24,7 @@
                 <label>Status Siswa <small class="text-danger">*</small></label>
                 @foreach ($constants as $index => $item)
                     <div class="custom-control custom-checkbox mt-2">
-                        <input type="checkbox" wire:model="statues" value="{{ $index }}" name="statues" class="custom-control-input" id="checkbox-{{$index}}">
+                        <input type="checkbox" wire:model.lazy="statues" value="{{ $index }}" name="statues" class="custom-control-input" id="checkbox-{{$index}}">
                         <label class="custom-control-label" for="checkbox-{{$index}}">{{ $item }}</label>
                     </div>
                 @endforeach

@@ -1,5 +1,5 @@
 <x-app-layout :title="$title">
-    <livewire:export-student />
+    <livewire:export />
     
     <section class="section">
         <div class="section-header">
@@ -30,6 +30,12 @@
         <div class="row">
             <div class="col-12">
                 <livewire:student-chart />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                {{-- <livewire:student-chart /> --}}
             </div>
         </div>
     </section>

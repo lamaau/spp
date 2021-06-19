@@ -16,6 +16,7 @@ class ComposerServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer([
+            'livewire.auth.login',
             'layouts.includes.sidebar',
             'layouts.includes.pdf.cop',
             'layouts.includes.pdf.ttd',

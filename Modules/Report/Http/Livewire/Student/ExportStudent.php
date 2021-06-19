@@ -43,7 +43,7 @@ class ExportStudent extends Component
 
     public function render()
     {
-        return view('report::student.livewire.export-student', [
+        return view('report::student.livewire.export', [
             'rooms' => Room::query()->select(['id', 'name'])->get(),
             'constants' => StudentConstant::labels(),
         ]);

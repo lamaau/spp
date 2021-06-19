@@ -166,7 +166,6 @@ return [
          * Package Service Providers...
          */
         Barryvdh\DomPDF\ServiceProvider::class,
-        App\Providers\RegionalServiceProvider::class,
         /*
          * Application Service Providers...
          */

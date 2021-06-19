@@ -15,7 +15,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->register(MacroServiceProvider::class);
         $this->app->register(LivewireServiceProvider::class);
     }
 
