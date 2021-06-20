@@ -2,6 +2,7 @@
 
 namespace Modules\Setting\Http\Controllers;
 
+use App\Entities\Role;
 use App\Constants\SchoolLevel;
 use Illuminate\Routing\Controller;
 use Illuminate\Contracts\Support\Renderable;
@@ -20,19 +21,27 @@ class SettingController extends Controller
         ]);
     }
 
-    public function role()
-    {
-        return view('setting::role.index', [
-            'title' => 'Hak akses'
-        ]);
-    }
-
     public function general(SettingRepository $setting)
     {
         return view('setting::general.index', [
-            'title' => 'Umum',
+            'title' => 'Pengaturan Umum',
             'setting' => $setting->general(),
             'levels' => SchoolLevel::labels(),
+        ]);
+    }
+
+    public function role()
+    {        
+        return view('setting::role.role-permission', [
+            'title' => 'Pengaturan Hak akses'
+        ]);
+    }
+
+    public function operator()
+    {
+        return view('setting::role.operator', [
+            'title' => 'Kelola Pengguna',
+            'roles' => Role::withoutSuperAdmin()->get()->toArray()
         ]);
     }
 }

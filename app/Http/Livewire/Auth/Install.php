@@ -4,7 +4,6 @@ namespace App\Http\Livewire\Auth;
 
 use Livewire\Component;
 use App\Constants\SchoolLevel;
-use App\Http\Livewire\Traits\Regional;
 use Livewire\WithFileUploads;
 
 class Install extends Component

@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Auth;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Modules\Master\Constants\StudentConstant;
+use Modules\Setting\Constants\UserConstant;
 
 class Login extends Component
 {
@@ -26,18 +27,10 @@ class Login extends Component
     {
         $this->validate();
 
-        request()->session()->regenerate();
+        $credentials = ['email' => $this->email, 'password' => $this->password, 'status' => UserConstant::ACTIVE];
 
-        $credentials = ['email' => $this->email, 'password' => $this->password];
-
-        if (Auth::guard('web')->attempt($credentials, $this->remember)) {
+        if (Auth::attempt($credentials, $this->remember)) {
             return redirect()->intended(route('dashboard'));
-        }
-
-        if (Auth::guard('student')->attempt(array_merge($credentials, [
-            'status' => StudentConstant::ACTIVE,
-        ]), $this->remember)) {
-            return redirect()->intended(route('u.dashboard'));
         }
 
         return $this->addError('email', trans('auth.failed'));

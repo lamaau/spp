@@ -5,7 +5,6 @@ use App\Http\Livewire\Auth\Install;
 use App\Http\Middleware\NotInstalled;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LogoutController;
-use App\Http\Middleware\PreventBackHistory;
 
 Route::middleware(['auth', 'verified', NotInstalled::class])->group(function () {
     Route::get('install', Install::class)->name('install');

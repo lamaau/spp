@@ -26,7 +26,7 @@ class RolePermissionTableSeeder extends Seeder
         Permission::create(['module' => 'payment', 'name' => 'manage_payment', 'display_name' => 'Kelola Pembayaran']);
 
         // data setting and report -------------------
-        Permission::create(['module' => 'setting', 'name' => 'view_setting', 'display_name' => 'Lihat Pengaturan']);
+        Permission::create(['module' => 'setting', 'name' => 'manage_setting', 'display_name' => 'Kelola Pengaturan']);
         Permission::create(['module' => 'report', 'name' => 'view_report', 'display_name' => 'Lihat Laporan']);
     }
 }

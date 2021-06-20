@@ -6,11 +6,6 @@
                 <a href="{{ url('/') }}">{{ $setting->name }}</a>
             </center>
         </div>
-        {{-- <div class="sidebar-brand sidebar-brand-sm">
-            <a href="{{ route('dashboard') }}">
-                <i class="fad fa-home"></i>
-            </a>
-        </div> --}}
         <ul class="sidebar-menu">
             <li class="{{ active('dashboard') }}">
                 <a class="nav-link" href="{{ route('dashboard') }}">
@@ -18,96 +13,99 @@
                     <span>Dashboard</span>
                 </a>
             </li>
+            
+            @canany(['manage_room', 'manage_school_year', 'manage_student', 'manage_bill', 'manage_document'], Auth::user())
+                <li class="menu-header">Data Master</li>
+            @endcanany
 
-            <li class="menu-header">Data Master</li>
+            @can('manage_room', Auth::user())
+                <li class="{{ active('room') }}">
+                    <a class="nav-link" href="{{ route('master.room.index') }}">
+                        <i class="fad fa-building"></i>
+                        <span>Kelas</span>
+                    </a>
+                </li>
+            @endcan
 
-            <li class="{{ active('room') }}">
-                <a class="nav-link" href="{{ route('master.room.index') }}">
-                    <i class="fad fa-building"></i>
-                    <span>Kelas</span>
-                </a>
-            </li>
+            @can('manage_school_year', Auth::user())
+                <li class="{{ active('school-year') }}">
+                    <a class="nav-link" href="{{ route('master.school-year.index') }}">
+                        <i class="fad fa-flag"></i>
+                        <span>Tahun Ajaran</span>
+                    </a>
+                </li>
+            @endcan
 
-            <li class="{{ active('school-year') }}">
-                <a class="nav-link" href="{{ route('master.school-year.index') }}">
-                    <i class="fad fa-flag"></i>
-                    <span>Tahun Ajaran</span>
-                </a>
-            </li>
+            @can('manage_student', Auth::user())
+                <li class="{{ active('student*') }}">
+                    <a class="nav-link" href="{{ route('master.student.index') }}">
+                        <i class="fad fa-users"></i>
+                        <span>Siswa</span>
+                    </a>
+                </li>
+            @endcan
 
-            <li class="{{ active('student*') }}">
-                <a class="nav-link" href="{{ route('master.student.index') }}">
-                    <i class="fad fa-users"></i>
-                    <span>Siswa</span>
-                </a>
-            </li>
+            @can('manage_bill', Auth::user())
+                <li class="{{ active('bill*') }}">
+                    <a class="nav-link" href="{{ route('master.bill.index') }}">
+                        <i class="fad fa-balance-scale"></i>
+                        <span>Tagihan</span>
+                    </a>
+                </li>
+            @endcan
 
-            <li class="{{ active('bill*') }}">
-                <a class="nav-link" href="{{ route('master.bill.index') }}">
-                    <i class="fad fa-balance-scale"></i>
-                    <span>Tagihan</span>
-                </a>
-            </li>
+            @can('manage_document', Auth::user())
+                <li class="{{ active('document') }}">
+                    <a class="nav-link" href="{{ route('document.index') }}">
+                        <i class="fad fa-file-alt"></i>
+                        <span>Dokumen</span>
+                    </a>
+                </li>
+            @endcan
 
-            <li class="{{ active('document') }}">
-                <a class="nav-link" href="{{ route('document.index') }}">
-                    <i class="fad fa-file-alt"></i>
-                    <span>Dokumen</span>
-                </a>
-            </li>
+            @canany(['manage_payment', 'manage_spending'], Auth::user())
+                <li class="menu-header">Keuangan</li>
+            @endcanany
 
-            <li class="menu-header">Keuangan</li>
+            @can('manage_spending', Auth::user())
+                <li class="{{ active('spending*') }}">
+                    <a class="nav-link" href="{{ route('spending.index') }}">
+                        <i class="fad fa-money-bill-alt"></i>
+                        <span>Pengeluaran</span>
+                    </a>
+                </li>
+            @endcan
 
-            <li class="{{ active('spending*') }}">
-                <a class="nav-link" href="{{ route('spending.index') }}">
-                    <i class="fad fa-money-bill-alt"></i>
-                    <span>Pengeluaran</span>
-                </a>
-            </li>
+            @can('manage_payment', Auth::user())
+                <li class="{{ active('payment*') }}">
+                    <a class="nav-link" href="{{ route('payment.index') }}">
+                        <i class="fad fa-money-bill-alt"></i>
+                        <span>Pembayaran</span>
+                    </a>
+                </li>
+            @endcan
 
-            <li class="{{ active('payment*') }}">
-                <a class="nav-link" href="{{ route('payment.index') }}">
-                    <i class="fad fa-money-bill-alt"></i>
-                    <span>Pembayaran</span>
-                </a>
-            </li>
+            @canany(['view_report', 'manage_setting'], Auth::user())
+                <li class="menu-header">Ekstra</li>
+            @endcanany
 
-            {{-- <li class="menu-header">Website</li>
+            @can('view_report', Auth::user())
+                <li class="{{ active('report*') }}">
+                    <a class="nav-link" href="{{ route('report.index') }}">
+                        <i class="fad fa-chart-pie"></i>
+                        <span>Laporan</span>
+                    </a>
+                </li>
+            @endcan
 
-            <li class="#">
-                <a class="nav-link" href="#">
-                    <i class="fad fa-fire"></i>
-                    <span>Blog</span>
-                </a>
-            </li>
-            <li class="#">
-                <a class="nav-link" href="#">
-                    <i class="fad fa-fire"></i>
-                    <span>Event</span>
-                </a>
-            </li>
-            <li class="#">
-                <a class="nav-link" href="#">
-                    <i class="fad fa-fire"></i>
-                    <span>Siswa Baru</span>
-                </a>
-            </li> --}}
-
-            <li class="menu-header">Ekstra</li>
-
-            <li class="{{ active('report*') }}">
-                <a class="nav-link" href="{{ route('report.index') }}">
-                    <i class="fad fa-chart-pie"></i>
-                    <span>Laporan</span>
-                </a>
-            </li>
-
-            <li class="{{ active('setting*') }}">
-                <a class="nav-link" href="{{ route('setting.index') }}">
-                    <i class="fad fa-cog"></i>
-                    <span>Pengaturan</span>
-                </a>
-            </li>
+            @can('manage_setting', Auth::user())
+                <li class="{{ active('setting*') }}">
+                    <a class="nav-link" href="{{ route('setting.index') }}">
+                        <i class="fad fa-cog"></i>
+                        <span>Pengaturan</span>
+                    </a>
+                </li>
+            @endcan
         </ul>
         <div class="p-3 mt-4 mb-4 hide-sidebar-mini">
             <a href="#" class="btn btn-primary btn-lg btn-block">

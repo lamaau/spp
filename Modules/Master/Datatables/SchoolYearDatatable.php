@@ -147,7 +147,7 @@ class SchoolYearDatatable extends TableComponent
 
     public function query(): Builder
     {
-        return SchoolYear::query();
+        return SchoolYear::query()->withCount('payments');
     }
 
     public function columns(): array
@@ -161,6 +161,11 @@ class SchoolYearDatatable extends TableComponent
                 ->searchable()
                 ->format(function (SchoolYear $model) {
                     return $model->description ?? '-';
+                }),
+            Column::make('jumlah transaksi', 'payments_count')
+                ->searchable()
+                ->format(function (SchoolYear $model) {
+                    return $model->payments_count;
                 }),
             Column::make('tanggal', 'created_at')
                 ->sortable()

@@ -20,16 +20,24 @@ class UserTableSeeder extends Seeder
     {
         Model::unguard();
 
-        $role = Role::create(['name' => 'Super Admin', 'guard_name' => 'web']);
-        $role->givePermissionTo(Permission::all());
+        $superadmin = Role::create(['name' => 'Super Admin', 'guard_name' => 'web']);
+        $superadmin->givePermissionTo(Permission::all());
 
-        $user = User::create([
+        $operator = Role::create(['name' => 'Operator', 'guard_name' => 'web']);
+        $operator->givePermissionTo(Permission::where('module', 'payment')->get());
+
+        User::create([
             'name' => 'Admin',
             'email' => 'admin@domain.com',
             'password' => Hash::make('secret'),
             'email_verified_at' => now(),
-        ]);
+        ])->assignRole('Super Admin');
 
-        $user->assignRole('Super Admin');
+        User::create([
+            'name' => 'Operator',
+            'email' => 'operator@domain.com',
+            'password' => Hash::make('secret'),
+            'email_verified_at' => now(),
+        ])->assignRole('Operator');
     }
 }

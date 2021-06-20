@@ -2,10 +2,11 @@
 
 namespace Modules\Setting\Http\Livewire;
 
-use App\Constants\DefaultRole;
 use Livewire\Component;
 use App\Entities\Permission;
+use App\Constants\DefaultRole;
 use App\Datatables\Traits\Notify;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -26,17 +27,26 @@ class RoleTable extends Component
     public function deleteRole($id, $password)
     {
         if (Hash::check($password, Auth::user()->password)) {
-            $role = Role::findById($id);
+            DB::beginTransaction();
+            try {
+                $role = Role::findById($id);
 
-            if (in_array($role->name, DefaultRole::labels())) {
-                return $this->error('', 'Role yang dipilih tidak valid.');
-            }
+                if (in_array($role->name, DefaultRole::labels())) {
+                    return $this->error('', 'Role yang dipilih tidak valid.');
+                }
 
-            if ($role->delete()) {
+                $role->users()->each(function ($query) {
+                    $query->delete();
+                });
+
+                $role->delete();
+
+                DB::commit();
                 return $this->success('Berhasil!', 'Role telah dihapus.');
+            } catch (\Throwable $th) {
+                DB::rollBack();
+                return $this->error('Oopss!', 'Maaf, terjadi kesalahan.');
             }
-
-            return $this->error('Oopss!', 'Maaf, terjadi kesalahan.');
         }
 
         return $this->error('', 'Password yang anda masukan salah.');

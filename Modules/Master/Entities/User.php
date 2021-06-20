@@ -25,6 +25,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'status',
+        'email_verified_at'
     ];
 
     /**
@@ -46,6 +48,13 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    public function scopeWithoutSuperAdmin($query)
+    {
+        return $query->whereHas('roles', function($query) {
+            $query->where('name', '<>', 'Super Admin');
+        });
+    }
+    
     protected static function newFactory()
     {
         return \Modules\Master\Database\Factories\UserFactory::new();
