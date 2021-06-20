@@ -4,6 +4,7 @@ namespace Modules\Setting\Providers;
 
 use Livewire\Livewire;
 use Illuminate\Support\ServiceProvider;
+use Modules\Setting\Datatables\LogDatatable;
 use Modules\Setting\Http\Livewire\General;
 use Modules\Setting\Http\Livewire\RoleForm;
 use Modules\Setting\Http\Livewire\RoleTable;
@@ -22,5 +23,7 @@ class LivewireServiceProvider extends ServiceProvider
         Livewire::component('role-table', RoleTable::class);
         Livewire::component('general-setting', General::class);
         Livewire::component('operator-datatable', OperatorDatatable::class);
+        // log
+        Livewire::component('log-datatable', LogDatatable::class);
     }
 }
