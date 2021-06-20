@@ -228,7 +228,6 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         // 
         'DOMPDF' => Barryvdh\DomPDF\Facade::class,
-        'Regional' => App\Facades\RegionalFacade::class,
     ],
 
 ];

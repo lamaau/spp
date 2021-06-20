@@ -41,11 +41,6 @@ return [
             'provider' => 'users',
         ],
 
-        'student' => [
-            'driver' => 'session',
-            'provider' => 'students'
-        ],
-
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
@@ -75,11 +70,6 @@ return [
             'driver' => 'eloquent',
             'model' => Modules\Master\Entities\User::class,
         ],
-
-        'students' => [
-            'driver' => 'eloquent',
-            'model' => Modules\Master\Entities\Student::class,
-        ],
     ],
 
     /*
@@ -100,12 +90,6 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
-            'table' => 'password_resets',
-            'expire' => 60,
-            'throttle' => 60,
-        ],
-        'student' => [
-            'provider' => 'students',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,

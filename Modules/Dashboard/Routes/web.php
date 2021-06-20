@@ -1,13 +1,8 @@
 <?php
 
+use App\Http\Middleware\Installed;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth:web'])->group(function () {
+Route::middleware(['auth', Installed::class])->group(function () {
     Route::get('dashboard', DashboardController::class)->name('dashboard');
-});
-
-Route::middleware('auth:student')->prefix('u')->group(function() {
-    Route::get('dashboard', function() {
-        return 'its here';
-    })->name('u.dashboard');
 });

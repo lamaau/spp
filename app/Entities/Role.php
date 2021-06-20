@@ -26,6 +26,11 @@ class Role extends Model implements RoleContract
         parent::__construct($attributes);
     }
 
+    public static function withoutSuperAdmin()
+    {
+        return self::where('name', '<>', 'Super Admin');
+    }
+
     public function getTable()
     {
         return config('permission.table_names.roles', parent::getTable());

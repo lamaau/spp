@@ -18,17 +18,21 @@
                             <td>{{ ++$i }}</td>
                             <td>{{ $role->name }}</td>
                             <td>
-                                <button wire:click.prevent="$emit('deleteRole', '{{ $role->id }}')"
-                                    class="btn btn-sm btn-danger">
-                                    <i class="fad fa-trash"></i>
-                                </button>
+                                @if ($role->name !== 'Super Admin')
+                                    <button wire:click.prevent="$emit('deleteRole', '{{ $role->id }}')"
+                                        class="btn btn-sm btn-danger">
+                                        <i class="fad fa-trash"></i>
+                                    </button>
+                                @endif
                                 <button class="btn btn-sm btn-info" data-toggle="collapse"
                                     data-target="#table-detail-{{ $i }}">
                                     <i class="fad fa-eye"></i>
                                 </button>
-                                <button class="btn btn-sm btn-warning" wire:click.prevent="edit('{{ $role->id }}')">
-                                    <i class="fad fa-circle-notch fa-spiner" wire:loading></i><i class="fad fa-pencil" wire:loading.remove></i>
-                                </button>
+                                @if ($role->name !== 'Super Admin')
+                                    <button class="btn btn-sm btn-warning" wire:click.prevent="edit('{{ $role->id }}')">
+                                        <i class="fad fa-circle-notch fa-spiner" wire:loading></i><i class="fad fa-pencil" wire:loading.remove></i>
+                                    </button> 
+                                @endif
                             </td>
                         </tr>
                         <tr>
@@ -39,7 +43,9 @@
                                             <tr class="info">
                                                 <th style="width: 20px;">No</th>
                                                 <th>Hak Akses</th>
-                                                <th style="width: 13em;">Aksi</th>
+                                                @if ($role->name !== 'Super Admin')
+                                                    <th style="width: 13em;">Aksi</th>
+                                                @endif
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -47,13 +53,15 @@
                                                 <tr>
                                                     <td>{{ ++$k }}</td>
                                                     <td>{{ $item->display_name }}</td>
-                                                    <td>
-                                                        <button
-                                                            wire:click.prevent="$emit('deletePermission', '{{ $item->id }}')"
-                                                            class="btn btn-sm btn-danger">
-                                                            <i class="fad fa-trash"></i>
-                                                        </button>
-                                                    </td>
+                                                    @if ($role->name !== 'Super Admin')
+                                                        <td>
+                                                            <button
+                                                                wire:click.prevent="$emit('deletePermission', '{{ $item->id }}')"
+                                                                class="btn btn-sm btn-danger">
+                                                                <i class="fad fa-trash"></i>
+                                                            </button>
+                                                        </td>
+                                                    @endif
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -77,7 +85,7 @@
                 Livewire.on('deleteRole', (id) => {
                     CustomDeleteSwall({
                         title: "Apakah anda yakin?",
-                        message: "User yang menggunakan role ini tidak akan memiliki akses",
+                        message: "User yang menggunakan akun dihapus secara permanen",
                     }, (event) => {
                         if (event.isConfirmed) {
                             @this.call('deleteRole', id, event.value);

@@ -4,8 +4,10 @@ namespace Modules\Setting\Providers;
 
 use Livewire\Livewire;
 use Illuminate\Support\ServiceProvider;
+use Modules\Setting\Http\Livewire\General;
 use Modules\Setting\Http\Livewire\RoleForm;
 use Modules\Setting\Http\Livewire\RoleTable;
+use Modules\Setting\Datatables\OperatorDatatable;
 
 class LivewireServiceProvider extends ServiceProvider
 {
@@ -16,10 +18,9 @@ class LivewireServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        Livewire::component('mail-setting', \Modules\Setting\Http\Livewire\Mail::class);
-        Livewire::component('pusher-setting', \Modules\Setting\Http\Livewire\Pusher::class);
-        Livewire::component('general-setting', \Modules\Setting\Http\Livewire\General::class);
-        Livewire::component('role-table', RoleTable::class);
         Livewire::component('role-form', RoleForm::class);
+        Livewire::component('role-table', RoleTable::class);
+        Livewire::component('general-setting', General::class);
+        Livewire::component('operator-datatable', OperatorDatatable::class);
     }
 }

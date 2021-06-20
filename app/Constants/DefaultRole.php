@@ -8,6 +8,6 @@ class DefaultRole extends Constants
 {
     public static function labels(): array
     {
-        return ['Admin', 'Siswa'];
+        return ['Super Admin'];
     }
 }

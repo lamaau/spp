@@ -30,8 +30,15 @@ class StudentController extends Controller
     public function settingRoom(): Renderable
     {
         return view('master::student.room.index', [
-            'title' => 'Atur Kelas',
+            'title' => 'Kelola Kenaikan Kelas',
             'rooms' => $this->room->all(),
+        ]);
+    }
+
+    public function settingStatus()
+    {
+        return view('master::student.status.index', [
+            'title' => 'Kelola Status'
         ]);
     }
 
