@@ -2,8 +2,9 @@
 
 namespace Modules\Master\Observer;
 
-use Illuminate\Support\Facades\Auth;
+use App\Entities\Activity;
 use Modules\Master\Entities\Room;
+use Illuminate\Support\Facades\Auth;
 
 class RoomObserver
 {
@@ -12,6 +13,8 @@ class RoomObserver
         $model->fill([
             'created_by' => Auth::id(),
         ]);
+
+        Activity::record("Tambah Kelas", ['original' => $model]);
     }
 
     public function updating(Room $model)
@@ -19,10 +22,14 @@ class RoomObserver
         $model->fill([
             'updated_by' => Auth::id(),
         ]);
+
+        Activity::record("Ubah Kelas", Activity::parse($model->getDirty(), $model->getOriginal()));
     }
 
     public function deleting(Room $model)
     {
+        Activity::record("Hapus Kelas", ['original' => $model->fill(['deleted_by' => Auth::id()])]);
+
         if (property_exists($model, 'unique') && is_array($model->unique)) {
             foreach ($model->unique as $key) {
                 $tmp[$key] = uniqid() . "::" . $model->{$key};
@@ -32,7 +39,9 @@ class RoomObserver
                 'deleted_by' => Auth::id(),
             ]);
 
-            $model->update($result);
+            $model->withoutEvents(function () use ($model, $result) {
+                $model->update($result);
+            });
         }
 
         /** delete all related student */

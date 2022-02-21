@@ -106,6 +106,16 @@
                     </a>
                 </li>
             @endcan
+
+            <li class="menu-header">Log</li>
+            
+            <li class="{{ active('log/activity') }}">
+                <a class="nav-link" href="{{ route('log.activity') }}">
+                    <i class="fad fa-bolt"></i>
+                    <span>Aktifitas</span>
+                </a>
+            </li>
+            
         </ul>
         <div class="p-3 mt-4 mb-4 hide-sidebar-mini">
             <a href="#" class="btn btn-primary btn-lg btn-block">
