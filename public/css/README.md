@@ -1,1 +1,0 @@
-Beberapa file dalam folder ini digenerate dari webpack

@@ -1,0 +1,8 @@
+@import "tailwindcss/base";
+
+@import "tailwindcss/components";
+@import "./animation.css";
+
+@import "tailwindcss/utilities";
+
+@import "@vueform/multiselect/themes/default.css";

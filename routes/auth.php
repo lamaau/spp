@@ -1,20 +1,15 @@
 <?php
 
-use App\Http\Livewire\Auth\Login;
-use App\Http\Livewire\Auth\Install;
-use App\Http\Middleware\NotInstalled;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Auth\LoginController;
 
-Route::middleware(['auth', 'verified', NotInstalled::class])->group(function () {
-    Route::get('install', Install::class)->name('install');
-});
+Route::get('login', [LoginController::class, 'create'])
+    ->name('login')
+    ->middleware('guest');
 
-Route::middleware('guest')->group(function () {
-    Route::get('/', Login::class);
-    Route::get('login', Login::class)->name('login');
-});
+Route::post('login', [LoginController::class, 'store'])
+    ->name('login.store')
+    ->middleware('guest');
 
-Route::middleware('auth')->group(function () {
-    Route::post('logout', LogoutController::class)->name('logout');
-});
+Route::delete('logout', [LoginController::class, 'destroy'])
+    ->name('logout');

@@ -1,9 +1,19 @@
+const process = require("process");
 const mix = require("laravel-mix");
+const cssImport = require("postcss-import");
+const cssNesting = require("postcss-nesting");
+const webpackConfig = require("./webpack.config");
 
-mix.js("resources/js/app.js", "public/js")
-    .sass("resources/sass/app.scss", "public/css")
-    .copyDirectory('node_modules/@fortawesome/fontawesome-free/webfonts', 'public/webfonts')
-    .copyDirectory('node_modules/bs4-summernote/src/icons', 'public/css/icons')
-    .copyDirectory('node_modules/bs4-summernote/dist/font', 'public/css/fonts/summernote')
-    .combine('resources/css/*.css', 'public/css/template.css')
-    .version();
+mix
+  .js("resources/js/app.js", "public/js")
+  .vue({
+    runtimeOnly: (process.env.NODE_ENV || "production") === "production",
+  })
+  .webpackConfig(webpackConfig)
+  .postCss("resources/css/app.css", "public/css", [
+    cssImport(),
+    cssNesting(),
+    require("tailwindcss"),
+  ])
+  .version()
+  .sourceMaps();

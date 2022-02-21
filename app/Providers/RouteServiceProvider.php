@@ -2,11 +2,11 @@
 
 namespace App\Providers;
 
-use Illuminate\Cache\RateLimiting\Limit;
-use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -17,81 +17,35 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    const HOME = '/';
-
-    /**
-     * The controller namespace for the application.
-     *
-     * When present, controller route declarations will automatically be prefixed with this namespace.
-     *
-     * @var string|null
-     */
-    // protected $namespace = 'App\\Http\\Controllers';
+    public const HOME = '/dashboard';
 
     /**
      * Define your route model bindings, pattern filters, etc.
      *
      * @return void
      */
-    public function boot(): void
+    public function boot()
     {
-        $this->configureRateLimiting()->mapAuthRoutes()->mapWebRoutes()->mapApiRoutes();
-    }
+        $this->configureRateLimiting();
 
-    /**
-     * Tenant central api routes
-     *
-     * @return self
-     */
-    protected function mapApiRoutes(): self
-    {
-        Route::prefix('api')
-            ->middleware('api')
-            ->namespace($this->namespace)
-            ->group(base_path('routes/api.php'));
+        $this->routes(function () {
+            Route::middleware('web')->namespace($this->namespace)
+                ->group(base_path('routes/auth.php'));
 
-        return $this;
-    }
-
-    /**
-     * Web routes
-     *
-     * @return self
-     */
-    protected function mapWebRoutes(): self
-    {
-        Route::middleware('web')
-            ->namespace($this->namespace)
-            ->group(base_path('routes/web.php'));
-
-        return $this;
-    }
-
-    /**
-     * Auth routes
-     *
-     * @return self
-     */
-    protected function mapAuthRoutes(): self
-    {
-        Route::middleware('web')
-            ->namespace($this->namespace)
-            ->group(base_path('routes/auth.php'));
-
-        return $this;
+            Route::middleware(['web', 'auth'])->namespace($this->namespace)
+                ->group(base_path('routes/web.php'));
+        });
     }
 
     /**
      * Configure the rate limiters for the application.
      *
-     * @return self
+     * @return void
      */
-    protected function configureRateLimiting(): self
+    protected function configureRateLimiting()
     {
         RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
+            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
-
-        return $this;
     }
 }
