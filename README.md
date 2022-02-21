@@ -82,3 +82,5 @@ Jika ingin berkontribusi terhadap project ini, baik untuk membuat *Issue*, usula
 
 #### Report
 ![Report](docs/images/report.png)
+
+README dibuat dengan refrensi dari [@nafiesl](https://github.com/nafiesl)
