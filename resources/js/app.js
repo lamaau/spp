@@ -8,6 +8,8 @@ import { createInertiaApp } from "@inertiajs/inertia-vue3";
 import VueToast from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 
+import AppDialog from "~/lib/modal";
+
 InertiaProgress.init({
   showSpinner: true,
 });
@@ -26,15 +28,18 @@ createInertiaApp({
   },
   title: (title) => `${title} - SPP`,
   setup({ el, App, props, plugin }) {
-    const app = createApp({ render: () => h(App, props) }).use(plugin);
-
+    const app = createApp({ render: () => h(App, props) });
     app.config.productionTip = false;
+
+    app.use(plugin);
+
+    app.use(AppDialog);
+
+    app.use(globalComponent);
 
     app.use(VueToast, {
       position: "top-right",
     });
-
-    app.use(globalComponent);
 
     app.mount(el);
     return app;

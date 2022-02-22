@@ -7,7 +7,7 @@
           <label :for="`checkbox-${id}`" class="sr-only">checkbox</label>
         </div>
       </td>
-      <td class="p-4 whitespace-nowrap text-base font-medium text-gray-900">
+      <td v-else class="p-4 whitespace-nowrap text-base font-medium text-gray-900">
         {{ item[column.column] }}
       </td>
     </template>

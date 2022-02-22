@@ -2,10 +2,19 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\Eloquent;
+use App\Models\Concerns\WithUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class Room extends Model
+class Room extends Eloquent
 {
-    use HasFactory;
+    use WithUuid, HasFactory;
+
+    protected $fillable = [
+        'name',
+        'description',
+        'created_by',
+        'updated_by',
+        'deleted_by'
+    ];
 }

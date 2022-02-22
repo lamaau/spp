@@ -56,14 +56,14 @@ class CoreV1 extends Migration
         Schema::create('rooms', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
-            $table->tinyText('description');
+            $table->tinyText('description')->nullable();
             $table->commonFields();
         });
 
         Schema::create('years', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('year');
-            $table->tinyText('description');
+            $table->tinyText('description')->nullable();
             $table->commonFields();
         });
     }

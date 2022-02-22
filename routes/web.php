@@ -3,9 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\YearController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\Acl\UserController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ReportController;
 
 Route::get('/', DashboardController::class);
 Route::get('/dashboard', DashboardController::class);

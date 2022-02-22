@@ -21,10 +21,10 @@ class UserTable extends Inertable
     {
         return [
             Column::blank()->checkbox(),
-            Column::make('name')->sortable(),
-            Column::make('email')->sortable(),
-            Column::make('Verifikasi', 'email_verified_at')->sortable()->format(fn (Carbon $value): string => $value->format('d/m/Y')),
-            Column::make('status')->sortable(),
+            Column::make('name')->sortable()->searchable(),
+            Column::make('email')->sortable()->searchable(),
+            Column::make('Verifikasi', 'email_verified_at')->sortable()->searchable()->format(fn (Carbon $value): string => $value->format('d/m/Y')),
+            Column::make('status')->sortable()->searchable(),
             Column::blank(),
         ];
     }

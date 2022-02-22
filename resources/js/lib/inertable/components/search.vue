@@ -1,33 +1,19 @@
 <template>
-  <div class="relative text-gray-600 dark:text-cool-gray-500 focus-within:text-gray-400">
-    <span class="absolute inset-y-0 left-0 flex items-center pl-2">
-      <button type="button" class="p-1 focus:outline-none focus:shadow-outline">
-        <v-icon name="SearchIcon" type="outline" class="w-5 h-5" />
-      </button>
-    </span>
-    <input
-      name="q"
-      type="search"
-      autocomplete="off"
-      aria-label="search"
-      v-model="modelValue"
-      placeholder="Cari..."
-      @input="$emit('update:modelValue', $event.target.value)"
-      class="
-        py-2
-        pl-10
-        border
-        rounded-md
-        focus:ring-0
-        outline-none
-        appearance-none
-        border-gray-300
-        text-sm text-gray-800
-        focus:border-purple-500
-        dark:text-cool-gray-300 dark:placeholder:text-cool-gray-400 dark:bg-cool-gray-700 dark:border-cool-gray-500
-      "
-    />
-  </div>
+  <form class="lg:pr-3">
+    <label for="users-search" class="sr-only">Search</label>
+    <div class="mt-1 relative lg:w-64 xl:w-96">
+      <input
+        type="search"
+        name="email"
+        id="users-search"
+        autocomplete="off"
+        placeholder="Cari disini..."
+        v-model="modelValue"
+        @input="$emit('update:modelValue', $event.target.value)"
+        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+      />
+    </div>
+  </form>
 </template>
 <script>
 export default {

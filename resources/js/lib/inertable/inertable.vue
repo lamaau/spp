@@ -4,20 +4,9 @@
       <div class="mb-1 w-full">
         <div class="sm:flex">
           <div class="hidden sm:flex items-center sm:divide-x sm:divide-gray-100 mb-3 sm:mb-0">
-            <form class="lg:pr-3" action="#" method="GET">
-              <label for="users-search" class="sr-only">Search</label>
-              <div class="mt-1 relative lg:w-64 xl:w-96">
-                <input
-                  type="text"
-                  name="email"
-                  id="users-search"
-                  autocomplete="off"
-                  placeholder="Search for users"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                />
-              </div>
-            </form>
-            <div class="flex space-x-1 pl-0 sm:pl-2 mt-3 sm:mt-0">
+            <Search v-model="params.search" />
+
+            <!-- <div class="flex space-x-1 pl-0 sm:pl-2 mt-3 sm:mt-0">
               <a href="#" class="text-gray-500 hover:text-gray-900 cursor-pointer p-1 hover:bg-gray-100 rounded inline-flex justify-center">
                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -46,36 +35,36 @@
                   <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path>
                 </svg>
               </a>
-            </div>
+            </div> -->
           </div>
           <div class="flex items-center space-x-2 sm:space-x-3 ml-auto">
-            <button
-              type="button"
-              data-modal-toggle="add-user-modal"
-              class="
-                w-1/2
-                text-white
-                bg-cyan-600
-                hover:bg-cyan-700
-                focus:ring-4 focus:ring-cyan-200
-                font-medium
-                inline-flex
-                items-center
-                justify-center
-                rounded-lg
-                text-sm
-                px-3
-                py-2
-                text-center
-                sm:w-auto
-              "
-            >
-              <svg class="-ml-1 mr-2 h-6 w-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
-              </svg>
-              Add user
-            </button>
-            <a
+            <template v-for="(action, index) in actions" :key="index">
+              <button
+                type="button"
+                @click="$emit(action.emit)"
+                class="
+                  w-1/2
+                  text-white
+                  bg-cyan-600
+                  hover:bg-cyan-700
+                  focus:ring-4 focus:ring-cyan-200
+                  font-medium
+                  inline-flex
+                  items-center
+                  justify-center
+                  rounded-lg
+                  text-sm
+                  px-3
+                  py-2
+                  text-center
+                  sm:w-auto
+                "
+              >
+                <v-icon :name="action.icon" type="outline" class="-ml-1 h-6 w-6" />
+                {{ action.text }}
+              </button>
+            </template>
+            <!-- <a
               href="#"
               class="
                 w-1/2
@@ -104,7 +93,7 @@
                 ></path>
               </svg>
               Export
-            </a>
+            </a> -->
           </div>
         </div>
       </div>
@@ -113,7 +102,19 @@
       <div class="overflow-x-auto">
         <div class="align-middle inline-block min-w-full">
           <div class="shadow overflow-hidden">
-            <Table :data="data" />
+            <table class="table-fixed min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-100">
+                <Column :columns="data.columns" :params="params" @onSort="handleSort" />
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200" v-if="data.data.data.length">
+                <Row :columns="data.columns" :data="data.data" />
+              </tbody>
+              <tbody class="bg-white divide-y divide-gray-200" v-else>
+                <tr>
+                  <td class="text-center p-4" :colspan="data.columns.length">Kosong</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -124,16 +125,56 @@
   </main>
 </template>
 <script>
-import Table from "./components/table.vue";
+import { pickBy, throttle } from "lodash";
+import Row from "./components/row.vue";
+import Column from "./components/column.vue";
+import Search from "./components/search.vue";
 import Pagination from "./components/pagination.vue";
 
 export default {
   components: {
-    Table,
+    Row,
+    Column,
+    Search,
     Pagination,
   },
   props: {
     data: Object,
+    actions: [Array, Object],
+  },
+  data() {
+    const { filters } = this.data;
+
+    return {
+      filters: filters,
+      params: {
+        column: filters.column,
+        direction: filters.direction,
+        search: filters.search,
+        perpage: filters.perpage ?? 15,
+      },
+    };
+  },
+  methods: {
+    handleSort(column) {
+      if (!this.filters) return;
+
+      this.params.column = column;
+      this.params.direction = this.params.direction === "asc" ? "desc" : "asc";
+    },
+  },
+  watch: {
+    params: {
+      handler: throttle(function () {
+        let params = pickBy(this.params);
+
+        this.$inertia.get(`${window.location.pathname}`, params, {
+          replace: true,
+          preserveState: true,
+        });
+      }, 100),
+      deep: true,
+    },
   },
 };
 </script>

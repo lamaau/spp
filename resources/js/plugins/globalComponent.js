@@ -2,7 +2,7 @@
 import { Head, Link } from "@inertiajs/inertia-vue3";
 
 // headlessui
-import { MenuItem, MenuItems, MenuButton, Menu as MainMenu, Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
 
 // inertable
 import Inertable from "~/lib/inertable/inertable";
@@ -32,7 +32,7 @@ export default {
     app.component("v-app-link", Link);
 
     // inertable
-    app.component('v-inertable', Inertable);
+    app.component("v-inertable", Inertable);
 
     // common
     app.component("v-icon", Icon);
