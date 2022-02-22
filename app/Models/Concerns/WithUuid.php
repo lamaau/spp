@@ -6,9 +6,17 @@ namespace App\Models\Concerns;
 
 use Illuminate\Support\Str;
 
+/**
+ * With Uuid
+ */
 trait WithUuid
 {
-    protected static function bootWithUuid()
+    /**
+     * Boot
+     *
+     * @return void
+     */
+    protected static function boot()
     {
         parent::boot();
 
@@ -30,7 +38,7 @@ trait WithUuid
     }
 
     /**
-     * Set key type
+     * Set key type to string
      *
      * @return string
      */

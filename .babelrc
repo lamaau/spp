@@ -1,4 +1,5 @@
 {
+    // dynamic import but it's disabled now
     "plugins": [
         "@babel/plugin-syntax-dynamic-import"
     ]

@@ -1,17 +1,17 @@
 <template>
   <div :class="$attrs.class">
-    <label v-if="label" class="mb-2 block text-sm font-medium text-gray-900" :for="id">{{ label }}</label>
+    <label v-if="label" class="text-sm font-medium text-gray-900 block mb-2" :for="id">{{ label }}</label>
     <input
       :id="id"
       ref="input"
       :type="type"
       :value="modelValue"
       v-bind="{ ...$attrs, class: null }"
-      :class="{ 'border border-red-500': error }"
+      :class="{ 'border-red-500 border': error }"
       @input="$emit('update:modelValue', $event.target.value)"
-      class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-cyan-600 focus:ring-cyan-600 sm:text-sm"
+      class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
     />
-    <div v-if="error" class="mt-1 text-sm text-red-500">{{ error }}</div>
+    <div v-if="error" class="text-red-500 text-sm mt-1">{{ error }}</div>
   </div>
 </template>
 

@@ -1,8 +1,8 @@
 <template>
-  <div class="flex h-5 items-center">
-    <input :id="id" type="checkbox" class="focus:ring-3 h-4 w-4 rounded border-gray-300 bg-gray-50 focus:ring-cyan-200" />
+  <div class="flex items-center h-5">
+    <input :id="id" type="checkbox" class="bg-gray-50 border-gray-300 focus:ring-3 focus:ring-cyan-200 h-4 w-4 rounded" />
   </div>
-  <div class="ml-3 text-sm">
+  <div class="text-sm ml-3">
     <label :for="id" class="font-medium text-gray-900">
       {{ label }}
     </label>

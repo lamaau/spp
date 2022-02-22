@@ -1,86 +1,64 @@
-# Sistem Informasi Pembayaran SPP
-> *Mengelola pembayaran SPP dengan sistem informasi.*
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
-Sistem Informasi Pembayaran SPP dibuat dengan Framework **Laravel 8** dan **Livewire 2**
+<p align="center">
+<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+</p>
 
-### Daftar Isi
-1. [Tentang Sistem Informasi SPP](#tentang)
-2. [Tujuan](#tujuan)
-3. [Cara Install](#cara-install)
-    - [Spesifikasi yang Dibutuhkan](#spesifikasi-minimum-server)
-    - [Tahap Install](#tahap-install)
-4. [Developer dan Kontributor](#developer-dan-kontributor)
-5. [Ingredients (Ramuan)](#ramuan)
-6. [Lisensi](#license)
-7. [Cara Berkontrobusi](#cara-berkontribusi)
-8. [Screenshots](#screenshots)
+## About Laravel
 
-***
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-## Tentang
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-**Sistem Informasi Pembayaran SPP** adalah software yang bertujuan untuk mempermudah pelayanan pembayaran pada sekolah. Software ini bisa digunakan untuk Sekolah Dasar/Sederajat, Sekolah Menengah Pertama/Sederajat, Sekolah Menengah Atas/Sederajat.
+Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Cara Install
-Software ini dapat dipasang dalam server lokal (PC/Laptop) dan server online, dengan spesifikasi berikut :
+## Learning Laravel
 
-#### Spesifikasi minimum server
-PHP >= 7.4 (dan memenuhi [server requirement Laravel 8.x](https://laravel.com/docs/8.x/deployment#server-requirements))
+Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-1. Clone Repo pada terminal : `git clone https://github.com/codegoen/spp-sekolahala.git`
-2. `$ cd spp-sekolahala`
-3. `$ composer install`
-4. `$ cp .env.example .env`
-5. `$ php artisan key:generate`
-6. Buat database pada MySQL untuk aplikasi ini
-7. Setting database pada file `.env`, pada variable `APP_DEMO` ubah menjadi false
-8. `$ php artisan migrate --seed`
-9. `$ php artisan storage:link`
-10. `$ php artisan serve`
-11. Kunjungi web : `http://localhost:8000/app-install`
-12. Login menggunakan email `admin@domain.com` dan password `secret`
-12. Isi formulir installasi.
-13. Selesai, Anda akan login sebagai Super Admin.
+If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-![Install Sistem Pembayaran SPP](docs/images/setup.png)
+## Laravel Sponsors
 
-## Developer dan Kontributor
+We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
 
-Project ini dikembangkan oleh [Rizkhal Lamaau](https://github.com/rizkhal) dan para [kontributor](https://github.com/codegoen/spp-sekolahal/graphs/contributors).
+### Premium Partners
 
-## Ramuan
+- **[Vehikl](https://vehikl.com/)**
+- **[Tighten Co.](https://tighten.co)**
+- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
+- **[64 Robots](https://64robots.com)**
+- **[Cubet Techno Labs](https://cubettech.com)**
+- **[Cyber-Duck](https://cyber-duck.co.uk)**
+- **[Many](https://www.many.co.uk)**
+- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
+- **[DevSquad](https://devsquad.com)**
+- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
+- **[OP.GG](https://op.gg)**
+- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
+- **[Lendio](https://lendio.com)**
 
-Software ini dibangun dengan penuh cinta dan dengan bahan dan dukungan dari paket-paket berikut ini:
+## Contributing
 
-##### Backend
-* [livewire](https://laravel-livewire.com/)
-* [maatwebsite/excel](https://laravel-excel.com/)
-* [nwidart/laravel-modules](https://nwidart.com/laravel-modules/v6/introduction)
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-##### Frontend
+## Code of Conduct
 
-* [stisla](https://getstisla.com/), Admin template.
-* [bootstrap4](https://getbootstrap.com/)
-* [font awesome premium](https://kit-pro.fontawesome.com/releases/v5.12.1/css/pro.min.css)
-* [font awesome free](https://www.npmjs.com/package/@fortawesome/fontawesome-free)
-* [select2](https://github.com/select2/select2)
-* [apexcharts](https://apexcharts.com/), Grafik laporan pemasukan dan pengeluaran
-* [sweetalert2](https://sweetalert2.github.io/)
+In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-## Lisensi
+## Security Vulnerabilities
 
-Project ini merupakan software free dan open source di bawah [lisensi MIT](LICENSE).
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-## Cara Berkontribusi
+## License
 
-Jika ingin berkontribusi terhadap project ini, baik untuk membuat *Issue*, usulan Fitur tambahan, *Pull Request*, maupun donasi, silakan melihat [panduan kontribusi](CONTRIBUTING.md).
-
-## Screenshots
-
-#### Transaksi
-![Transaksi](docs/images/transaction.png)
-
-#### Report
-![Report](docs/images/report.png)
-
-README dibuat dengan refrensi dari [@nafiesl](https://github.com/nafiesl)
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

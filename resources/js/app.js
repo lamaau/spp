@@ -24,7 +24,7 @@ createInertiaApp({
 
     return page;
   },
-  title: (title) => `${title} - Akunting`,
+  title: (title) => `${title} - SPP`,
   setup({ el, App, props, plugin }) {
     const app = createApp({ render: () => h(App, props) }).use(plugin);
 

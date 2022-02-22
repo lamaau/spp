@@ -14,7 +14,7 @@
     >
       <v-popover-panel
         :class="[position == 'right' ? 'right-0' : position == 'left' ? 'left-0' : position]"
-        class="dark:bg-cool-gray-600 absolute right-0 mt-2 min-w-[12rem] origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+        class="absolute right-0 min-w-[12rem] mt-2 origin-top-right py-1 bg-white dark:bg-cool-gray-600 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
       >
         <slot name="content" />
       </v-popover-panel>

@@ -29,10 +29,17 @@ class RouteServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
 
         $this->routes(function () {
-            Route::middleware('web')->namespace($this->namespace)
+            Route::prefix('api')
+                ->middleware('api')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/api.php'));
+
+            Route::middleware('web')->prefix('auth')
+                ->namespace($this->namespace)
                 ->group(base_path('routes/auth.php'));
 
-            Route::middleware(['web', 'auth'])->namespace($this->namespace)
+            Route::middleware(['web', 'auth'])
+                ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
         });
     }

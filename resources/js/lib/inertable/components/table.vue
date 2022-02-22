@@ -1,27 +1,29 @@
 <template>
-  <table class="min-w-full table-fixed divide-y divide-gray-200">
+  <table class="table-fixed min-w-full divide-y divide-gray-200">
     <thead class="bg-gray-100">
-      <tr>
-        <Column />
-      </tr>
+      <Column :columns="data.columns" :filters="data.filters" />
     </thead>
-    <tbody class="divide-y divide-gray-200 bg-white">
-      <Row />
+    <tbody class="bg-white divide-y divide-gray-200" v-if="data.data.data.length">
+      <Row :columns="data.columns" :data="data.data" />
+    </tbody>
+    <tbody class="bg-white divide-y divide-gray-200" v-else>
+      <tr>
+        <td class="text-center p-4" :colspan="data.columns.length">Kosong</td>
+      </tr>
     </tbody>
   </table>
 </template>
 <script>
 import Row from "./row.vue";
 import Column from "./column.vue";
-import { defineComponent } from "vue";
 
-export default defineComponent({
-  setup() {
-    //
-  },
+export default {
   components: {
     Row,
     Column,
   },
-});
+  props: {
+    data: Object,
+  },
+};
 </script>

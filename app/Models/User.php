@@ -5,35 +5,35 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Concerns\WithUuid;
-use Spatie\Permission\Traits\HasRoles;
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable
 {
-    use HasFactory,
+    use HasApiTokens,
+        HasFactory,
         Notifiable,
         WithUuid;
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $fillable = [
         'name',
         'email',
         'password',
-        'status',
-        'email_verified_at'
     ];
 
     /**
-     * The attributes that should be hidden for arrays.
+     * The attributes that should be hidden for serialization.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $hidden = [
         'password',
@@ -41,23 +41,27 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
-     * The attributes that should be cast to native types.
+     * The attributes that should be cast.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
-    public function scopeWithoutSuperAdmin($query)
+    /**
+     * Get morph to many relations companies
+     *
+     * @return MorphToMany
+     */
+    public function companies(): MorphToMany
     {
-        return $query->whereHas('roles', function ($query) {
-            $query->where('name', '<>', 'Super Admin');
-        });
-    }
-
-    protected static function newFactory()
-    {
-        return \Modules\Master\Database\Factories\UserFactory::new();
+        return $this->morphToMany(
+            Company::class,
+            'user',
+            'user_companies',
+            'user_id',
+            'company_id'
+        );
     }
 }

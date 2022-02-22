@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,7 +15,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(RolePermissionTableSeeder::class);
-        $this->call(UserTableSeeder::class);
+        User::factory(10)->create();
+
+        User::create([
+            'name' => 'Admin',
+            'email' => 'admin@domain.com',
+            'email_verified_at' => now(),
+            'password' => '$2y$10$WHp9AXVjXdSmv0q/3.iuVeEU1wUi30MiLC7Boy5ZksiBs8LUknZzK', // secret
+            'remember_token' => Str::random(10),
+        ]);
     }
 }

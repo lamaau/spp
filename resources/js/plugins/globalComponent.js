@@ -4,6 +4,9 @@ import { Head, Link } from "@inertiajs/inertia-vue3";
 // headlessui
 import { MenuItem, MenuItems, MenuButton, Menu as MainMenu, Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
 
+// inertable
+import Inertable from "~/lib/inertable/inertable";
+
 // common
 import Icon from "~/components/common/icon.vue";
 import Dropdown from "~/components/common/dropdown.vue";
@@ -27,6 +30,9 @@ export default {
     // inertia
     app.component("v-app-head", Head);
     app.component("v-app-link", Link);
+
+    // inertable
+    app.component('v-inertable', Inertable);
 
     // common
     app.component("v-icon", Icon);

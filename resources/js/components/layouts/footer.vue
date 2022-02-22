@@ -1,24 +1,24 @@
 <template>
   <div>
-    <footer class="my-6 mx-4 rounded-lg bg-white p-4 shadow md:flex md:items-center md:justify-between md:p-6 xl:p-8">
-      <ul class="mb-6 flex flex-wrap items-center md:mb-0">
+    <footer class="bg-white md:flex md:items-center md:justify-between shadow rounded-lg p-4 md:p-6 xl:p-8 my-6 mx-4">
+      <ul class="flex items-center flex-wrap mb-6 md:mb-0">
         <li>
-          <a href="#" class="mr-4 text-sm font-normal text-gray-500 hover:underline md:mr-6">Terms and conditions</a>
+          <a href="#" class="text-sm font-normal text-gray-500 hover:underline mr-4 md:mr-6">Terms and conditions</a>
         </li>
         <li>
-          <a href="#" class="mr-4 text-sm font-normal text-gray-500 hover:underline md:mr-6">Privacy Policy</a>
+          <a href="#" class="text-sm font-normal text-gray-500 hover:underline mr-4 md:mr-6">Privacy Policy</a>
         </li>
         <li>
-          <a href="#" class="mr-4 text-sm font-normal text-gray-500 hover:underline md:mr-6">Licensing</a>
+          <a href="#" class="text-sm font-normal text-gray-500 hover:underline mr-4 md:mr-6">Licensing</a>
         </li>
         <li>
-          <a href="#" class="mr-4 text-sm font-normal text-gray-500 hover:underline md:mr-6">Cookie Policy</a>
+          <a href="#" class="text-sm font-normal text-gray-500 hover:underline mr-4 md:mr-6">Cookie Policy</a>
         </li>
         <li>
           <a href="#" class="text-sm font-normal text-gray-500 hover:underline">Contact</a>
         </li>
       </ul>
-      <div class="flex space-x-6 sm:justify-center">
+      <div class="flex sm:justify-center space-x-6">
         <a href="#" class="text-gray-500 hover:text-gray-900">
           <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path
@@ -64,7 +64,7 @@
         </a>
       </div>
     </footer>
-    <p class="my-10 text-center text-sm text-gray-500">
+    <p class="text-center text-sm text-gray-500 my-10">
       &copy; 2019-2021
       <a href="https://themesberg.com" class="hover:underline" target="_blank">Themesberg</a>. All rights reserved.
     </p>

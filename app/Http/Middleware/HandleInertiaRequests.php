@@ -5,7 +5,6 @@ namespace App\Http\Middleware;
 use Inertia\Middleware;
 use Illuminate\Http\Request;
 use Nedwors\Navigator\Facades\Nav;
-use Illuminate\Support\Facades\Auth;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -39,7 +38,10 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         return array_merge(parent::share($request), [
-            'user' => $request->user() ?: null
+            'app' => fn (): array => [
+                'navigators' => Nav::toJson(),
+                'auth' => $request->user() ?: null,
+            ]
         ]);
     }
 }
