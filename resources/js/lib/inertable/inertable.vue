@@ -120,8 +120,7 @@
       </div>
     </div>
 
-    <!-- pagination -->
-    <Pagination />
+    <Pagination :total="data.data.total" :last="data.data.last_page" :current="data.data.current_page" :from="data.data.from" :to="data.data.to" @loadPage="handleOnLoadPage" />
   </main>
 </template>
 <script>
@@ -152,6 +151,7 @@ export default {
         direction: filters.direction,
         search: filters.search,
         perpage: filters.perpage ?? 15,
+        page: this.data.current_page,
       },
     };
   },
@@ -161,6 +161,9 @@ export default {
 
       this.params.column = column;
       this.params.direction = this.params.direction === "asc" ? "desc" : "asc";
+    },
+    handleOnLoadPage(page) {
+      this.params.page = page;
     },
   },
   watch: {

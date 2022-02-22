@@ -21,10 +21,9 @@ class YearTable extends Inertable
     {
         return [
             Column::blank()->checkbox(),
-            Column::make('name')->sortable(),
-            Column::make('description')->sortable(),
-            Column::make('created_at')->sortable()->format(fn (Carbon $value): string => $value->format('d/m/Y')),
-            Column::make('status')->sortable(),
+            Column::make('year')->sortable()->searchable(),
+            Column::make('description')->sortable()->searchable(),
+            Column::make('created_at')->sortable()->searchable()->format(fn (Carbon $value): string => $value->format('d/m/Y')),
             Column::blank(),
         ];
     }

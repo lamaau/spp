@@ -3,12 +3,11 @@
 namespace App\Models;
 
 use App\Models\Concerns\Eloquent;
-use App\Models\Concerns\WithUuid;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Relations\WithAuthor;
 
 class Room extends Eloquent
 {
-    use WithUuid, HasFactory;
+    use WithAuthor;
 
     protected $fillable = [
         'name',

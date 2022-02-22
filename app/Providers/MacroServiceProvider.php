@@ -17,9 +17,9 @@ class MacroServiceProvider extends ServiceProvider
         Blueprint::macro('commonFields', function () {
             $this->timestamps();
             $this->softDeletes();
-            $this->foreignUuid('created_by');
-            $this->foreignUuid('updated_by')->nullable();
-            $this->foreignUuid('deleted_by')->nullable();
+            $this->foreignUuid('created_by')->index();
+            $this->foreignUuid('updated_by')->nullable()->index();
+            $this->foreignUuid('deleted_by')->nullable()->index();
         });
     }
 }

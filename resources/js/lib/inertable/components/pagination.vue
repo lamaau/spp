@@ -1,31 +1,146 @@
 <template>
   <div class="bg-white sticky sm:flex items-center w-full sm:justify-between bottom-0 right-0 border-t border-gray-200 p-4">
     <div class="flex items-center mb-4 sm:mb-0">
-      <a href="#" class="text-gray-500 hover:text-gray-900 cursor-pointer p-1 hover:bg-gray-100 rounded inline-flex justify-center">
-        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-        </svg>
-      </a>
-      <a href="#" class="text-gray-500 hover:text-gray-900 cursor-pointer p-1 hover:bg-gray-100 rounded inline-flex justify-center mr-2">
-        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-        </svg>
-      </a>
-      <span class="text-sm font-normal text-gray-500">Showing <span class="text-gray-900 font-semibold">1-20</span> of <span class="text-gray-900 font-semibold">2290</span></span>
+      <span class="text-sm font-normal text-gray-500">
+        Menampilkan
+        <span class="text-gray-900 font-semibold">{{ from ?? 0 }}</span>
+        ke <span class="text-gray-900 font-semibold">{{ to ?? 0 }}</span> dari
+        <span class="text-gray-900 font-semibold">{{ total }}</span>
+      </span>
     </div>
     <div class="flex items-center space-x-3">
-      <a href="#" class="flex-1 text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium inline-flex items-center justify-center rounded-lg text-sm px-3 py-2 text-center">
-        <svg class="-ml-1 mr-1 h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-        </svg>
-        Previous
-      </a>
-      <a href="#" class="flex-1 text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium inline-flex items-center justify-center rounded-lg text-sm px-3 py-2 text-center">
-        Next
-        <svg class="-mr-1 ml-1 h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-        </svg>
-      </a>
+      <button
+        :disabled="noPreviousPage"
+        :class="{ 'opacity-50 cursor-not-allowed': noPreviousPage }"
+        @click="$emit('loadPage', 1)"
+        class="
+          inline-flex
+          justify-center
+          items-center
+          p-2.5
+          text-gray-700
+          bg-white
+          rounded
+          border border-gray-200
+          shadow-sm
+          outline-none
+          hover:bg-gray-50
+          lg:text-sm
+          focus:ring-1 focus:ring-cyan-600 focus:border-cyan-600
+        "
+      >
+        <v-icon name="ChevronDoubleLeftIcon" class="w-4 h-4 lg:h-5 lg:w-5" />
+      </button>
+      <button
+        :disabled="noPreviousPage"
+        :class="{ 'opacity-50 cursor-not-allowed': noPreviousPage }"
+        @click="$emit('loadPage', current - 1)"
+        class="
+          inline-flex
+          justify-center
+          items-center
+          p-2.5
+          text-gray-700
+          bg-white
+          rounded
+          border border-gray-200
+          shadow-sm
+          outline-none
+          hover:bg-gray-50
+          focus:ring-1 focus:ring-cyan-600 focus:border-cyan-600
+        "
+      >
+        <v-icon name="ChevronLeftIcon" class="w-4 h-4 lg:h-5 lg:w-5" />
+      </button>
+
+      <div class="flex flex-row items-center">
+        <input
+          min="1"
+          type="number"
+          v-model="page"
+          :max="last"
+          @keydown.enter="$emit('loadPage', page)"
+          class="bg-gray-50 mr-2 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-[4rem] p-2.5"
+        />
+        <div class="text-sm font-normal text-gray-500 mx-1">
+          dari <span class="text-gray-900 font-semibold">{{ last }}</span>
+        </div>
+      </div>
+
+      <button
+        :disabled="noNextPage"
+        :class="{ 'opacity-50 cursor-not-allowed': noNextPage }"
+        @click="$emit('loadPage', current + 1)"
+        class="
+          inline-flex
+          justify-center
+          items-center
+          text-gray-700
+          bg-white
+          rounded
+          border border-gray-200
+          shadow-sm
+          outline-none
+          hover:bg-gray-50
+          p-2.5
+          focus:ring-1 focus:ring-cyan-600 focus:border-cyan-600
+        "
+      >
+        <v-icon name="ChevronRightIcon" class="w-4 h-4 lg:h-5 lg:w-5" />
+      </button>
+      <button
+        :disabled="noNextPage"
+        :class="{ 'opacity-50 cursor-not-allowed': noNextPage }"
+        @click="$emit('loadPage', last)"
+        class="
+          inline-flex
+          justify-center
+          items-center
+          text-gray-700
+          bg-white
+          rounded
+          border border-gray-200
+          shadow-sm
+          outline-none
+          hover:bg-gray-50
+          p-2.5
+          focus:ring-1 focus:ring-cyan-600 focus:border-cyan-600
+        "
+      >
+        <v-icon name="ChevronDoubleRightIcon" class="w-4 h-4 lg:h-5 lg:w-5" />
+      </button>
     </div>
   </div>
 </template>
+<script>
+export default {
+  emits: ["loadPage"],
+  props: {
+    total: Number,
+    last: Number,
+    current: Number,
+    from: Number,
+    to: Number,
+  },
+  data() {
+    return {
+      page: this.current,
+    };
+  },
+  watch: {
+    current: {
+      handler(page) {
+        this.page = page;
+      },
+    },
+  },
+  computed: {
+    noPreviousPage() {
+      return this.current - 1 <= 0;
+    },
+    noNextPage() {
+      return this.current + 1 > this.last;
+    },
+  },
+};
+</script>

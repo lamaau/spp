@@ -1,0 +1,12 @@
+[
+  {
+    "text": "Tambah Siswa",
+    "icon": "PlusSmIcon",
+    "emit": "onAdd"
+  },
+  {
+    "text": "Download",
+    "icon": "DocumentDownloadIcon",
+    "emit": "onDownload"
+  }
+]

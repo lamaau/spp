@@ -15,23 +15,23 @@ class NavigatorServiceProvider extends ServiceProvider
             Nav::item('__')
                 ->subItems([
                     Nav::item('Dasbor')->for('/dashboard')->heroicon('PresentationChartLineIcon'),
-                    Nav::item('Laporan')->for('/report')->heroicon('DocumentReportIcon'),
+                    Nav::item('Laporan')->for('/report')->heroicon('ChartSquareBarIcon'),
                 ]),
             Nav::item('__')
                 ->subItems([
-                    Nav::item('Kelas')->for('/master/room')->heroicon('CashIcon'),
-                    Nav::item('Tahun Ajaran')->for('/master/year')->heroicon('LibraryIcon'),
-                    Nav::item('Siswa')->for('#')->heroicon('LibraryIcon'),
-                    Nav::item('Tagihan')->for('#')->heroicon('LibraryIcon'),
+                    Nav::item('Kelas')->for('/master/room')->heroicon('LibraryIcon'),
+                    Nav::item('Tahun Ajaran')->for('/master/year')->heroicon('ClipboardListIcon'),
+                    Nav::item('Siswa')->for('/master/student')->heroicon('UserGroupIcon'),
+                    Nav::item('Tagihan')->for('#')->heroicon('CashIcon'),
                 ]),
             Nav::item('__')
                 ->subItems([
-                    Nav::item('Pendapatan')->for('#')->heroicon('ExclamationCircleIcon'),
+                    Nav::item('Pemasukan')->for('#')->heroicon('CashIcon'),
                     Nav::item('Pengeluaran')->for('#')->heroicon('DocumentTextIcon'),
                 ]),
             Nav::item('__')
                 ->subItems([
-                    Nav::item('Pengguna')->for('/acl/user')->heroicon('UserGroupIcon'),
+                    Nav::item('Pengguna')->for('/acl/user')->heroicon('UsersIcon'),
                     Nav::item('Hak Akses')->for('#')->heroicon('LockClosedIcon'),
                 ]),
             Nav::item('__')

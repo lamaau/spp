@@ -2,40 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Year;
+use Inertia\Response;
 use Illuminate\Http\Request;
+use App\Http\Requests\YearRequest;
+use Illuminate\Support\Facades\DB;
 use App\Inertable\Master\YearTable;
+use Illuminate\Http\RedirectResponse;
 
 class YearController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function index()
+    public function index(): Response
     {
         return inertia('year/index')->inertable(new YearTable)->title(__('Tahun ajaran'));
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  YearRequestRequest  $request
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(YearRequest $request): RedirectResponse
     {
-        //
+        DB::transaction(fn () => Year::create($request->validated()));
+
+        return back();
     }
 
     /**
@@ -45,17 +42,6 @@ class YearController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
     {
         //
     }

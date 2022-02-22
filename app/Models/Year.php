@@ -2,10 +2,18 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Concerns\Eloquent;
+use App\Models\Relations\WithAuthor;
 
-class Year extends Model
+class Year extends Eloquent
 {
-    use HasFactory;
+    use WithAuthor;
+
+    protected $fillable = [
+        'year',
+        'description',
+        'created_by',
+        'updated_by',
+        'deleted_by'
+    ];
 }

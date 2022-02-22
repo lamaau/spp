@@ -1,9 +1,10 @@
 <?php
 
+use App\Enums\Gender;
 use App\Enums\UserStatus;
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class CoreV1 extends Migration
 {
@@ -49,6 +50,7 @@ class CoreV1 extends Migration
             $table->string('password');
             $table->timestamp('email_verified_at')->nullable();
             $table->tinyInteger('status')->default(UserStatus::ACTIVE());
+            $table->datetime('last_active_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
@@ -66,6 +68,20 @@ class CoreV1 extends Migration
             $table->tinyText('description')->nullable();
             $table->commonFields();
         });
+
+        Schema::create('students', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('name');
+            $table->string('nis')->unique()->nullable();
+            $table->string('nisn')->unique()->nullable();
+            $table->string('email')->unique()->nullable();
+            $table->string('password');
+            $table->string('phone')->nullable();
+            $table->integer('religion');
+            $table->integer('status');
+            $table->integer('gender');
+            $table->commonFields();
+        });
     }
 
     /**
@@ -81,5 +97,6 @@ class CoreV1 extends Migration
         Schema::dropIfExists('users');
         Schema::dropIfExists('rooms');
         Schema::dropIfExists('years');
+        Schema::dropIfExists('students');
     }
 };

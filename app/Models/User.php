@@ -9,10 +9,9 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens,
         HasFactory,
@@ -28,6 +27,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'last_active_at'
     ];
 
     /**
@@ -46,22 +46,7 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
+        'last_active_at' => 'datetime',
         'email_verified_at' => 'datetime',
     ];
-
-    /**
-     * Get morph to many relations companies
-     *
-     * @return MorphToMany
-     */
-    public function companies(): MorphToMany
-    {
-        return $this->morphToMany(
-            Company::class,
-            'user',
-            'user_companies',
-            'user_id',
-            'company_id'
-        );
-    }
 }

@@ -1,0 +1,12 @@
+[
+  {
+    "text": "Tambah Tahun Ajaran",
+    "icon": "PlusSmIcon",
+    "emit": "onAdd"
+  },
+  {
+    "text": "Download",
+    "icon": "DocumentDownloadIcon",
+    "emit": "onDownload"
+  }
+]
