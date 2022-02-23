@@ -2,11 +2,11 @@
 
 namespace App\Enums;
 
-use App\Enums\Concerns\InokeableCases;
+use App\Enums\Concerns\InvokeableCases;
 
 enum Religion: int
 {
-    use InokeableCases;
+    use InvokeableCases;
 
     case ISLAM = 1;
     case KRISTEN = 2;

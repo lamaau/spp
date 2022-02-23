@@ -28,7 +28,8 @@ class RoomController extends Controller
      */
     public function store(RoomRequest $request)
     {
-        DB::transaction(fn () => Room::create($request->validated()));
+        // just for test, need to refactor using fire event
+        DB::transaction(fn () => Room::create(array_merge($request->validated(), ['school_id' => $request->route('school')])));
 
         return back();
     }

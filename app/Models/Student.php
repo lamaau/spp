@@ -6,11 +6,14 @@ use App\Enums\Gender;
 use App\Enums\Religion;
 use App\Enums\UserStatus;
 use App\Models\Concerns\Eloquent;
+use App\Models\Concerns\WithTenant;
 use App\Models\Relations\WithAuthor;
+use Illuminate\Database\Eloquent\Model;
 
-class Student extends Eloquent
+class Student extends Model
 {
-    use WithAuthor;
+    use WithTenant,
+        WithAuthor;
 
     protected $fillable = [
         'name',

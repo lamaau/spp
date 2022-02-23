@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -30,20 +32,28 @@ class Kernel extends HttpKernel
      */
     protected $middlewareGroups = [
         'web' => [
-            \App\Http\Middleware\EncryptCookies::class,
-            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-            \Illuminate\Session\Middleware\StartSession::class,
-            // \Illuminate\Session\Middleware\AuthenticateSession::class,
-            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            \App\Http\Middleware\VerifyCsrfToken::class,
-            \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            \App\Http\Middleware\HandleInertiaRequests::class,
+            'cookies.encrypt',
+            'cookies.response',
+            'session.start',
+            // 'session.auth',
+            'session.errors',
+            'csrf',
+            'bindings',
+            'inertia'
         ],
-
         'api' => [
-            // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             'throttle:api',
-            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            'bindings'
+        ],
+        'admin' => [
+            'web',
+            'auth',
+            'bindings',
+            'identify.school',
+        ],
+        'guest' => [
+            'web',
+            'auth.redirect'
         ],
     ];
 
@@ -55,14 +65,32 @@ class Kernel extends HttpKernel
      * @var array<string, class-string|string>
      */
     protected $routeMiddleware = [
+        // laravel
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+        'auth.redirect' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
-        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-        'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
-        'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
+        'cookies.encrypt' => \App\Http\Middleware\EncryptCookies::class,
+        'cookies.response' => \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+        'csrf' => \App\Http\Middleware\VerifyCsrfToken::class,
+        'session.auth' => \Illuminate\Session\Middleware\AuthenticateSession::class,
+        'session.errors' => \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+        'session.start' => \Illuminate\Session\Middleware\StartSession::class,
+        //'signature' => \Illuminate\Routing\Middleware\ValidateSignature::class,
+        //'sanctum' => \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+        'signature' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+
+        // package
+        'inertia' => \App\Http\Middleware\HandleInertiaRequests::class,
+        // 'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
+        // 'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+        // 'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
+
+        // custom
+        'identify.school' => \App\Http\Middleware\IdentifySchool::class,
     ];
 }

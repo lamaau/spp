@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\School;
 use App\Models\Concerns\WithUuid;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -27,7 +29,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
-        'last_active_at'
+        'last_login_at'
     ];
 
     /**
@@ -46,7 +48,65 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<string, string>
      */
     protected $casts = [
-        'last_active_at' => 'datetime',
+        'last_login_at' => 'datetime',
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get user schools
+     *
+     * @return MorphToMany
+     */
+    public function schools(): MorphToMany
+    {
+        return $this->morphToMany(
+            School::class,
+            'user',
+            'user_schools',
+            'user_id',
+            'school_id'
+        );
+    }
+
+    /**
+     * First school of user logged in
+     *
+     * @return School|null
+     */
+    public function getFirstSchoolOfUser(): School|null
+    {
+        $user = user();
+
+        if (empty($user)) {
+            return null;
+        }
+
+        $school = $user->withoutEvents(function () use ($user) {
+            return $user->schools()->first();
+        });
+
+        if (empty($school)) {
+            return null;
+        }
+
+        return $school;
+    }
+
+    /**
+     * Get landing page of user
+     * 
+     * This will be using data from database
+     *
+     * @return string
+     */
+    public function getLandingPageOfUser(): string
+    {
+        if (empty(user())) {
+            return route('login');
+        }
+
+        $school = school() ?: $this->getFirstSchoolOfUser()?->id;
+
+        return route('dashboard', ['school' => $school]);
+    }
 }

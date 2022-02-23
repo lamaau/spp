@@ -2,11 +2,11 @@
 
 namespace App\Enums;
 
-use App\Enums\Concerns\InokeableCases;
+use App\Enums\Concerns\InvokeableCases;
 
-enum ShcoolLevel: int
+enum SchoolLevel: int
 {
-    use InokeableCases;
+    use InvokeableCases;
 
     case SD = 1;
     case SMP = 2;

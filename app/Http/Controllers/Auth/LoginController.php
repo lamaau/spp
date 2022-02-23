@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
-use App\Providers\RouteServiceProvider;
 use App\Http\Requests\Auth\LoginRequest;
 
 class LoginController extends Controller
@@ -21,7 +20,7 @@ class LoginController extends Controller
      */
     public function create(): Response
     {
-        return inertia('auth/login')->title('Silahkan Login');
+        return inertia('auth/login')->title(__('Silahkan Login'));
     }
 
     /**
@@ -35,7 +34,9 @@ class LoginController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        $school = user()->schools()->select('id')->first();
+
+        return redirect()->route('dashboard', ['school' => $school->id]);
     }
 
     /**

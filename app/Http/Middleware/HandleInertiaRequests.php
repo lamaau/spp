@@ -38,10 +38,16 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         return array_merge(parent::share($request), [
-            'app' => fn (): array => [
-                'navigators' => Nav::toJson(),
-                'auth' => $request->user() ?: null,
-            ]
+            'app' => fn (): array => static::handleSharedData($request)
         ]);
+    }
+
+    private static function handleSharedData(Request $request): array
+    {
+        return [
+            'auth' => $request->user() ?: null,
+            'navigators' => fn () => Nav::toJson(),
+            'schools' => fn () => $request->user() ? $request->user()->schools()->select(['id', 'name'])->get() : null,
+        ];
     }
 }

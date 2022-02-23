@@ -97,16 +97,7 @@ export default defineComponent({
   setup(__, { attrs }) {
     const { user } = attrs;
 
-    const form = useForm({
-      company_id: null,
-    });
-
-    watch(form, (value) => {
-      console.log(value);
-    });
-
     return {
-      form,
       user,
     };
   },

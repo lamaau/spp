@@ -2,11 +2,11 @@
 
 namespace App\Enums;
 
-use App\Enums\Concerns\InokeableCases;
+use App\Enums\Concerns\InvokeableCases;
 
 enum Gender: int
 {
-    use InokeableCases;
+    use InvokeableCases;
 
     case MAN = 1;
     case WOMAN = 2;

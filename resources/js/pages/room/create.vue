@@ -11,6 +11,7 @@
   </div>
 </template>
 <script>
+import { school } from "~/plugins/helper";
 import { defineComponent } from "vue";
 import { useDialog } from "~/lib/modal";
 import { useForm } from "@inertiajs/inertia-vue3";
@@ -25,7 +26,7 @@ export default defineComponent({
     });
 
     const handleSubmit = () => {
-      form.post("/master/room", {
+      form.post(window.location.href, {
         onSuccess: () => {
           dialog.close();
         },

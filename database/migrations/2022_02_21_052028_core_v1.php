@@ -1,6 +1,8 @@
 <?php
 
 use App\Enums\Gender;
+use App\Enums\Status;
+use App\Enums\BillType;
 use App\Enums\Religion;
 use App\Enums\UserStatus;
 use App\Enums\SchoolLevel;
@@ -51,13 +53,14 @@ class CoreV1 extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('phone')->unique();
-            $table->string('fax')->unique();
+            $table->string('fax')->unique()->nullable();
             $table->string('logo');
             $table->tinyInteger('level')->comment(SchoolLevel::class);
+            $table->tinyInteger('status')->default(Status::ACTIVE())->comment(Status::class);
             $table->string('principal')->unique();
             $table->string('principal_number')->unique();
-            $table->string('treasurer')->comment('kepala sekolah');
-            $table->string('treasurer_number')->unique()->comment('nip kepala sekolah');
+            $table->string('treasurer');
+            $table->string('treasurer_number')->unique()->nullable();
             $table->tinyText('address');
             $table->commonFields();
         });
@@ -69,13 +72,24 @@ class CoreV1 extends Migration
             $table->string('password');
             $table->timestamp('email_verified_at')->nullable();
             $table->tinyInteger('status')->default(UserStatus::ACTIVE())->comment(UserStatus::class);
-            $table->datetime('last_active_at')->nullable();
+            $table->datetime('last_login_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
 
+        // using morphToMany
+        Schema::create('user_schools', function (Blueprint $table) {
+            $table->foreignUuid('user_id');
+            $table->foreignUuid('school_id');
+            $table->string('user_type');
+
+            $table->primary(['user_id', 'school_id', 'user_type']);
+        });
+
         Schema::create('rooms', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->schoolFields();
+
             $table->string('name');
             $table->tinyText('description')->nullable();
             $table->commonFields();
@@ -83,6 +97,8 @@ class CoreV1 extends Migration
 
         Schema::create('years', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->schoolFields();
+
             $table->string('year');
             $table->tinyText('description')->nullable();
             $table->commonFields();
@@ -90,8 +106,8 @@ class CoreV1 extends Migration
 
         Schema::create('students', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignUuid('room_id');
+            $table->uuid('user_id');
+            $table->schoolFields();
 
             $table->string('nis')->unique()->nullable();
             $table->string('nisn')->unique()->nullable();
@@ -104,11 +120,15 @@ class CoreV1 extends Migration
             $table->index('user_id');
         });
 
-        Schema::create('student_has_room_histories', function (Blueprint $table) {
-            $table->foreignUuid('student_id');
-            $table->foreignUuid('room_id');
+        Schema::create('bills', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->schoolFields();
 
-            $table->index(['student_id', 'room_id']);
+            $table->double('amount');
+            $table->tinyInteger('type')->comment(BillType::class);
+            $table->string('name');
+            $table->tinyText('description');
+            $table->commonFields();
         });
     }
 
@@ -126,5 +146,6 @@ class CoreV1 extends Migration
         Schema::dropIfExists('rooms');
         Schema::dropIfExists('years');
         Schema::dropIfExists('students');
+        Schema::dropIfExists('bills');
     }
 };

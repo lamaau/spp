@@ -14,6 +14,11 @@ class MacroServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Blueprint::macro('schoolFields', function () {
+            $this->uuid('school_id');
+            $this->index('school_id');
+        });
+
         Blueprint::macro('commonFields', function () {
             $this->timestamps();
             $this->softDeletes();

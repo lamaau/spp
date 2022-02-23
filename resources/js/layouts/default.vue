@@ -5,7 +5,7 @@
     <v-navbar :user="app.auth" />
 
     <div class="flex overflow-hidden bg-white pt-16">
-      <v-sidebar :navigators="app.navigators" />
+      <v-sidebar :navigators="app.navigators" :schools="app.schools" />
 
       <!-- sidebar backdrop -->
       <div class="bg-gray-900 opacity-50 hidden fixed inset-0 z-10" id="sidebarBackdrop"></div>

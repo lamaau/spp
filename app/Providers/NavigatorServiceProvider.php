@@ -22,7 +22,7 @@ class NavigatorServiceProvider extends ServiceProvider
                     Nav::item('Kelas')->for('/master/room')->heroicon('LibraryIcon'),
                     Nav::item('Tahun Ajaran')->for('/master/year')->heroicon('ClipboardListIcon'),
                     Nav::item('Siswa')->for('/master/student')->heroicon('UserGroupIcon'),
-                    Nav::item('Tagihan')->for('#')->heroicon('CashIcon'),
+                    Nav::item('Tagihan')->for('/master/bill')->heroicon('CashIcon'),
                 ]),
             Nav::item('__')
                 ->subItems([

@@ -24,5 +24,7 @@ class DatabaseSeeder extends Seeder
             'password' => '$2y$10$WHp9AXVjXdSmv0q/3.iuVeEU1wUi30MiLC7Boy5ZksiBs8LUknZzK', // secret
             'remember_token' => Str::random(10),
         ]);
+
+        $this->call(SchoolTableSeeder::class);
     }
 }

@@ -2,51 +2,40 @@
 
 declare(strict_types=1);
 
-use App\Models\Company;
+use App\Models\School;
+use App\Models\User;
 
-if (!function_exists('company')) {
+if (!function_exists('user')) {
     /**
-     * Get current company
+     * Get current auth user
      *
-     * @param string|null $id
-     * @return Company|null
+     * @return User
      */
-    function company(string|null $id = null): Company
+    function user(): User
     {
-        $company = null;
-
-        if (is_null($id)) {
-            $company = Company::getCurrent();
-        }
-
-        return Company::first();
+        return auth()->user();
     }
 }
 
-if (!function_exists('setting')) {
+if (!function_exists('school')) {
     /**
-     * Get or set specified setting value
-     * 
-     * If and array is passed as the key, we will asume you want to set an array of values
+     * Get current school
      *
-     * @param array|null $key
-     * @param array|string|null $default
-     * @return mixed
+     * @param string|null $id
+     * @return School|null
      */
-    function setting(array|null $key = null, $default = null): mixed
+    function school(string|null $id = null): School|null
     {
-        $setting = app('setting');
+        $school = null;
 
-        if (is_null($key)) {
-            return $setting;
+        if (is_null($id)) {
+            $school = School::getCurrent();
         }
 
-        if (is_array($key)) {
-            $setting->set($key);
-
-            return $setting;
+        if (is_string($id)) {
+            $school = School::find($id);
         }
 
-        return $setting->get($key, $default);
+        return $school;
     }
 }
