@@ -4,7 +4,9 @@
       <Column :columns="data.columns" :filters="data.filters" />
     </thead>
     <tbody class="bg-white divide-y divide-gray-200" v-if="data.data.data.length">
-      <Row :columns="data.columns" :data="data.data" />
+      <Row :columns="data.columns" :data="data.data">
+        <slot />
+      </Row>
     </tbody>
     <tbody class="bg-white divide-y divide-gray-200" v-else>
       <tr>

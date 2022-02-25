@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Room;
+use Inertia\Response;
 use App\Http\Requests\RoomRequest;
 use Illuminate\Support\Facades\DB;
 use App\Inertable\Master\RoomTable;
-use App\Models\Room;
+use Illuminate\Http\RedirectResponse;
 
 class RoomController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function index()
+    public function index(): Response
     {
         return inertia('room/index')->inertable(new RoomTable)->title(__('Daftar Kelas'));
     }
@@ -23,13 +24,12 @@ class RoomController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  RoomRequest  $request
+     * @return RedirectResponse
      */
-    public function store(RoomRequest $request)
+    public function store(RoomRequest $request): RedirectResponse
     {
-        // just for test, need to refactor using fire event
-        DB::transaction(fn () => Room::create(array_merge($request->validated(), ['school_id' => $request->route('school')])));
+        DB::transaction(fn () => Room::create($request->validated()));
 
         return back();
     }
@@ -42,19 +42,21 @@ class RoomController extends Controller
      */
     public function show($id)
     {
-        //
+        dd($id);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  RoomRequest  $request
+     * @param  Room $room
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Room $room, RoomRequest $request)
     {
-        //
+        DB::transaction(fn () => $room->update($request->validated()));
+
+        return back();
     }
 
     /**

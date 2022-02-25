@@ -39,3 +39,15 @@ if (!function_exists('school')) {
         return $school;
     }
 }
+
+if (!function_exists('school_id')) {
+    /**
+     * Get school id
+     *
+     * @return string|null
+     */
+    function school_id(): string|null
+    {
+        return school()?->id;
+    }
+}

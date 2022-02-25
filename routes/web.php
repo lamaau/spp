@@ -12,7 +12,7 @@ use App\Http\Controllers\StudentController;
 Route::get('/', DashboardController::class);
 Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
-Route::prefix('master')->as('master')->group(fn (): array => [
+Route::prefix('master')->as('master.')->group(fn (): array => [
     Route::resource('/room', RoomController::class)->except(['create', 'edit']),
     Route::resource('/year', YearController::class)->except(['create', 'edit']),
     Route::resource('/student', StudentController::class)->except(['create', 'edit']),

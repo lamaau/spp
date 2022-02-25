@@ -8,7 +8,14 @@
         </div>
       </td>
       <td v-else class="p-4 whitespace-nowrap text-base font-medium text-gray-900">
-        {{ item[column.column] }}
+        <template>
+          dwdw
+          <slot :name="column.column" :item="item" />
+        </template>
+
+        <div v-if="!$slots[column.column]">
+          {{ item[column.column] }}
+        </div>
       </td>
     </template>
   </tr>

@@ -21,19 +21,7 @@
             <div class="inline-block w-full max-w-md my-8 overflow-hidden text-left align-middle transition-all transform bg-white dark:bg-cool-gray-800 shadow-xl rounded-lg border border-gray-200">
               <slot name="content" v-if="$slots['content']" />
               <div v-else>
-                <div class="p-5 text-center">
-                  <div class="rounded-full bg-red-200 flex items-center justify-center w-24 h-24 flex-shrink-0 mx-auto">
-                    <TrashIcon />
-                  </div>
-                  <div class="text-3xl mt-5 font-semibold">{{ title }}</div>
-                  <div class="text-gray-600 mt-2 leading-7">
-                    {{ message }}
-                  </div>
-                </div>
-                <div class="p-5 flex justify-center space-x-2 mt-4">
-                  <button @click.prevent="onCancel" type="button" class="btn-close">Tutup</button>
-                  <button @click.prevent="onConfirm" class="btn-red" type="button">Hapus</button>
-                </div>
+                <Confirm :title="title" :message="message" :onConfirm="onConfirm" :onCancel="onCancel" />
               </div>
             </div>
           </TransitionChild>
@@ -44,6 +32,7 @@
 </template>
 
 <script>
+import Confirm from "./confirm.vue";
 import { eventBus } from "~/plugins";
 import TrashIcon from "./trash-icon.vue";
 import { reactive, ref, toRefs } from "vue";
@@ -52,6 +41,7 @@ import { TransitionRoot, TransitionChild, Dialog, DialogOverlay, DialogTitle } f
 export default {
   components: {
     Dialog,
+    Confirm,
     TrashIcon,
     DialogTitle,
     DialogOverlay,

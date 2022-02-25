@@ -11,7 +11,6 @@
   </div>
 </template>
 <script>
-import { school } from "~/plugins/helper";
 import { defineComponent } from "vue";
 import { useDialog } from "~/lib/modal";
 import { useForm } from "@inertiajs/inertia-vue3";

@@ -7,13 +7,12 @@ use App\Enums\Religion;
 use App\Enums\UserStatus;
 use App\Models\Concerns\Eloquent;
 use App\Models\Concerns\WithTenant;
-use App\Models\Relations\WithAuthor;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Relations\HasAuthor;
 
-class Student extends Model
+class Student extends Eloquent
 {
     use WithTenant,
-        WithAuthor;
+        HasAuthor;
 
     protected $fillable = [
         'name',
@@ -24,6 +23,7 @@ class Student extends Model
         'religion',
         'status',
         'gender',
+        'school_id',
         'created_by',
         'updated_by',
         'deleted_by',

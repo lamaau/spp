@@ -8,11 +8,7 @@
           </select>
           <ul class="space-y-2 py-2" v-for="(nav, index) in JSON.parse(props.navigators)" :key="index">
             <li v-for="(item, index) in nav.subItems" :key="index">
-              <v-app-link
-                :href="`/${id}${item.url}`"
-                :class="{ 'bg-gray-100': isUrl(item.url.slice(1)) }"
-                class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group"
-              >
+              <v-app-link :href="item.url" :class="{ 'bg-gray-100': isUrl(item.url.slice(1)) }" class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group">
                 <v-icon :name="item.heroicon" class="w-6 h-6 text-gray-500" />
                 <span class="ml-3 flex-1 whitespace-nowrap">{{ item.name }}</span>
               </v-app-link>
@@ -41,8 +37,7 @@ const form = useForm({
 });
 
 const school = watch(form, ({ school }) => {
-  // need refactor to dynamic url
-  let url = `${window.location.origin}/${school}/master/room`;
+  const url = window.location.pathname.replace(/^\/[^/]*\//g, `/${school}/`);
 
   Inertia.visit(url, {
     replace: true,

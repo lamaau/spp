@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models\Scopes;
 
 use App\Models\Concerns\WithScope;
+use App\Models\School;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Database\Eloquent\Builder;
@@ -38,9 +39,14 @@ class SchoolScope implements Scope
             return;
         }
 
-        
+
         if ($this->scopeExists($builder, 'school_id')) {
             return;
+        }
+
+        // what do you think about make current on this place?
+        if (!app()->has(School::class)) {
+            School::find(request()->route('school'))->makeCurrent();
         }
 
         $builder->where("$table.school_id", school()->id);

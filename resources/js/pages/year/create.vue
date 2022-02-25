@@ -13,6 +13,7 @@
 <script>
 import { defineComponent } from "vue";
 import { useDialog } from "~/lib/modal";
+import { Inertia } from "@inertiajs/inertia";
 import { useForm } from "@inertiajs/inertia-vue3";
 
 export default defineComponent({
@@ -25,7 +26,7 @@ export default defineComponent({
     });
 
     const handleSubmit = () => {
-      form.post("/master/year", {
+      form.post(Inertia.page.url, {
         onSuccess: () => {
           dialog.close();
         },

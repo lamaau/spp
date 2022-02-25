@@ -2,6 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\School;
+use Closure;
+use Inertia\Inertia;
 use Inertia\Middleware;
 use Illuminate\Http\Request;
 use Nedwors\Navigator\Facades\Nav;
@@ -45,8 +48,8 @@ class HandleInertiaRequests extends Middleware
     private static function handleSharedData(Request $request): array
     {
         return [
-            'auth' => $request->user() ?: null,
-            'navigators' => fn () => Nav::toJson(),
+            'auth' => fn () => $request->user() ?: null,
+            'navigators' => fn () => $request->user() ? Nav::toJson() : null,
             'schools' => fn () => $request->user() ? $request->user()->schools()->select(['id', 'name'])->get() : null,
         ];
     }

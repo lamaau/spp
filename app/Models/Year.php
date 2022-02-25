@@ -3,14 +3,17 @@
 namespace App\Models;
 
 use App\Models\Concerns\Eloquent;
-use App\Models\Relations\WithAuthor;
+use App\Models\Concerns\WithTenant;
+use App\Models\Relations\HasAuthor;
 
 class Year extends Eloquent
 {
-    use WithAuthor;
+    use WithTenant,
+        HasAuthor;
 
     protected $fillable = [
         'year',
+        'school_id',
         'description',
         'created_by',
         'updated_by',

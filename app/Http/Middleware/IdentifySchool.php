@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\URL;
 
 class IdentifySchool
 {
@@ -18,7 +17,10 @@ class IdentifySchool
     public function handle(Request $request, Closure $next)
     {
         if ($this->hasSchool($request)) {
-            URL::defaults(['school' => $request->route('school')]);
+            // set default url params and forget params
+            app('url')->defaults(['school' => $request->route('school')]);
+            $request->route()->forgetParameter('school');
+
             return $next($request);
         }
 
@@ -32,15 +34,15 @@ class IdentifySchool
      */
     private function hasSchool(Request $request): bool
     {
-        $school = $request->route('school');
+        $school_id = $request->route('school');
 
-        if (!$school) {
+        if (!$school_id) {
             return false;
         }
 
-        $school = school($school);
+        $school = school($school_id);
 
-        if (empty($school) || is_null($school)) {
+        if (empty($school)) {
             return false;
         }
 

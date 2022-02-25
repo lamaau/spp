@@ -3,15 +3,13 @@
 namespace App\Models;
 
 use App\Models\Concerns\Eloquent;
-use App\Models\Concerns\WithUuid;
 use App\Models\Concerns\WithTenant;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Relations\HasAuthor;
 
 class Room extends Eloquent
 {
-    use WithUuid,
-        WithTenant,
-        SoftDeletes;
+    use HasAuthor,
+        WithTenant;
 
     protected $fillable = [
         'name',

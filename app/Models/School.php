@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
-use App\Models\Concerns\Eloquent;
 use App\Models\Concerns\WithUuid;
+use App\Models\Relations\HasAuthor;
+use Illuminate\Database\Eloquent\Model;
 
-class School extends Eloquent
+class School extends Model
 {
+    use WithUuid,
+        HasAuthor;
+
     protected $fillable = [
         'npsn',
         'name',
@@ -35,6 +39,8 @@ class School extends Eloquent
         if (!$force && $this->isCurrent()) {
             return $this;
         }
+
+        static::forgetCurrent();
 
         app()->instance(static::class, $this);
 
@@ -78,12 +84,18 @@ class School extends Eloquent
     /**
      * Forget current school
      *
-     * @return void
+     * @return mixed
      */
-    public function forgetCurrent(): void
+    public function forgetCurrent()
     {
-        if (!is_null(static::getCurrent())) {
-            app()->forgetInstance(static::class);
+        $current = static::getCurrent();
+
+        if (is_null($current)) {
+            return null;
         }
+
+        app()->forgetInstance(static::class);
+
+        return $current;
     }
 }

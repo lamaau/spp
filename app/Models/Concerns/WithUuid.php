@@ -16,10 +16,8 @@ trait WithUuid
      *
      * @return void
      */
-    protected static function boot()
+    protected static function bootWithUuid()
     {
-        parent::boot();
-
         static::creating(function ($model) {
             if (empty($model->{$model->getKeyName()})) {
                 $model->{$model->getKeyName()} = Str::uuid()->toString();

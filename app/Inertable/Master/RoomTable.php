@@ -24,7 +24,7 @@ class RoomTable extends Inertable
             Column::make(__('Name'), 'name')->sortable()->searchable(),
             Column::make(__('Description'), 'description')->sortable()->searchable(),
             Column::make(__('Created At'), 'created_at')->sortable()->searchable()->format(fn (Carbon $value): string => $value->format('d/m/Y')),
-            Column::blank(),
+            Column::action(),
         ];
     }
 }
