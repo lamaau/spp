@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\Scopes;
 
-use App\Models\Concerns\WithScope;
 use App\Models\School;
+use App\Models\Concerns\WithScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Database\Eloquent\Builder;
@@ -31,8 +31,16 @@ class SchoolScope implements Scope
 
         // Skip for specific tables
         $skip_tables = [
-            'jobs', 'firewall_ips', 'firewall_logs', 'migrations', 'notifications', 'role_companies',
-            'role_permissions', 'sessions', 'user_companies', 'user_dashboards', 'user_permissions', 'user_roles',
+            'jobs',
+            'firewall_ips',
+            'firewall_logs',
+            'migrations',
+            'notifications',
+            'roles',
+            'permissions',
+            'model_has_roles',
+            'role_has_permissions',
+            'model_has_permissions',
         ];
 
         if (in_array($table, $skip_tables)) {

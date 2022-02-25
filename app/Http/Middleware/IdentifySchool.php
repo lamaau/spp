@@ -20,11 +20,9 @@ class IdentifySchool
             // set default url params and forget params
             app('url')->defaults(['school' => $request->route('school')]);
             $request->route()->forgetParameter('school');
-
-            return $next($request);
         }
 
-        abort(404, 'Not Found');
+        return $next($request);
     }
 
     /**

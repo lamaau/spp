@@ -4,7 +4,10 @@ namespace App\Http\Requests;
 
 use App\Enums\Gender;
 use App\Enums\Religion;
+use App\Enums\UserStatus;
+use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Enum;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -29,12 +32,28 @@ class StudentRequest extends FormRequest
     {
         return [
             'name' => ['required'],
-            'nis' => ['nullable'],
+            'nis' => ['required'],
             'nisn' => ['nullable'],
-            'email' => ['nullable', Rule::unique('students')->ignore($this->id)],
-            'phone' => ['required'],
+            'phone' => ['nullable'],
+            'room' => ['required'],
+            'gender' => ['required', new Enum(Gender::class)],
             'religion' => ['required', new Enum(Religion::class)],
-            'gender' => ['required', new Enum(Gender::class)]
+            'email' => ['required', 'email', Rule::unique('users')->ignore($this->id)],
         ];
+    }
+
+    public function getUserCredential(): array
+    {
+        return [
+            'name' => $this->name,
+            'email' => $this->email,
+            'password' => Hash::make($this->nis),
+            'status' => UserStatus::ACTIVE(),
+        ];
+    }
+
+    public function getStudentCredential(): array
+    {
+        return Arr::except($this->validated(), ['name', 'email']);
     }
 }

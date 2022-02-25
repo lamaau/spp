@@ -16,7 +16,8 @@
     "laravel/sanctum": "^2.14",
     "laravel/tinker": "^2.7",
     "nedwors/navigator": "dev-main",
-    "rizkhal/inertable": "dev-master"
+    "rizkhal/inertable": "dev-master",
+    "spatie/laravel-permission": "^5.5"
   },
   "require-dev": {
     "barryvdh/laravel-debugbar": "^3.6",

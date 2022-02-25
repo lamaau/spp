@@ -5,7 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 
 Route::middleware('auth')->group(fn (): array => [
-    Route::delete('logout', [LoginController::class, 'destroy'])->name('logout')
+    Route::delete('logout', [LoginController::class, 'destroy'])->name('logout'),
 ]);
 
 Route::middleware('guest')->group(fn (): array => [

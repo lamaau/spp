@@ -29,11 +29,7 @@ export default defineComponent({
     });
 
     const handleFormSubmit = () => {
-      form.post("/auth/login", {
-        onSuccess: () => {
-          console.log("dwdw");
-        },
-      });
+      form.post("/auth/login");
     };
 
     return {

@@ -7,7 +7,9 @@ namespace App\Models;
 use App\Models\School;
 use App\Models\Concerns\WithUuid;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
@@ -18,6 +20,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasApiTokens,
         HasFactory,
         Notifiable,
+        HasRoles,
         WithUuid;
 
     /**
@@ -26,8 +29,8 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
         'email',
+        'username',
         'password',
         'last_login_at'
     ];
@@ -68,6 +71,16 @@ class User extends Authenticatable implements MustVerifyEmail
         );
     }
 
+    public function student()
+    {
+        return $this->hasOne(Student::class, 'user_id', 'id');
+    }
+
+    public function scopeStudents(Builder $query)
+    {
+        return $query->whereHas('student');
+    }
+
     /**
      * First school of user logged in
      *
@@ -101,12 +114,22 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function getLandingPageOfUser(): string
     {
-        if (empty(user())) {
+        $user = user();
+
+        if (empty($user)) {
             return route('login');
         }
 
-        $school = school() ?: $this->getFirstSchoolOfUser()?->id;
+        $school = $this->getFirstSchoolOfUser()?->id;
 
-        return route('dashboard', ['school' => $school]);
+        if (!is_null($school)) {
+            return route('admin.dashboard', ['school' => $school]);
+        }
+
+        if (!$user->hasRole('superadmin')) {
+            abort(403, "Doesn't have schools");
+        }
+
+        return route('superadmin.dashboard');
     }
 }

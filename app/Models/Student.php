@@ -15,22 +15,17 @@ class Student extends Eloquent
         HasAuthor;
 
     protected $fillable = [
-        'name',
         'nis',
         'nisn',
-        'email',
         'phone',
         'religion',
         'status',
         'gender',
+        'user_id',
         'school_id',
         'created_by',
         'updated_by',
         'deleted_by',
-    ];
-
-    protected $hidden = [
-        'password'
     ];
 
     protected $casts = [

@@ -3,7 +3,7 @@
     <div class="relative flex-1 flex flex-col min-h-0 border-r border-gray-200 bg-white pt-0">
       <div class="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
         <div class="flex-1 px-3 bg-white divide-y space-y-1">
-          <select v-model="form.school" class="mb-2">
+          <select v-if="schools.length" v-model="form.school" class="mb-2">
             <option v-for="(school, index) in schools" :key="index" :value="school.id">{{ school.name }}</option>
           </select>
           <ul class="space-y-2 py-2" v-for="(nav, index) in JSON.parse(props.navigators)" :key="index">

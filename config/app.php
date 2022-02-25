@@ -168,7 +168,6 @@ return [
          * Package Service Providers...
          */
 
-        App\Providers\NavigatorServiceProvider::class,
         Rizkhal\Inertable\InertableServiceProvider::class,
 
         /*

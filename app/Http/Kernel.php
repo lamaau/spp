@@ -51,6 +51,12 @@ class Kernel extends HttpKernel
             'bindings',
             'identify.school',
         ],
+        'superadmin' => [
+            'web',
+            'auth',
+            'bindings',
+            'role:superadmin'
+        ],
         'guest' => [
             'web',
             'auth.redirect'
@@ -86,9 +92,9 @@ class Kernel extends HttpKernel
 
         // package
         'inertia' => \App\Http\Middleware\HandleInertiaRequests::class,
-        // 'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
-        // 'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
-        // 'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
+        'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
+        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+        'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
 
         // custom
         'identify.school' => \App\Http\Middleware\IdentifySchool::class,

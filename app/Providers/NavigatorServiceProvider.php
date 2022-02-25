@@ -13,7 +13,29 @@ class NavigatorServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        Nav::define(fn (User $user, School $school): array => [
+        Nav::define(function (User $user, School|null $school) {
+            if (!is_null($school)) {
+                return static::adminMenuNavigator($user, $school);
+            }
+
+            return static::superAdminMenuNavigator($user);
+        });
+    }
+
+    private static function superAdminMenuNavigator(User $user): array
+    {
+        return [
+            Nav::item('__')
+                ->subItems([
+                    Nav::item('Dasbor')->for(route('superadmin.dashboard'))->heroicon('PresentationChartLineIcon'),
+                    Nav::item('Laporan')->for("/report")->heroicon('ChartSquareBarIcon'),
+                ]),
+        ];
+    }
+
+    private static function adminMenuNavigator(User $user, School $school): array
+    {
+        return [
             Nav::item('__')
                 ->subItems([
                     Nav::item('Dasbor')->for("/{$school->id}/dashboard")->heroicon('PresentationChartLineIcon'),
@@ -41,6 +63,6 @@ class NavigatorServiceProvider extends ServiceProvider
                     Nav::item('Dokumentasi')->for('#')->heroicon('DocumentTextIcon'),
                     Nav::item('Changelog')->for('#')->heroicon('ExclamationCircleIcon'),
                 ]),
-        ]);
+        ];
     }
 }

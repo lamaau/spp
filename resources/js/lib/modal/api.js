@@ -1,12 +1,12 @@
 import { h, render } from "vue";
 import { eventBus } from "~/plugins";
-import DialogComponent from "./components/dialog.vue";
+import ModalComponent from "./components/modal.vue";
 import ConfirmSlotComponent from "./components/confirm.vue";
 
 export const useDialog = (app = {}, globalProps = {}) => {
   return {
     component(slots = {}) {
-      const vNode = h(DialogComponent, globalProps, slots);
+      const vNode = h(ModalComponent, globalProps, slots);
 
       vNode.appContext = app?._context;
 

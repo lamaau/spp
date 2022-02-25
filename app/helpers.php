@@ -17,6 +17,18 @@ if (!function_exists('user')) {
     }
 }
 
+if (!function_exists('user_id')) {
+    /**
+     * Get current auth user id
+     *
+     * @return string|null
+     */
+    function user_id(): string|null
+    {
+        return user()?->id;
+    }
+}
+
 if (!function_exists('school')) {
     /**
      * Get current school

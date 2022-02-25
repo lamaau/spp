@@ -2,9 +2,11 @@
 
 namespace App\Enums;
 
+use App\Enums\Concerns\HasLabel;
+use Illuminate\Support\Collection;
 use App\Enums\Concerns\InvokeableCases;
 
-enum Religion: int
+enum Religion: int implements HasLabel
 {
     use InvokeableCases;
 
@@ -12,5 +14,9 @@ enum Religion: int
     case KRISTEN = 2;
     case HINDU = 3;
     case BUDHA = 4;
-    case OTHER = 5;
+
+    public static function labels(): Collection
+    {
+        return collect(self::cases())->mapWithKeys(fn ($object) => [$object->value => ucwords(strtolower($object->name))]);
+    }
 }

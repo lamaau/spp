@@ -1,5 +1,5 @@
 import { useDialog } from "./api";
-import DialogComponent from "./components/dialog.vue";
+import ModalComponent from "./components/modal.vue";
 
 const Dialog = {
   install(app, options = {}) {
@@ -11,4 +11,4 @@ const Dialog = {
 };
 
 export default Dialog;
-export { useDialog, Dialog, DialogComponent };
+export { useDialog, Dialog, ModalComponent };

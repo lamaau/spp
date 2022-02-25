@@ -34,9 +34,7 @@ class LoginController extends Controller
 
         $request->session()->regenerate();
 
-        $school = user()->schools()->select('id')->first();
-
-        return redirect()->route('dashboard', ['school' => $school->id]);
+        return redirect()->route('login');
     }
 
     /**
