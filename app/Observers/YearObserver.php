@@ -16,7 +16,6 @@ class YearObserver
     {
         $year->fill([
             'created_by' => user()->id,
-            'school_id' => school()->id,
         ]);
     }
 }

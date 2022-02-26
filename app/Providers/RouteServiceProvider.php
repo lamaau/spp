@@ -39,16 +39,15 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(base_path('routes/auth.php'));
 
-            Route::middleware('admin')
+            Route::middleware('tenancy.auth')
                 ->as('admin.')
-                ->prefix('{school}')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/admin.php'));
 
-            Route::middleware('superadmin')
-                ->as('superadmin.')
+            Route::middleware('tenancy.auth')
+                ->as('client.')
                 ->namespace($this->namespace)
-                ->group(base_path('routes/superadmin.php'));
+                ->group(base_path('routes/client.php'));
         });
     }
 

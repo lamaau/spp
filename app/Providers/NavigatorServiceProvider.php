@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Models\User;
-use App\Models\School;
 use Nedwors\Navigator\Facades\Nav;
 use Illuminate\Support\ServiceProvider;
 
@@ -13,40 +12,40 @@ class NavigatorServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        Nav::define(function (User $user, School|null $school) {
-            if (!is_null($school)) {
-                return static::adminMenuNavigator($user, $school);
+        Nav::define(function (User $user) {
+            if ($user->isAdmin()) {
+                return static::adminMenuNavigator($user);
             }
 
-            return static::superAdminMenuNavigator($user);
+            return static::clientMenuNavigator($user);
         });
     }
 
-    private static function superAdminMenuNavigator(User $user): array
+    private static function adminMenuNavigator()
     {
         return [
             Nav::item('__')
                 ->subItems([
-                    Nav::item('Dasbor')->for(route('superadmin.dashboard'))->heroicon('PresentationChartLineIcon'),
-                    Nav::item('Laporan')->for("/report")->heroicon('ChartSquareBarIcon'),
+                    Nav::item(__('Dasbor'))->for("/dashboard")->heroicon('PresentationChartLineIcon'),
+                    Nav::item(__('Client'))->for("/report")->heroicon('UserGroupIcon'),
                 ]),
         ];
     }
 
-    private static function adminMenuNavigator(User $user, School $school): array
+    private static function clientMenuNavigator(User $user): array
     {
         return [
             Nav::item('__')
                 ->subItems([
-                    Nav::item('Dasbor')->for("/{$school->id}/dashboard")->heroicon('PresentationChartLineIcon'),
-                    Nav::item('Laporan')->for("/{$school->id}/report")->heroicon('ChartSquareBarIcon'),
+                    Nav::item('Dasbor')->for("/dashboard")->heroicon('PresentationChartLineIcon'),
+                    Nav::item('Laporan')->for("/report")->heroicon('ChartSquareBarIcon'),
                 ]),
             Nav::item('__')
                 ->subItems([
-                    Nav::item('Kelas')->for("/{$school->id}/master/room")->heroicon('LibraryIcon'),
-                    Nav::item('Tahun Ajaran')->for("/{$school->id}/master/year")->heroicon('ClipboardListIcon'),
-                    Nav::item('Siswa')->for("/{$school->id}/master/student")->heroicon('UserGroupIcon'),
-                    Nav::item('Tagihan')->for("/{$school->id}/master/bill")->heroicon('CashIcon'),
+                    Nav::item('Kelas')->for("/master/room")->heroicon('LibraryIcon'),
+                    Nav::item('Tahun Ajaran')->for("/master/year")->heroicon('ClipboardListIcon'),
+                    Nav::item('Siswa')->for("/master/student")->heroicon('UserGroupIcon'),
+                    Nav::item('Tagihan')->for("/master/bill")->heroicon('CashIcon'),
                 ]),
             Nav::item('__')
                 ->subItems([
@@ -55,7 +54,7 @@ class NavigatorServiceProvider extends ServiceProvider
                 ]),
             Nav::item('__')
                 ->subItems([
-                    Nav::item('Pengguna')->for("/{$school->id}/acl/user")->heroicon('UsersIcon'),
+                    Nav::item('Pengguna')->for("/acl/user")->heroicon('UsersIcon'),
                     Nav::item('Hak Akses')->for('#')->heroicon('LockClosedIcon'),
                 ]),
             Nav::item('__')

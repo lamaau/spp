@@ -6,13 +6,11 @@ use App\Enums\Gender;
 use App\Enums\Religion;
 use App\Enums\UserStatus;
 use App\Models\Concerns\Eloquent;
-use App\Models\Concerns\WithTenant;
 use App\Models\Relations\HasAuthor;
 
 class Student extends Eloquent
 {
-    use WithTenant,
-        HasAuthor;
+    use HasAuthor;
 
     protected $fillable = [
         'nis',

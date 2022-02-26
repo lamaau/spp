@@ -4,13 +4,11 @@ namespace App\Models;
 
 use App\Enums\BillType;
 use App\Models\Concerns\Eloquent;
-use App\Models\Concerns\WithTenant;
 use App\Models\Relations\HasAuthor;
 
 class Bill extends Eloquent
 {
-    use HasAuthor,
-        WithTenant;
+    use HasAuthor;
 
     protected $fillable = [
         'type',

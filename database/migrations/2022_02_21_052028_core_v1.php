@@ -86,9 +86,17 @@ class CoreV1 extends Migration
             $table->primary(['user_id', 'school_id', 'user_type']);
         });
 
+        // tenant
+        $this->migratingTenant();
+
         Schema::create('rooms', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->schoolFields();
+
+            $table->unsignedBigInteger('tenant_id')->nullable();
+            $table->foreign('tenant_id')
+                ->references('id')
+                ->on("tenants")
+                ->onDelete('cascade');
 
             $table->string('name');
             $table->tinyText('description')->nullable();
@@ -149,5 +157,46 @@ class CoreV1 extends Migration
         Schema::dropIfExists('years');
         Schema::dropIfExists('students');
         Schema::dropIfExists('bills');
+
+        $this->dropingTenant();
+    }
+
+    private function migratingTenant()
+    {
+        $tableNames = config('multitenancy.table_names');
+
+        Schema::create($tableNames['tenants'], function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('name')->unique();
+            $table->string('domain')->unique();
+            $table->timestamps();
+        });
+
+        Schema::create($tableNames['tenant_user'], function (Blueprint $table) use ($tableNames) {
+            $table->bigIncrements('id');
+
+            $table->unsignedBigInteger('tenant_id');
+            $table->foreign('tenant_id')
+                ->references('id')
+                ->on($tableNames['tenants'])
+                ->onDelete('cascade');
+
+            $table->foreignUuid('user_id')->constrained('users')->onDelete('cascade');
+
+            $table->timestamps();
+        });
+    }
+
+    public function dropingTenant()
+    {
+        $tableNames = config('multitenancy.table_names');
+
+        Schema::table($tableNames['tenant_user'], function (Blueprint $table) use ($tableNames) {
+            $table->dropForeign(['tenant_id']);
+            $table->dropForeign(['user_id']);
+        });
+
+        Schema::dropIfExists($tableNames['tenants']);
+        Schema::dropIfExists($tableNames['tenant_user']);
     }
 };

@@ -11,6 +11,7 @@ use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use RomegaDigital\Multitenancy\Traits\HasTenants;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -21,7 +22,8 @@ class User extends Authenticatable implements MustVerifyEmail
         HasFactory,
         Notifiable,
         HasRoles,
-        WithUuid;
+        WithUuid,
+        HasTenants;
 
     /**
      * The attributes that are mass assignable.
@@ -71,38 +73,14 @@ class User extends Authenticatable implements MustVerifyEmail
         );
     }
 
-    public function student()
-    {
-        return $this->hasOne(Student::class, 'user_id', 'id');
-    }
-
-    public function scopeStudents(Builder $query)
-    {
-        return $query->whereHas('student');
-    }
-
     /**
-     * First school of user logged in
+     * If is super administrator
      *
-     * @return School|null
+     * @return boolean
      */
-    public function getFirstSchoolOfUser(): School|null
+    public function isAdmin(): bool
     {
-        $user = user();
-
-        if (empty($user)) {
-            return null;
-        }
-
-        $school = $user->withoutEvents(function () use ($user) {
-            return $user->schools()->first();
-        });
-
-        if (empty($school)) {
-            return null;
-        }
-
-        return $school;
+        return user()->hasRole(config('multitenancy.roles.super_admin'));
     }
 
     /**
@@ -120,16 +98,6 @@ class User extends Authenticatable implements MustVerifyEmail
             return route('login');
         }
 
-        $school = $this->getFirstSchoolOfUser()?->id;
-
-        if (!is_null($school)) {
-            return route('admin.dashboard', ['school' => $school]);
-        }
-
-        if (!$user->hasRole('superadmin')) {
-            abort(403, "Doesn't have schools");
-        }
-
-        return route('superadmin.dashboard');
+        return route('client.dashboard');
     }
 }

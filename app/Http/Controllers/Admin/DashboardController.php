@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\SuperAdmin;
+namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function __invoke()
     {
-        return inertia('superadmin/dashboard')->title(__('Hello Superadmin'));
+        dd('is admin dashboard controller');
     }
 }
