@@ -16,7 +16,7 @@ class RoomObserver
     {
         $room->fill([
             'created_by' => user()->id,
-            'school_id' => school()->id,
+            // 'school_id' => school()->id,
         ]);
     }
 }

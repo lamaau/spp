@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a25b9c5df0bb7b50ce8ce8613648f978",
+    "content-hash": "4019e5f0d7b2d10013668dbe367ad364",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3059,6 +3059,50 @@
                 }
             ],
             "description": "A simple datatable for inertia",
+            "transport-options": {
+                "reference": "config",
+                "relative": true
+            }
+        },
+        {
+            "name": "rizkhal/tenants",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "packages/rizkhal/tenants",
+                "reference": "63519dfb463a66f301e64c12c0dadef32b071c50"
+            },
+            "require": {
+                "spatie/laravel-permission": "^5.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "RomegaDigital\\Multitenancy\\MultitenancyServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "RomegaDigital\\Multitenancy\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "RomegaDigital\\Multitenancy\\Tests\\": "tests/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Braden Keith",
+                    "email": "bkeith@romegadigital.com"
+                }
+            ],
+            "description": "Adds domain based multitenancy to Laravel applications.",
             "transport-options": {
                 "reference": "config",
                 "relative": true
@@ -8371,7 +8415,8 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "nedwors/navigator": 20,
-        "rizkhal/inertable": 20
+        "rizkhal/inertable": 20,
+        "rizkhal/tenants": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

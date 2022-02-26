@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Inertable\Client\Master;
 
 use App\Models\User;
-use App\Models\Student;
 use Rizkhal\Inertable\Column;
 use Illuminate\Support\Carbon;
 use Rizkhal\Inertable\Inertable;
@@ -15,7 +14,7 @@ class StudentTable extends Inertable
 {
     public function query(): Builder
     {
-        return User::query()->students();
+        return User::query();
     }
 
     public function columns(): array

@@ -45,20 +45,19 @@ class Kernel extends HttpKernel
             'throttle:api',
             'bindings'
         ],
-        'admin' => [
+        'tenancy.auth' => [
             'web',
             'auth',
             'bindings',
-            'identify.school',
-        ],
-        'superadmin' => [
-            'web',
-            'auth',
-            'bindings',
-            'role:superadmin'
+            'tenant.auth'
         ],
         'guest' => [
             'web',
+            'auth.redirect'
+        ],
+        'tenancy.guest' => [
+            'web',
+            'tenant.guest',
             'auth.redirect'
         ],
     ];
@@ -97,6 +96,7 @@ class Kernel extends HttpKernel
         'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
 
         // custom
-        'identify.school' => \App\Http\Middleware\IdentifySchool::class,
+        'tenant.auth' => \RomegaDigital\Multitenancy\Middleware\TenantMiddleware::class,
+        'tenant.guest' => \RomegaDigital\Multitenancy\Middleware\GuestTenantMiddleware::class,
     ];
 }

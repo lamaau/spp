@@ -3,17 +3,16 @@
 namespace App\Models;
 
 use App\Models\Concerns\Eloquent;
-use App\Models\Concerns\WithTenant;
 use App\Models\Relations\HasAuthor;
+use RomegaDigital\Multitenancy\Traits\BelongsToTenant;
 
 class Room extends Eloquent
 {
     use HasAuthor,
-        WithTenant;
+        BelongsToTenant;
 
     protected $fillable = [
         'name',
-        'school_id',
         'description',
         'created_by',
         'updated_by',

@@ -17,6 +17,7 @@
     "laravel/tinker": "^2.7",
     "nedwors/navigator": "dev-main",
     "rizkhal/inertable": "dev-master",
+    "rizkhal/tenants": "dev-master",
     "spatie/laravel-permission": "^5.5"
   },
   "require-dev": {
@@ -82,6 +83,14 @@
     {
       "type": "path",
       "url": "packages/rizkhal/inertable",
+      "packagist.org": false,
+      "options": {
+        "reference": "config"
+      }
+    },
+    {
+      "type": "path",
+      "url": "packages/rizkhal/tenants",
       "packagist.org": false,
       "options": {
         "reference": "config"

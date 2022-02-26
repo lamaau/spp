@@ -5,6 +5,9 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
+use RomegaDigital\Multitenancy\Models\Tenant;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,16 +18,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::factory(100)->create();
-
-        User::create([
-            'username' => 'admin',
-            'email' => 'admin@domain.com',
-            'email_verified_at' => now(),
-            'password' => '$2y$10$WHp9AXVjXdSmv0q/3.iuVeEU1wUi30MiLC7Boy5ZksiBs8LUknZzK', // secret
-            'remember_token' => Str::random(10),
-        ]);
-
+        $this->call(UserTableSeeder::class);
         $this->call(SchoolTableSeeder::class);
     }
 }

@@ -3,13 +3,11 @@
 namespace App\Models;
 
 use App\Models\Concerns\Eloquent;
-use App\Models\Concerns\WithTenant;
 use App\Models\Relations\HasAuthor;
 
 class Year extends Eloquent
 {
-    use WithTenant,
-        HasAuthor;
+    use HasAuthor;
 
     protected $fillable = [
         'year',

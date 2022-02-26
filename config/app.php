@@ -169,6 +169,7 @@ return [
          */
 
         Rizkhal\Inertable\InertableServiceProvider::class,
+        RomegaDigital\Multitenancy\MultitenancyServiceProvider::class,
 
         /*
          * Application Service Providers...
